@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 /**
  *
  * @author giuse
- * ciao-er
+ * ciao-ern
  */
 public class StackBasedCalculator extends Application {
     

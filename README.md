@@ -13,11 +13,16 @@ In this phase is also included the design of a graphic user interface.
 
 The first sprint backlog is available here: https://bit.ly/FirstSprintBacklog
 
+
 # Authors
 Speranza Ranieri: @httpsperanza
+
 Ernesto Mancusi: @ermancusi
+
 Giuseppe Parrella: @gparrella12
+
 Francesco Sonnessa: @s0nFra
+
 
 # How to Run
 It's necessary to clone the repository in your favourite IDE and run the **StackBasedCalculator.java** file.

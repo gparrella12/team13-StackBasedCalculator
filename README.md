@@ -15,11 +15,13 @@ The first sprint backlog is available here: https://bit.ly/FirstSprintBacklog
 
 
 # Authors
+Speranza Ranieri: [@httpsperanza](https://github.com/httpsperanza)
 
-- Speranza Ranieri: @httpsperanza
-- Ernesto Mancusi: @ermancusi
-- Giuseppe Parrella: @gparrella12
-- Francesco Sonnessa: @s0nFra
+Ernesto Mancusi: [@ermancusi](https://github.com/ermancusi)
+
+Giuseppe Parrella: [@gparrella12](https://github.com/gparrella12)
+
+Francesco Sonnessa: [@s0nFra](https://github.com/s0nFra)
 
 
 # How to Run

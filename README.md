@@ -3,7 +3,7 @@ Stack Based Calculator for Software Engineering Project - Team 13
 
 The Product Backlog is available here: https://bit.ly/ProductBacklogTeam13
 
-The Trello Board is available here: https://trello.com/b/xHw2hRTP/scrum-board-stack-based-calculator
+The Trello Board is available here: https://trello.com/b/xHw2hRTP
 
 # First Sprint
 In this first sprint, our goal is to obtain a calculator that supports the basic math operations: addition, subtraction, multiplication, division, square root and inverse sign.

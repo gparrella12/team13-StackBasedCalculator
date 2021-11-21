@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  * @author giuse
  * ciao-ern
  * ciao -http
+ * prova autore
  */
 public class StackBasedCalculator extends Application {
     

@@ -13,6 +13,8 @@ In this phase is also included the design of a graphic user interface.
 
 The first sprint backlog is available here: https://bit.ly/FirstSprintBacklog
 
+Pre-game presentation: (link)[https://docs.google.com/presentation/d/1tVFWQDNnd2UsO3T_kk8nUfYtH7osDYNN/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true]
+
 
 # Authors
 Speranza Ranieri: [@httpsperanza](https://github.com/httpsperanza)

@@ -26,7 +26,9 @@ public class CalculatorController {
     private Button delete;
 
     private double x, y;
-    private ObservableStack<String> o;
+    private ObservableStack<Float> o;
+    private String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "sqrt"};
+    private String[] mathOperations = {"+", "-", "*", "/", "sqrt"};
 
     public void init(Stage stage) {
         Scene scene = stage.getScene();
@@ -110,7 +112,43 @@ public class CalculatorController {
 
     @FXML
     private void push(ActionEvent event) {
-        //
+        int flag = 1;
+        float o1, o2, result = 0;
+
+        for (String s : mathOperations) {
+            if (textArea.getText().equalsIgnoreCase(s)) {
+
+                if (s == "+") {
+                    o1 = o.pop();
+                    o2 = o.pop();
+                    result = o1 + o2;
+                } else if (s == "-") {
+                    o1 = o.pop();
+                    o2 = o.pop();
+                    result = o1 - o2;
+                } else if (s == "*") {
+                    o1 = o.pop();
+                    o2 = o.pop();
+                    result = o1 * o2;
+                } else if (s == "/") {
+                    o1 = o.pop();
+                    o2 = o.pop();
+                    result = o1 / o2;
+                } else if (s == "sqrt") {
+                    o1 = o.pop();
+                    result = (float) Math.sqrt(o1);
+                }
+                textArea.setText(String.valueOf(result));
+
+                flag = 0;
+                break;
+            }
+        }
+
+        if (flag == 1) {
+            o.push(Float.parseFloat(textArea.getText()));
+            textArea.setText("");
+        }
 
     }
 

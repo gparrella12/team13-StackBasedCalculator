@@ -22,9 +22,9 @@
                <children>
                   <Pane prefHeight="874.0" prefWidth="449.0" styleClass="test" AnchorPane.bottomAnchor="-396.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-37.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TableView layoutX="26.0" layoutY="56.0" prefHeight="236.0" prefWidth="399.0" styleClass="op">
+                        <TableView fx:id="stackTable" layoutX="26.0" layoutY="56.0" prefHeight="236.0" prefWidth="399.0" styleClass="op">
                           <columns>
-                            <TableColumn prefWidth="398.0" styleClass="table" text="STACK" />
+                            <TableColumn fx:id="stackCol" editable="false" prefWidth="398.0" styleClass="table" text="STACK" />
                           </columns>
                         </TableView>
                         <TextArea fx:id="textArea" layoutX="26.0" layoutY="324.0" prefHeight="47.0" prefWidth="399.0" promptText="insert">
@@ -39,27 +39,27 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Button fx:id="btn7" mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="7" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="7" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="8" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="8" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="9" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="9" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="+" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="+" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="dup" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="dup" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -71,27 +71,27 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="4" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="4" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="5" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="5" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="6" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="6" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="-" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="-" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="over" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="over" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -103,27 +103,27 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="1" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="1" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="2" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="2" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="3" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="3" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="*" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="*" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="clear" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="clear" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -135,27 +135,27 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="." textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="." textFill="WHITE">
                                        <font>
                                           <Font size="21.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="0" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="0" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Number" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="j" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="j" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="/" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="/" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="drop" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="drop" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -177,17 +177,17 @@
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="±" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="±" textFill="WHITE">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="sqrt" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="sqrt" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#Operation" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="swap" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="swap" textFill="WHITE">
                                        <font>
                                           <Font size="17.0" />
                                        </font>

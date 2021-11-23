@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,6 +36,11 @@ public class CalculatorController {
     private ObservableStack<Float> stack;
     private String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "sqrt"};
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt"};
+    @FXML
+    private TableView<String> stackTable;
+
+    @FXML
+    private TableColumn<?, ?> stackCol;
 
 
     /**
@@ -95,7 +102,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void Number(ActionEvent event) {
+    private void onNumberPress(ActionEvent event) {
 
         String number = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + number);
@@ -108,7 +115,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void Operation(ActionEvent event) {
+    private void onOperationPress(ActionEvent event) {
 
         String operation = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + operation);

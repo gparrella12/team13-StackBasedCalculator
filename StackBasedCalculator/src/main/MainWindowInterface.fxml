@@ -32,7 +32,7 @@
                               <Font size="15.0" />
                            </font>
                         </TextArea>
-                        <VBox layoutX="18.0" layoutY="437.0" prefHeight="414.0" prefWidth="500.0">
+                        <VBox layoutX="18.0" layoutY="437.0" prefHeight="414.0" prefWidth="412.0">
                            <children>
                               <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
                                  <padding>

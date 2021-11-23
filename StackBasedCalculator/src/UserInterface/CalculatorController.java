@@ -33,29 +33,10 @@ public class CalculatorController {
     public void init(Stage stage) {
         Scene scene = stage.getScene();
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.ADD
-                    || e.getCode() == KeyCode.SUBTRACT
-                    || e.getCode() == KeyCode.MULTIPLY
-                    || e.getCode() == KeyCode.DIVIDE
-                    || e.getCode() == KeyCode.NUMPAD0
-                    || e.getCode() == KeyCode.NUMPAD1
-                    || e.getCode() == KeyCode.NUMPAD2
-                    || e.getCode() == KeyCode.NUMPAD3
-                    || e.getCode() == KeyCode.NUMPAD4
-                    || e.getCode() == KeyCode.NUMPAD5
-                    || e.getCode() == KeyCode.NUMPAD6
-                    || e.getCode() == KeyCode.NUMPAD7
-                    || e.getCode() == KeyCode.NUMPAD8
-                    || e.getCode() == KeyCode.NUMPAD9
-                    || e.getCode() == KeyCode.PERIOD) {
-                textArea.setText(textArea.getText() + e.getText());
+            if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
+                textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+            }
 
-            }
-            if (e.getCode() == KeyCode.BACK_SPACE) {
-                if (textArea.getText().length() > 0) {
-                    textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
-                }
-            }
             e.consume();
         });
 

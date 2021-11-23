@@ -1,17 +1,16 @@
 package UserInterface;
 
 import MainMathOperation.ObservableStack.ObservableStack;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -21,21 +20,41 @@ public class CalculatorController {
     private Pane titlePane;
     @FXML
     private ImageView btnMinimize, btnClose;
-    private Label lblResult;
-
-    private double x, y;
-    private double num1 = 0;
-    private String operator = "+";
-    private ObservableStack<String> o;
-
     @FXML
     private TextArea textArea;
     @FXML
-    private Button btn7;
-    @FXML
     private Button delete;
 
+    private double x, y;
+    private ObservableStack<String> o;
+
     public void init(Stage stage) {
+        Scene scene = stage.getScene();
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ADD
+                    || e.getCode() == KeyCode.SUBTRACT
+                    || e.getCode() == KeyCode.MULTIPLY
+                    || e.getCode() == KeyCode.DIVIDE
+                    || e.getCode() == KeyCode.NUMPAD0
+                    || e.getCode() == KeyCode.NUMPAD1
+                    || e.getCode() == KeyCode.NUMPAD2
+                    || e.getCode() == KeyCode.NUMPAD3
+                    || e.getCode() == KeyCode.NUMPAD4
+                    || e.getCode() == KeyCode.NUMPAD5
+                    || e.getCode() == KeyCode.NUMPAD6
+                    || e.getCode() == KeyCode.NUMPAD7
+                    || e.getCode() == KeyCode.NUMPAD8
+                    || e.getCode() == KeyCode.NUMPAD9
+                    || e.getCode() == KeyCode.PERIOD
+                    || e.getCode() == KeyCode.BACK_SPACE
+                    || e.getCode() == KeyCode.getKeyCode("j") ) {
+
+                System.err.println(e.getCode());
+                System.err.println(KeyCode.getKeyCode("J"));
+            }
+            e.consume();
+        });
+
         delete.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
 
             long startTime;
@@ -82,8 +101,9 @@ public class CalculatorController {
 
     @FXML
     private void deleteLast(ActionEvent event) {
-        if (textArea.getText().length()>0)
-        textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+        if (textArea.getText().length() > 0) {
+            textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+        }
     }
 
     @FXML

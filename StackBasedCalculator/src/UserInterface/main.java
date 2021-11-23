@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class MainWindow extends Application {
+public class main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,7 +29,7 @@ public class MainWindow extends Application {
     }
 
     public static void main(String[] args) {
-        MainWindow mainWindow = new MainWindow();
+        main mainWindow = new main();
         mainWindow.run();
     }
 }

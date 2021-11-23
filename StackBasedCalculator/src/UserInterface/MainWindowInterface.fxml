@@ -167,7 +167,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteLast" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="⌫" textFill="WHITE">
+                                    <Button fx:id="btnClearEntry" mnemonicParsing="false" onAction="#deleteLast" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="⌫" textFill="WHITE">
                                        <font>
                                           <Font size="23.0" />
                                        </font>

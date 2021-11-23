@@ -14,6 +14,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Implementation of the Calculator User Interface Controller
+ *
+ * @authors emancusi & Speranza
+ */
 public class CalculatorController {
 
     @FXML
@@ -23,15 +28,25 @@ public class CalculatorController {
     @FXML
     private TextArea textArea;
     @FXML
-    private Button delete;
+    private Button btnClearEntry;
 
     private double x, y;
-    private ObservableStack<Float> o;
+    private ObservableStack<Float> stack;
     private String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "sqrt"};
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt"};
 
+
+    /**
+     * Initializes the User Interface. It's executed as soon as the program
+     * starts.
+     *
+     * @return
+     */
     public void init(Stage stage) {
         Scene scene = stage.getScene();
+
+        //when the user presses the "back space" button on physical keyboard
+        //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
                 textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
@@ -40,7 +55,9 @@ public class CalculatorController {
             e.consume();
         });
 
-        delete.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+        //if the user presses the "back space" button oh physical keyboard
+        //for more than 0.2 seconds the entire Text Area is cleaned up.
+        btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
 
             long startTime;
 
@@ -60,6 +77,7 @@ public class CalculatorController {
             x = mouseEvent.getSceneX();
             y = mouseEvent.getSceneY();
         });
+
         titlePane.setOnMouseDragged(mouseEvent -> {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
@@ -67,57 +85,84 @@ public class CalculatorController {
 
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
-        o = new ObservableStack<>();
+        stack = new ObservableStack<>();
     }
 
+    /**
+     * Gets the number associated with the on-screen keyboard button
+     * and shows it in the User Interface Text Area.
+     *
+     * @return
+     */
     @FXML
     private void Number(ActionEvent event) {
 
-        String no = ((Button) event.getSource()).getText();
-        textArea.setText(textArea.getText() + no);
+        String number = ((Button) event.getSource()).getText();
+        textArea.setText(textArea.getText() + number);
     }
 
+    /**
+     * Gets the operation associated with the on-screen keyboard button
+     * and shows it in the User Interface Text Area.
+     *
+     * @return
+     */
     @FXML
     private void Operation(ActionEvent event) {
 
-        String no = ((Button) event.getSource()).getText();
-        textArea.setText(textArea.getText() + no);
+        String operation = ((Button) event.getSource()).getText();
+        textArea.setText(textArea.getText() + operation);
     }
 
+    /**
+     * When the "Clear entry" (⌫) button is pressed, the last item
+     * of the Text Area is cleaned up.
+     *
+     * @return
+     */
     @FXML
     private void deleteLast(ActionEvent event) {
         if (textArea.getText().length() > 0) {
             textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
         }
     }
-
+    
+    /**
+     * When the "push" (↑) button is pressed, the item in the Text Area
+     * is pushed in the stack. The function checks if the input is in a right
+     * format and checks if the user enters the operations supported by the Calculator.
+     *
+     * @return
+     */
     @FXML
     private void push(ActionEvent event) {
         int flag = 1;
-        float o1, o2, result = 0;
-
+        float firstOperand, secondOperand, result = 0;
+        
+        String text = textArea.getText();
+        
         for (String s : mathOperations) {
             if (textArea.getText().equalsIgnoreCase(s)) {
 
                 if (s == "+") {
-                    o1 = o.pop();
-                    o2 = o.pop();
-                    result = o1 + o2;
+                    firstOperand = stack.pop();
+                    secondOperand = stack.pop();
+                    result = firstOperand + secondOperand;
                 } else if (s == "-") {
-                    o1 = o.pop();
-                    o2 = o.pop();
-                    result = o1 - o2;
+                    firstOperand = stack.pop();
+                    secondOperand = stack.pop();
+                    result = firstOperand - secondOperand;
                 } else if (s == "*") {
-                    o1 = o.pop();
-                    o2 = o.pop();
-                    result = o1 * o2;
+                    firstOperand = stack.pop();
+                    secondOperand = stack.pop();
+                    result = firstOperand * secondOperand;
                 } else if (s == "/") {
-                    o1 = o.pop();
-                    o2 = o.pop();
-                    result = o1 / o2;
+                    firstOperand = stack.pop();
+                    secondOperand = stack.pop();
+                    result = firstOperand / secondOperand;
                 } else if (s == "sqrt") {
-                    o1 = o.pop();
-                    result = (float) Math.sqrt(o1);
+                    firstOperand = stack.pop();
+                    result = (float) Math.sqrt(firstOperand);
                 }
                 textArea.setText(String.valueOf(result));
 
@@ -127,7 +172,7 @@ public class CalculatorController {
         }
 
         if (flag == 1) {
-            o.push(Float.parseFloat(textArea.getText()));
+            stack.push(Float.parseFloat(textArea.getText()));
             textArea.setText("");
         }
 

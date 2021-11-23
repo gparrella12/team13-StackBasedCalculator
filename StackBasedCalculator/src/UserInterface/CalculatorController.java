@@ -45,12 +45,14 @@ public class CalculatorController {
                     || e.getCode() == KeyCode.NUMPAD7
                     || e.getCode() == KeyCode.NUMPAD8
                     || e.getCode() == KeyCode.NUMPAD9
-                    || e.getCode() == KeyCode.PERIOD
-                    || e.getCode() == KeyCode.BACK_SPACE
-                    || e.getCode() == KeyCode.getKeyCode("j") ) {
+                    || e.getCode() == KeyCode.PERIOD) {
+                textArea.setText(textArea.getText() + e.getText());
 
-                System.err.println(e.getCode());
-                System.err.println(KeyCode.getKeyCode("J"));
+            }
+            if (e.getCode() == KeyCode.BACK_SPACE) {
+                if (textArea.getText().length() > 0) {
+                    textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+                }
             }
             e.consume();
         });

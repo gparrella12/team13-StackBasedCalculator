@@ -1,6 +1,6 @@
 package UserInterface;
 
-import MainMathOperation.ObservableStack;
+import MainMathOperation.ObservableStack.ObservableStack;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

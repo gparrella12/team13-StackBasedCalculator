@@ -20,11 +20,16 @@ public class MainWindow extends Application {
         stage.setResizable(false);
         stage.setTitle("Calculator");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/icon.png")));
-        ((CalculatorController)loader.getController()).init(stage);
+        ((CalculatorController) loader.getController()).init(stage);
         stage.show();
     }
 
     public void run() {
         launch();
+    }
+
+    public static void main(String[] args) {
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.run();
     }
 }

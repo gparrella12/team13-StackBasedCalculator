@@ -1,4 +1,4 @@
-package main;
+package UserInterface;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +20,7 @@ public class MainWindow extends Application {
         stage.setResizable(false);
         stage.setTitle("Calculator");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
-        ((MainWindowController)loader.getController()).init(stage);
+        ((CalculatorController)loader.getController()).init(stage);
         stage.show();
     }
 

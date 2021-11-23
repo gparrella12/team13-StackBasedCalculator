@@ -1,4 +1,4 @@
-package main;
+package UserInterface;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class MainWindowController {
+public class CalculatorController {
     @FXML private Pane titlePane;
     @FXML private ImageView btnMinimize, btnClose;
     @FXML private Label lblResult;

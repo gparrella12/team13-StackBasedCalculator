@@ -19,7 +19,7 @@ public class MainWindow extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setTitle("Calculator");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/icon.png")));
         ((CalculatorController)loader.getController()).init(stage);
         stage.show();
     }

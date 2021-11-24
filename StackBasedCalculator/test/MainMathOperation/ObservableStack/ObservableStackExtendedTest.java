@@ -92,14 +92,14 @@ public class ObservableStackExtendedTest {
     }
 
     /**
-     * Test of copy method, of class ObservableStackExtended.
+     * Test of over method, of class ObservableStackExtended.
      */
     @Test
-    public void testCopy() {
+    public void testOver() {
         System.out.println("copy");
         stack.push(1);
         stack.push(2);
-        stack.copy();
+        stack.over();
         assertEquals("Invalid size",3, stack.size());
         int top = stack.pop();
         assertEquals("Invalid element copied", top, 1);

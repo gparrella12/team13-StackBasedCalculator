@@ -162,7 +162,7 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#push" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="↑" textFill="WHITE">
+                        <Button fx:id="btnPush" mnemonicParsing="false" onAction="#push" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="↑" textFill="WHITE">
                            <font>
                               <Font size="17.0" />
                            </font>

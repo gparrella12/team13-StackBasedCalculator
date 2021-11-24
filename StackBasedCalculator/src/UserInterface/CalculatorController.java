@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -15,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import jdk.jshell.spi.ExecutionControl;
 
 /**
  * Implementation of the Calculator User Interface Controller
@@ -139,14 +143,15 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void push(ActionEvent event) {
+    private void push(ActionEvent event) throws ExecutionControl.NotImplementedException {
+
         String input = textArea.getText();
-        if (check.checkIfComplex(input)) {
+        String operation = check.checkOperation(input);
+
+        /*if (check.checkIfComplex(input)) {
             rpn.addNum(input.replace("j", "i"));
             return;
-        }
-        String operation = check.checkOperation(input);
-        else if (operation != null) {              
+        } else if (operation != null) {              
                     switch (operation) {
                         case "+":
                            rpn.sum();
@@ -179,10 +184,9 @@ public class CalculatorController {
                             rpn.over();
                             break;  
                     }
-
-      
-
-                    }
+        }*/
+        new Alert(Alert.AlertType.ERROR, "Invalid input.", ButtonType.OK).showAndWait();
+        textArea.clear();
     }
 
 }

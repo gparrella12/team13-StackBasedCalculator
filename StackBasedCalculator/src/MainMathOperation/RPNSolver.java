@@ -20,22 +20,6 @@ public class RPNSolver {
     private static RPNSolver instance = null;
     private ObservableStackExtended<Complex> stack = null;
     
-//    private class Complex extends Complex{
-//
-//        public Complex(double real) {
-//            super(real);
-//        }
-//        
-//        public Complex (double real, double imaginary){
-//            super(real, imaginary);
-//        }
-//        
-//        @Override
-//        public String toString(){
-//            return super.getReal() + " " + super.getImaginary() + "j";
-//        }
-//    }
-    
     private RPNSolver(){
         this.stack = new ObservableStackExtended<>();
     }
@@ -59,7 +43,7 @@ public class RPNSolver {
      */
     public void sum() throws NoSuchElementException{
         
-        if (stack.size() > 2){
+        if (stack.size() < 2){
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
         
@@ -77,7 +61,7 @@ public class RPNSolver {
      */
     public void subtraction() throws NoSuchElementException{
         
-        if (stack.size() > 2){
+        if (stack.size() < 2){
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
         
@@ -94,7 +78,7 @@ public class RPNSolver {
      */
     public void product() throws NoSuchElementException{
         
-        if (stack.size() > 2){
+        if (stack.size() < 2){
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
         
@@ -112,7 +96,7 @@ public class RPNSolver {
      */
     public void division() throws NoSuchElementException{
         
-        if (stack.size() > 2){
+        if (stack.size() < 2){
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
         
@@ -128,7 +112,7 @@ public class RPNSolver {
      * @throws NoSuchElementException
      */
     public void sqrt() throws NoSuchElementException{
-        if (stack.size() > 1){
+        if (stack.size() < 1){
             throw new NoSuchElementException("Need almost one elements in the stack");
         }
         
@@ -143,7 +127,7 @@ public class RPNSolver {
      * @throws NoSuchElementException
      */
     public void invertSign() throws NoSuchElementException{
-        if (stack.size() > 1){
+        if (stack.size() < 1){
             throw new NoSuchElementException("Need almost one elements in the stack");
         }
         
@@ -205,7 +189,8 @@ public class RPNSolver {
         stack.over();
     }
     
-    public void setTable(ListView<Complex> list){
+    
+    public void setTable(ListView<Complex> list){ //TODO rinominare in setList
         stack.setObservable(list);
     }
 }

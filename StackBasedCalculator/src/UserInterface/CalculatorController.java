@@ -4,6 +4,7 @@ import MainMathOperation.RPNSolver;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,6 +44,8 @@ public class CalculatorController {
     private RPNSolver rpn;
     @FXML
     private ListView<Complex> stackList;
+    @FXML
+    private Button btnPush;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -59,18 +62,22 @@ public class CalculatorController {
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setTable(stackList);
 
+        btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
+                -> textArea.getText().trim().isEmpty(),
+                textArea.textProperty()));
+
         //when the user presses the "back space" button on physical keyboard
         //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.ENTER) {
+            if (e.getCode() == KeyCode.ENTER && textArea.getText().length() > 0) {
                 try {
                     push(new ActionEvent());
                 } catch (ExecutionControl.NotImplementedException ex) {
                     Logger.getLogger(CalculatorController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if (e.getCode() == KeyCode.BACK_SPACE) {
-                textArea.setText(textArea.getText().substring(0,textArea.getText().length()-1));
+            if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
+                textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
             }
 
             e.consume();

@@ -13,198 +13,197 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="872.0" prefWidth="434.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
+<AnchorPane prefHeight="700.0" prefWidth="371.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
    <children>
-      <VBox layoutX="-150.0" prefHeight="872.0" prefWidth="463.0" spacing="299.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="371.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="448.0">
+            <TextArea fx:id="textArea" layoutX="19.0" layoutY="285.0" prefHeight="47.0" prefWidth="331.0" promptText="insert">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextArea>
+            <VBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="343.0" prefHeight="350.0" prefWidth="371.0">
                <children>
-                  <Pane prefHeight="874.0" prefWidth="449.0" styleClass="test" AnchorPane.bottomAnchor="-396.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-37.0" AnchorPane.topAnchor="0.0">
+                  <HBox spacing="20.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
                      <children>
-                        <TextArea fx:id="textArea" layoutX="26.0" layoutY="324.0" prefHeight="47.0" prefWidth="399.0" promptText="insert">
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="7" textFill="WHITE">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="17.0" />
                            </font>
-                        </TextArea>
-                        <VBox layoutX="18.0" layoutY="437.0" prefHeight="414.0" prefWidth="412.0">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="7" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="8" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="9" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="+" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="dup" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="4" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="5" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="6" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="-" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="over" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="1" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="2" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="3" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="*" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="clear" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="." textFill="WHITE">
-                                       <font>
-                                          <Font size="21.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="0" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="j" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="/" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="drop" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="811.0" spacing="20.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <children>
-                                    <Button fx:id="btnClearEntry" mnemonicParsing="false" onAction="#deleteLast" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="⌫" textFill="WHITE">
-                                       <font>
-                                          <Font size="23.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#push" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="↑" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="±" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="sqrt" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="57.0" prefWidth="62.0" styleClass="highlight" text="swap" textFill="WHITE">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <ListView fx:id="stackList" layoutX="26.0" layoutY="67.0" prefHeight="226.0" prefWidth="399.0" />
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="8" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="9" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="+" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="dup" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
                      </children>
-                  </Pane>
+                  </HBox>
+                  <HBox spacing="20.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="4" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="5" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="6" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="-" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="over" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox spacing="20.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="1" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="2" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="3" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="*" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="clear" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox spacing="20.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="." textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="0" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="j" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="/" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="drop" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefWidth="381.0" spacing="20.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Button fx:id="btnClearEntry" mnemonicParsing="false" onAction="#deleteLast" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="⌫" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#push" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="↑" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="±" textFill="WHITE">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="sqrt" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="swap" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </VBox>
+            <ListView fx:id="stackList" fixedCellSize="0.0" layoutX="20.0" layoutY="49.0" prefHeight="222.0" prefWidth="331.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </ListView>
          </children>
-      </VBox>
-      <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="449.0" styleClass="topBar">
+      </Pane>
+      <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="371.0" styleClass="topBar">
          <children>
-            <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="16.0" layoutX="419.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="16.0" layoutX="334.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Graphics/close.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btnMinimize" fitHeight="16.0" fitWidth="16.0" layoutX="396.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnMinimize" fitHeight="16.0" fitWidth="16.0" layoutX="311.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Graphics/hide.png" />
                </image>

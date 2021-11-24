@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -35,14 +36,12 @@ public class CalculatorController {
     private TextArea textArea;
     @FXML
     private Button btnClearEntry;
-    @FXML
-    private TableView<String> stackTable;
-    @FXML
-    private TableColumn<?, ?> stackCol;
 
     private double x, y;
     private CheckInputKeyboard check;
     private RPNSolver rpn;
+    @FXML
+    private ListView<?> stackList;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program

@@ -3,7 +3,7 @@ package MainMathOperation.ObservableStack;
 import java.util.NoSuchElementException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 
 /**
  * This class provides an implementation of a stack with observable properties.
@@ -83,9 +83,9 @@ public class ObservableStack<E> {
     
     /**
      * Set the observability for the stack's contents.
-     * @param table the table in which we want to see the stack's contents.
+     * @param list the table in which we want to see the stack's contents.
      */
-    public void setObservable(TableView<E> table){
-         table.setItems(this.list);
+    public void setObservable(ListView<E> list){
+         list.setItems(this.list);
     }
 }

@@ -1,6 +1,5 @@
 package UserInterface;
 
-import MainMathOperation.ObservableStack.ObservableStack;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,17 +30,12 @@ public class CalculatorController {
     private TextArea textArea;
     @FXML
     private Button btnClearEntry;
-
-    private double x, y;
-    private ObservableStack<Float> stack;
-    private String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "sqrt"};
-    private String[] mathOperations = {"+", "-", "*", "/", "sqrt"};
     @FXML
     private TableView<String> stackTable;
-
     @FXML
     private TableColumn<?, ?> stackCol;
-
+    
+    private double x, y;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -92,12 +86,11 @@ public class CalculatorController {
 
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
-        stack = new ObservableStack<>();
     }
 
     /**
-     * Gets the number associated with the on-screen keyboard button
-     * and shows it in the User Interface Text Area.
+     * Gets the number associated with the on-screen keyboard button and shows
+     * it in the User Interface Text Area.
      *
      * @return
      */
@@ -109,8 +102,8 @@ public class CalculatorController {
     }
 
     /**
-     * Gets the operation associated with the on-screen keyboard button
-     * and shows it in the User Interface Text Area.
+     * Gets the operation associated with the on-screen keyboard button and
+     * shows it in the User Interface Text Area.
      *
      * @return
      */
@@ -122,8 +115,8 @@ public class CalculatorController {
     }
 
     /**
-     * When the "Clear entry" (⌫) button is pressed, the last item
-     * of the Text Area is cleaned up.
+     * When the "Clear entry" (⌫) button is pressed, the last item of the Text
+     * Area is cleaned up.
      *
      * @return
      */
@@ -133,11 +126,12 @@ public class CalculatorController {
             textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
         }
     }
-    
+
     /**
-     * When the "push" (↑) button is pressed, the item in the Text Area
-     * is pushed in the stack. The function checks if the input is in a right
-     * format and checks if the user enters the operations supported by the Calculator.
+     * When the "push" (↑) button is pressed, the item in the Text Area is
+     * pushed in the stack. The function checks if the input is in a right
+     * format and checks if the user enters the operations supported by the
+     * Calculator.
      *
      * @return
      */
@@ -145,10 +139,10 @@ public class CalculatorController {
     private void push(ActionEvent event) {
         int flag = 1;
         float firstOperand, secondOperand, result = 0;
-        
+
         String text = textArea.getText();
-        
-        for (String s : mathOperations) {
+
+        /*for (String s : mathOperations) {
             if (textArea.getText().equalsIgnoreCase(s)) {
 
                 if (s == "+") {
@@ -180,9 +174,7 @@ public class CalculatorController {
 
         if (flag == 1) {
             stack.push(Float.parseFloat(textArea.getText()));
-            textArea.setText("");
-        }
-
+            textArea.setText("");*/
     }
 
 }

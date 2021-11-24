@@ -57,7 +57,7 @@ public class ObservableStackExtended<E> extends ObservableStack<E>{
      * If the stack is empty, the operation has no effect.
      * @throws NoSuchElementException if the stack has only one element.
      */
-    public void copy() {
+    public void over() {
         if (this.size() == 1) {
             throw new NoSuchElementException("There isn't enough element");
         } else if (this.size() >= 2) {
@@ -66,5 +66,7 @@ public class ObservableStackExtended<E> extends ObservableStack<E>{
         }
         
     }
+    
+    
 
 }

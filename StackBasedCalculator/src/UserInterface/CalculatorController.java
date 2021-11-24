@@ -143,6 +143,7 @@ public class CalculatorController {
         String input = textArea.getText();
         if (check.checkIfComplex(input)) {
             rpn.addNum(input.replace("j", "i"));
+            return;
         }
         String operation = check.checkOperation(input);
         else if (operation != null) {              
@@ -161,8 +162,22 @@ public class CalculatorController {
                             break;
                          case "sqrt":
                             rpn.sqrt();
-                            break;
-                
+                            break;    
+                        case "clear":
+                            rpn.clear();
+                            break;    
+                        case "dup":
+                            rpn.dup();
+                            break;  
+                        case "drop":
+                            rpn.drop();
+                            break;  
+                        case "swap":
+                            rpn.swap();
+                            break;  
+                        case "over":
+                            rpn.over();
+                            break;  
                     }
 
       

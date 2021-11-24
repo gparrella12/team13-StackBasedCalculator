@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 public class ObservableStack<E> {
     
     /**
-     *
+     * This is the list that contains the stack's elements.
      */
     protected final ObservableList<E> list;
 
@@ -83,7 +83,7 @@ public class ObservableStack<E> {
     
     /**
      * Set the observability for the stack's contents.
-     * @param list the table in which we want to see the stack's contents.
+     * @param list the list in which we want to see the stack's contents.
      */
     public void setObservable(ListView<E> list){
          list.setItems(this.list);

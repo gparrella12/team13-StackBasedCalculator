@@ -55,6 +55,8 @@ public class CalculatorController {
         Scene scene = stage.getScene();
         check = new CheckInputKeyboard();
         rpn = RPNSolver.getInstance();
+        // Set list cell for complex number visualization
+        stackList.setCellFactory(new NumberCellFactory());
         rpn.setTable(stackList);
 
         //when the user presses the "back space" button on physical keyboard

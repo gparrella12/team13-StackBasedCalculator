@@ -81,6 +81,7 @@ public class ObservableStackTest {
             int top = stack.pop();
             assertEquals("Invalid element inserted", i, top);
         }
+        // An exception must be thrown
         stack.pop();
     }
 
@@ -96,7 +97,8 @@ public class ObservableStackTest {
             assertEquals("Invalid element inserted", i, top);
             stack.pop();
         }
-        stack.pop();
+        // An exception must be thrown
+        stack.top();
     }
 
 }

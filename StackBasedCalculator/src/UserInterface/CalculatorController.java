@@ -1,5 +1,6 @@
 package UserInterface;
 
+import MainMathOperation.RPNSolver;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,8 +35,10 @@ public class CalculatorController {
     private TableView<String> stackTable;
     @FXML
     private TableColumn<?, ?> stackCol;
-    
+
     private double x, y;
+    private CheckInputKeyboard check;
+    private RPNSolver rpn;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -45,6 +48,7 @@ public class CalculatorController {
      */
     public void init(Stage stage) {
         Scene scene = stage.getScene();
+        check = new CheckInputKeyboard();
 
         //when the user presses the "back space" button on physical keyboard
         //the last element in the Text Area is deleted.
@@ -96,7 +100,6 @@ public class CalculatorController {
      */
     @FXML
     private void onNumberPress(ActionEvent event) {
-
         String number = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + number);
     }
@@ -137,44 +140,34 @@ public class CalculatorController {
      */
     @FXML
     private void push(ActionEvent event) {
-        int flag = 1;
-        float firstOperand, secondOperand, result = 0;
-
-        String text = textArea.getText();
-
-        /*for (String s : mathOperations) {
-            if (textArea.getText().equalsIgnoreCase(s)) {
-
-                if (s == "+") {
-                    firstOperand = stack.pop();
-                    secondOperand = stack.pop();
-                    result = firstOperand + secondOperand;
-                } else if (s == "-") {
-                    firstOperand = stack.pop();
-                    secondOperand = stack.pop();
-                    result = firstOperand - secondOperand;
-                } else if (s == "*") {
-                    firstOperand = stack.pop();
-                    secondOperand = stack.pop();
-                    result = firstOperand * secondOperand;
-                } else if (s == "/") {
-                    firstOperand = stack.pop();
-                    secondOperand = stack.pop();
-                    result = firstOperand / secondOperand;
-                } else if (s == "sqrt") {
-                    firstOperand = stack.pop();
-                    result = (float) Math.sqrt(firstOperand);
-                }
-                textArea.setText(String.valueOf(result));
-
-                flag = 0;
-                break;
-            }
+        String input = textArea.getText();
+        if (check.checkIfComplex(input)) {
+            rpn.addNum(input.replace("j", "i"));
         }
+        String operation = check.checkOperation(input);
+        else if (operation != null) {              
+                    switch (operation) {
+                        case "+":
+                           rpn.sum();
+                            break;
+                        case "-":
+                           rpn.subtraction();
+                           break;
+                        case "*":
+                            rpn.product();
+                            break;
+                         case "/":
+                            rpn.product();
+                            break;
+                         case "sqrt":
+                            rpn.sqrt();
+                            break;
+                
+                    }
 
-        if (flag == 1) {
-            stack.push(Float.parseFloat(textArea.getText()));
-            textArea.setText("");*/
+      
+
+                    }
     }
 
 }

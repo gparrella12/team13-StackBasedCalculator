@@ -4,6 +4,9 @@ import java.util.NoSuchElementException;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import org.apache.commons.math3.complex.Complex;
 import MainMathOperation.ObservableStack.ObservableStackExtended;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import org.apache.commons.math3.complex.ComplexFormat;
 
 /**
  * Implementation of an Reverse Polish Notation Solver for Complex numbers
@@ -17,13 +20,29 @@ public class RPNSolver {
     private static RPNSolver instance = null;
     private ObservableStackExtended<Complex> stack = null;
     
+//    private class Complex extends Complex{
+//
+//        public Complex(double real) {
+//            super(real);
+//        }
+//        
+//        public Complex (double real, double imaginary){
+//            super(real, imaginary);
+//        }
+//        
+//        @Override
+//        public String toString(){
+//            return super.getReal() + " " + super.getImaginary() + "j";
+//        }
+//    }
+    
     private RPNSolver(){
         this.stack = new ObservableStackExtended<>();
     }
     
     /**
      * This method return the instance of RPNSolver Singleton class 
-     * @return
+     * @return RPNSolver instance
      */
     public static RPNSolver getInstance(){
         // Create the object only if not exists
@@ -121,9 +140,9 @@ public class RPNSolver {
     /**
      * Invert the sign of on top number
      * top = top * -1
-     * @throws NotImplementedException
+     * @throws NoSuchElementException
      */
-    public void invertSign() throws NotImplementedException{
+    public void invertSign() throws NoSuchElementException{
         if (stack.size() > 1){
             throw new NoSuchElementException("Need almost one elements in the stack");
         }
@@ -136,49 +155,57 @@ public class RPNSolver {
     /**
      * Push a number in the stack
      * @param num
-     * @throws NotImplementedException
      */
-    public void addNum(Complex num) throws NotImplementedException{
+    public void addNum(Complex num) {        
         stack.push(num);
+    }
+    
+    public void addNum(String num){
+        this.addNum(num,"j");
+    }
+    
+    public void addNum(String num, String imaginaryCharacter){
+        ComplexFormat cf = new ComplexFormat(imaginaryCharacter);
+        Complex c = cf.parse(num);
+        stack.push(c);
     }
     
     /**
      * Invoke clear() method of the stack
-     * @throws NotImplementedException
      */
-    public void clear() throws NotImplementedException{
-        throw new NotImplementedException("TODO"); 
+    public void clear(){
+        stack.clear();
     }
     
     /**
      * Invoke drop() method of the stack
-     * @throws NotImplementedException
      */
-    public void drop() throws NotImplementedException{
-        throw new NotImplementedException("TODO"); 
+    public void drop(){
+        stack.drop();
     }
     
     /**
      * Invoke dup() method of the stack
-     * @throws NotImplementedException
      */
-    public void dup() throws NotImplementedException{
-        throw new NotImplementedException("TODO"); 
+    public void dup(){
+        stack.dup();
     }
     
     /**
      * Invoke swap() method of the stack
-     * @throws NotImplementedException
      */
-    public void swap() throws NotImplementedException{
-        throw new NotImplementedException("TODO"); 
+    public void swap(){
+        stack.swap();
     }
     
     /**
      * Invoke over() method of the stack
-     * @throws NotImplementedException
      */
-    public void over() throws NotImplementedException{
-        throw new NotImplementedException("TODO"); 
+    public void over(){
+        stack.over();
+    }
+    
+    public void setTable(ListView<Complex> list){
+        stack.setObservable(list);
     }
 }

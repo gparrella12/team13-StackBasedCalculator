@@ -60,7 +60,7 @@ public class CalculatorController {
         rpn = RPNSolver.getInstance();
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
-        rpn.setTable(stackList);
+        rpn.setList(stackList);
 
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
                 -> textArea.getText().trim().isEmpty(),

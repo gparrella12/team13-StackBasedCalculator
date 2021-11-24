@@ -1,11 +1,11 @@
 package MainMathOperation;
 
 import java.util.NoSuchElementException;
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import org.apache.commons.math3.complex.Complex;
 import MainMathOperation.ObservableStack.ObservableStackExtended;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import org.apache.commons.math3.complex.ComplexFormat;
 
 /**
@@ -137,6 +137,39 @@ public class RPNSolver {
     }
     
     /**
+     * Given a complex number as a string return it as a Complex object
+     * @param str
+     * @param imaginaryCharacter
+     * @return Complex or null if the string passed not rappresent a complex number
+     */
+    private Complex parser(String str, String imaginaryCharacter){
+        String[] pattern = {"([-+]?[0-9]+\\.?[0-9]*j)",
+                            "([-+]?j[0-9]+\\.?[0-9]*)",
+                            "([-+]?[0-9]+\\.?[0-9]*)",
+                            "([-+]?j)"};
+        boolean match = false;
+        double real = 0, img = 0;
+        str = str.replace(" ", "");
+        
+        for (String p : pattern){
+            if (str.equals(""))
+                break;
+            Matcher m = Pattern.compile(p).matcher(str);
+            if (m.find()){
+                if (p.contains(imaginaryCharacter)){
+                    String tmp = m.group().replace(imaginaryCharacter, "").replace("+", "").replace("-", "-1");
+                    img = tmp.equals("") ? 1 : Double.parseDouble(tmp);
+                } else {
+                    real = Double.parseDouble(m.group());
+                }
+                str = m.replaceAll("");
+                match = true;
+            }
+        }        
+        return match ? new Complex(real, img) : null;
+    }
+    
+    /**
      * Push a number in the stack
      * @param num
      */
@@ -144,13 +177,21 @@ public class RPNSolver {
         stack.push(num);
     }
     
+    /**
+     * Push a number in the stack
+     * @param num
+     */
     public void addNum(String num){
         this.addNum(num,"j");
     }
     
+    /**
+     * Push a number in the stack
+     * @param num
+     * @param imaginaryCharacter
+     */
     public void addNum(String num, String imaginaryCharacter){
-        ComplexFormat cf = new ComplexFormat(imaginaryCharacter);
-        Complex c = cf.parse(num);
+        Complex c = this.parser(num, imaginaryCharacter);
         stack.push(c);
     }
     
@@ -189,8 +230,11 @@ public class RPNSolver {
         stack.over();
     }
     
-    
-    public void setTable(ListView<Complex> list){ //TODO rinominare in setList
+    /**
+     * Makes a link between a ListView and the stack
+     * @param list
+     */
+    public void setList(ListView<Complex> list){
         stack.setObservable(list);
     }
 }

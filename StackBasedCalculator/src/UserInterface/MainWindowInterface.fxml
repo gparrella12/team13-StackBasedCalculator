@@ -3,8 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,11 +21,6 @@
                <children>
                   <Pane prefHeight="874.0" prefWidth="449.0" styleClass="test" AnchorPane.bottomAnchor="-396.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-37.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TableView fx:id="stackTable" layoutX="26.0" layoutY="56.0" prefHeight="236.0" prefWidth="399.0" styleClass="op">
-                          <columns>
-                            <TableColumn fx:id="stackCol" editable="false" prefWidth="398.0" styleClass="table" text="STACK" />
-                          </columns>
-                        </TableView>
                         <TextArea fx:id="textArea" layoutX="26.0" layoutY="324.0" prefHeight="47.0" prefWidth="399.0" promptText="insert">
                            <font>
                               <Font size="15.0" />
@@ -196,6 +190,7 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <ListView fx:id="stackList" layoutX="26.0" layoutY="67.0" prefHeight="226.0" prefWidth="399.0" />
                      </children>
                   </Pane>
                </children>

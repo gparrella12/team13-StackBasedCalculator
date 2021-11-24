@@ -41,27 +41,35 @@ public class CheckInputKeyboard {
     }
 
     public boolean checkIfComplex(String s) {
+        Pattern patternA, patternB, patternC, patternD, patternE;
+        String numberNoWhiteSpace = null;
 
-        String numberNoWhiteSpace = s.replaceAll("\\s", "");
+        numberNoWhiteSpace = s.replaceAll("\\s", "");
         // Matches complex number with BOTH real AND imaginary parts.  
         // Ex: -3-2.0i
-        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
+        patternA = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]?[0-9]+\\.?[0-9]*)[j$]+");
 
         // Matches ONLY real number.
         // Ex: 3.145
-        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
+        patternB = Pattern.compile("([-|+|]?[0-9]+\\.?[0-9]*)$");
 
         // Matches ONLY imaginary number.
         // Ex: -10i
-        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");
+        patternC = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)[j$]");
 
         // Matches complex number when 1j is written as j.
         // Ex: 5+j (5+1j)
-        Pattern patternD = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]*\\.*[0-9]*)[j$]+");
+        patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]?[0-9]*\\.*[0-9]*)[j$]+");
+
+        // Matches ONLY imaginary number when 1j is written as j.
+        // Ex: +j (+1j)   
+        patternE = Pattern.compile("([-|+]?[0-9]*\\.*[0-9]*)[j$]");
+
         return patternA.matcher(numberNoWhiteSpace).matches()
                 || patternB.matcher(numberNoWhiteSpace).matches()
                 || patternC.matcher(numberNoWhiteSpace).matches()
-                || patternD.matcher(numberNoWhiteSpace).matches();
+                || patternD.matcher(numberNoWhiteSpace).matches()
+                || patternE.matcher(numberNoWhiteSpace).matches();
     }
 
     public List<Double> parsingfComplex(String s) {
@@ -70,30 +78,30 @@ public class CheckInputKeyboard {
 
         // Matches complex number with BOTH real AND imaginary parts.  
         // Ex: -3-2.0j
-        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
+        Pattern patternA = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]?[0-9]+\\.?[0-9]*)[j$]+");
 
         // Matches ONLY real number.
         // Ex: 3.145
-        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
+        Pattern patternB = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)$");
 
         // Matches ONLY imaginary number.
         // Ex: -10j
-        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");
+        Pattern patternC = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)[j$]");
 
         // Matches complex number when 1j is written as j.
         // Ex: 5+j (5+1j)
-        Pattern patternD = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]*\\.*[0-9]*)[j$]+");
+        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]?[0-9]*\\.*[0-9]*)[j$]+");
 
         // Matches ONLY imaginary number when 1j is written as j.
         // Ex: +j (+1j)   
-        Pattern patternE = Pattern.compile("([-]*[0-9]*\\.*[0-9]*)[j$]");
+        Pattern patternE = Pattern.compile("([-|+]?[0-9]*\\.*[0-9]*)[j$]");
 
         Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
         Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
         Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
         Matcher matcherD = patternD.matcher(numberNoWhiteSpace);
         Matcher matcherE = patternE.matcher(numberNoWhiteSpace);
-        
+
         if (matcherA.find()) {
             real = Double.parseDouble(matcherA.group(1));
             imaginary = Double.parseDouble(matcherA.group(2));

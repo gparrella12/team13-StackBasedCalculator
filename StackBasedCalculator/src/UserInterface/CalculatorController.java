@@ -158,6 +158,7 @@ public class CalculatorController {
         textArea.clear();
         if (check.checkIfComplex(input)) {
             rpn.addNum(input);
+               stackList.scrollTo(stackList.getItems().size());
             return;
         } else if (operation != null) {
             try {

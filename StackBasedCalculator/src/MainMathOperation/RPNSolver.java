@@ -6,7 +6,7 @@ import MainMathOperation.ObservableStack.ObservableStackExtended;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.control.ListView;
-import org.apache.commons.math3.complex.ComplexFormat;
+import org.apache.commons.math3.exception.MathParseException;
 
 /**
  * Implementation of an Reverse Polish Notation Solver for Complex numbers
@@ -137,6 +137,14 @@ public class RPNSolver {
     }
     
     /**
+     * Return last ANSwer
+     * @return 
+     */
+    public Complex getAns(){
+        return stack.top();
+    }
+    
+    /**
      * Given a complex number as a string return it as a Complex object
      * @param str
      * @param imaginaryCharacter
@@ -151,13 +159,19 @@ public class RPNSolver {
         double real = 0, img = 0;
         str = str.replace(" ", "");
         
-        for (String p : pattern){
+        for (int i=0; i<pattern.length; i++){
+            String p = pattern[i];
             if (str.equals(""))
                 break;
             Matcher m = Pattern.compile(p).matcher(str);
             if (m.find()){
                 if (p.contains(imaginaryCharacter)){
-                    String tmp = m.group().replace(imaginaryCharacter, "").replace("+", "").replace("-", "-1");
+                    String tmp = m.group().replace(imaginaryCharacter, "");
+                    
+                    if (i == pattern.length-1){
+                        tmp = tmp.replace("+", "").replace("-", "-1");
+                    }
+                    
                     img = tmp.equals("") ? 1 : Double.parseDouble(tmp);
                 } else {
                     real = Double.parseDouble(m.group());
@@ -189,9 +203,14 @@ public class RPNSolver {
      * Push a number in the stack
      * @param num
      * @param imaginaryCharacter
+     * @throws MathParseException
      */
-    public void addNum(String num, String imaginaryCharacter){
+    public void addNum(String num, String imaginaryCharacter) throws MathParseException{
         Complex c = this.parser(num, imaginaryCharacter);
+        
+        if (c == null)
+            throw new MathParseException("Bad string representation", 0);
+        
         stack.push(c);
     }
     

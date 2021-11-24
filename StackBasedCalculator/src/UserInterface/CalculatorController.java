@@ -67,6 +67,9 @@ public class CalculatorController {
                     Logger.getLogger(CalculatorController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            if (e.getCode() == KeyCode.BACK_SPACE) {
+                textArea.setText(textArea.getText().substring(0,textArea.getText().length()-1));
+            }
 
             e.consume();
         });
@@ -158,7 +161,7 @@ public class CalculatorController {
         textArea.clear();
         if (check.checkIfComplex(input)) {
             rpn.addNum(input);
-               stackList.scrollTo(stackList.getItems().size());
+            stackList.scrollTo(stackList.getItems().size());
             return;
         } else if (operation != null) {
             try {

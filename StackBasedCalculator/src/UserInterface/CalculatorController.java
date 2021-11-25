@@ -78,6 +78,7 @@ public class CalculatorController {
             }
             if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
                 textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+                textArea.end();
             }
 
             e.consume();

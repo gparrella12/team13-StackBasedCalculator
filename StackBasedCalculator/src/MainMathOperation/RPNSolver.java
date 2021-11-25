@@ -9,184 +9,207 @@ import org.apache.commons.math3.exception.MathParseException;
 
 /**
  * Implementation of an Reverse Polish Notation Solver for Complex numbers
- * 
+ *
  * Use a stack to memorize numbers used in operations
- * 
+ *
  * This class follow Singleton
+ *
  * @author fsonnessa
  */
 public class RPNSolver {
+
     private static RPNSolver instance = null;
     private Stack<Complex> stack = null;
-    
-    private RPNSolver(){
+
+    private RPNSolver() {
         this.stack = new Stack<>();
     }
-    
+
     /**
-     * This method return the instance of RPNSolver Singleton class 
+     * This method return the instance of RPNSolver Singleton class
+     *
      * @return RPNSolver instance
      */
-    public static RPNSolver getInstance(){
+    public static RPNSolver getInstance() {
         // Create the object only if not exists
-        if (instance == null){
+        if (instance == null) {
             instance = new RPNSolver();
         }
         return instance;
     }
-    
+
     /**
-     * Adds the first two elements of the stack and save the reult on top.
-     * top = top + (top-1)
+     * Adds the first two elements of the stack and save the reult on top. top =
+     * top + (top-1)
+     *
      * @throws NoSuchElementException
      */
-    public void sum() throws NoSuchElementException{
-        
-        if (stack.size() < 2){
+    public void sum() throws NoSuchElementException {
+
+        if (stack.size() < 2) {
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
-        
+
         Complex num1 = stack.pop();
         Complex num2 = stack.pop();
-        
+
         stack.push(num1.add(num2));
     }
-    
+
     /**
      * Subtracts the first two elements of the stack and save the reult on top.
-     * This operation has fixed oreder of operands: the second element is the left operant while the first element (top element) is the right operand
+     * This operation has fixed oreder of operands: the second element is the
+     * left operant while the first element (top element) is the right operand
      * top = (top-1) - top
+     *
      * @throws NoSuchElementException
      */
-    public void subtraction() throws NoSuchElementException{
-        
-        if (stack.size() < 2){
+    public void subtraction() throws NoSuchElementException {
+
+        if (stack.size() < 2) {
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
-        
+
         Complex num1 = stack.pop();
         Complex num2 = stack.pop();
-        
+
         stack.push(num2.subtract(num1));
     }
-    
+
     /**
      * Multiply the first two elements of the stack and save the reult on top.
      * top = top * (top-1)
+     *
      * @throws NoSuchElementException
      */
-    public void product() throws NoSuchElementException{
-        
-        if (stack.size() < 2){
+    public void product() throws NoSuchElementException {
+
+        if (stack.size() < 2) {
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
-        
+
         Complex num1 = stack.pop();
         Complex num2 = stack.pop();
-        
+
         stack.push(num1.multiply(num2));
     }
-    
+
     /**
      * Divides the first two elements of the stack and save the reult on top.
-     * This operation has fixed oreder of operands: the second element is the left operant while the first element (top element) is the right operand
+     * This operation has fixed oreder of operands: the second element is the
+     * left operant while the first element (top element) is the right operand
      * top = (top-1) / top
+     *
      * @throws NoSuchElementException
      */
-    public void division() throws NoSuchElementException{
-        
-        if (stack.size() < 2){
+    public void division() throws NoSuchElementException {
+
+        if (stack.size() < 2) {
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
-        
+
         Complex num1 = stack.pop();
         Complex num2 = stack.pop();
-        
-        stack.push(num2.divide(num1));         
+
+        stack.push(num2.divide(num1));
     }
-    
+
     /**
-     * Make the root of on top element
-     * top = sqrt(top)
+     * Make the root of on top element top = sqrt(top)
+     *
      * @throws NoSuchElementException
      */
-    public void sqrt() throws NoSuchElementException{
-        if (stack.size() < 1){
+    public void sqrt() throws NoSuchElementException {
+        if (stack.size() < 1) {
             throw new NoSuchElementException("Need almost one elements in the stack");
         }
-        
+
         Complex num = stack.pop();
-        
+
         stack.push(num.sqrt());
     }
-    
+
     /**
-     * Invert the sign of on top number
-     * top = top * -1
+     * Invert the sign of on top number top = top * -1
+     *
      * @throws NoSuchElementException
      */
-    public void invertSign() throws NoSuchElementException{
-        if (stack.size() < 1){
+    public void invertSign() throws NoSuchElementException {
+        if (stack.size() < 1) {
             throw new NoSuchElementException("Need almost one elements in the stack");
         }
-        
+
         Complex num = stack.pop();
-        
+
         stack.push(num.negate());
     }
-    
+
     /**
      * Return last ANSwer
-     * @return 
+     *
+     * @return
      */
-    public Complex getAns(){
+    public Complex getAns() {
         return stack.top();
     }
-    
+
     /**
      * Given a complex number as a string return it as a Complex object
+     *
      * @param str
      * @param imaginaryCharacter
-     * @return Complex or null if the string passed not rappresent a complex number
+     * @return Complex or null if the string passed not rappresent a complex
+     * number
      */
-    private Complex parser(String str, String imaginaryCharacter){
-        String[] pattern = {"([-+]?[0-9]+\\.?[0-9]*j)",
-                            "([-+]?j[0-9]+\\.?[0-9]*)",
-                            "([-+]?[0-9]+\\.?[0-9]*)",
-                            "([-+]?j)"};
-        boolean match = false;
-        double real = 0, img = 0;
-        str = str.replace(" ", "");
-        
-        for (int i=0; i<pattern.length; i++){
-            String p = pattern[i];
-            if (str.equals(""))
-                break;
-            Matcher m = Pattern.compile(p).matcher(str);
-            if (m.find()){
-                if (p.contains(imaginaryCharacter)){
-                    String tmp = m.group().replace(imaginaryCharacter, "");
-                    
-                    if (i == pattern.length-1){
-                        tmp = tmp.replace("+", "").replace("-", "-1");
-                    }
-                    
-                    img = tmp.equals("") ? 1 : Double.parseDouble(tmp);
-                } else {
-                    real = Double.parseDouble(m.group());
-                }
-                str = m.replaceAll("");
-                match = true;
+    private Complex parser(String str, String imaginaryCharacter) {
+        double real = 0, imaginary = 0;
+        String numberNoWhiteSpace = str.replaceAll("\\s", "");
+
+        // Matches complex number with BOTH real AND imaginary parts.  
+        // Ex: -3-2.0i
+        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
+
+        // Matches ONLY real number.
+        // Ex: 3.145
+        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
+
+        // Matches ONLY imaginary number.
+        // Ex: -10i
+        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");;
+
+        Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
+        Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
+        Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
+
+        boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
+                || patternB.matcher(numberNoWhiteSpace).matches()
+                || patternC.matcher(numberNoWhiteSpace).matches();
+        if (flag) {
+            if (matcherA.find()) {
+                real = Double.parseDouble(matcherA.group(1));
+                imaginary = Double.parseDouble(matcherA.group(2));
+            } else if (matcherB.find()) {
+                real = Double.parseDouble(matcherB.group(1));
+                imaginary = 0;
+            } else if (matcherC.find()) {
+                real = 0;
+                imaginary = Double.parseDouble(matcherC.group(1));
             }
-        }        
-        return match ? new Complex(real, img) : null;
+            return new Complex(real, imaginary);
+        }
+
+        return null;
+
     }
-    
-    /**
-     * Push a number in the stack
-     * @param num
-     */
-    public void addNum(Complex num) {        
+
+
+
+/**
+ * Push a number in the stack
+ *
+ * @param num
+ */
+public void addNum(Complex num) {        
         stack.push(num);
     }
     

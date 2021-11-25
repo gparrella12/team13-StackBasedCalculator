@@ -169,54 +169,58 @@ public class CalculatorController {
         String input = textArea.getText();
         String operation = check.checkOperation(input);
         textArea.clear();
-        if (check.checkIfComplex(input)) {
+
+        try {
             rpn.addNum(input);
             stackList.scrollTo(stackList.getItems().size());
             return;
-        } else if (operation != null) {
-            try {
-                switch (operation) {
-                    case "+":
-                        rpn.sum();
-                        return;
-                    case "-":
-                        rpn.subtraction();
-                        return;
-                    case "*":
-                        rpn.product();
-                        return;
-                    case "/":
-                        rpn.division();
-                        return;
-                    case "sqrt":
-                        rpn.sqrt();
-                        return;
-                    case "+-":
-                        rpn.invertSign();
-                        return;
-                    case "clear":
-                        rpn.clear();
-                        return;
-                    case "dup":
-                        rpn.dup();
-                        return;
-                    case "drop":
-                        rpn.drop();
-                        return;
-                    case "swap":
-                        rpn.swap();
-                        return;
-                    case "over":
-                        rpn.over();
-                        return;
-                }
-            } catch (NoSuchElementException e) {
-                textArea.setText("Math Error");
+        } catch (Exception e) {
+            if (operation == null) {
+                new Alert(Alert.AlertType.ERROR, "Invalid input:\n" + input, ButtonType.OK).showAndWait();
                 return;
             }
         }
-        new Alert(Alert.AlertType.ERROR, "Invalid input:\n" + input, ButtonType.OK).showAndWait();
 
+        try {
+            switch (operation) {
+                case "+":
+                    rpn.sum();
+                    return;
+                case "-":
+                    rpn.subtraction();
+                    return;
+                case "*":
+                    rpn.product();
+                    return;
+                case "/":
+                    rpn.division();
+                    return;
+                case "sqrt":
+                    rpn.sqrt();
+                    return;
+                case "+-":
+                    rpn.invertSign();
+                    return;
+                case "clear":
+                    rpn.clear();
+                    return;
+                case "dup":
+                    rpn.dup();
+                    return;
+                case "drop":
+                    rpn.drop();
+                    return;
+                case "swap":
+                    rpn.swap();
+                    return;
+                case "over":
+                    rpn.over();
+                    return;
+            }
+        } catch (NoSuchElementException e) {
+            textArea.setText("Math Error");
+            return;
+        }
     }
 
 }

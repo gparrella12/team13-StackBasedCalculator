@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="371.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
+<AnchorPane prefHeight="700.0" prefWidth="371.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="371.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -51,7 +51,7 @@
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="dup" textFill="WHITE">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="13.0" />
                            </font>
                         </Button>
                      </children>
@@ -83,7 +83,7 @@
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onNumberPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="over" textFill="WHITE">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="13.0" />
                            </font>
                         </Button>
                      </children>
@@ -115,7 +115,7 @@
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="clear" textFill="WHITE">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="13.0" />
                            </font>
                         </Button>
                      </children>
@@ -147,7 +147,7 @@
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="drop" textFill="WHITE">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="13.0" />
                            </font>
                         </Button>
                      </children>
@@ -177,11 +177,7 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="swap" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="swap" textFill="WHITE" />
                      </children>
                   </HBox>
                </children>

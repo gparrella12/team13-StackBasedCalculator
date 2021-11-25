@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="MainMathOperation">
+  <ClassDiagramComponents>
+    <Class name="RPNSolver" package="MainMathOperation" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="instance" type="RPNSolver" visibility="private" isStatic="true"/>
+        <Field name="stack" type="Stack&lt;Complex&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getInstance" returnType="RPNSolver" visibility="public" isStatic="true"/>
+        <Method name="sum" returnType="void" visibility="public"/>
+        <Method name="subtraction" returnType="void" visibility="public"/>
+        <Method name="product" returnType="void" visibility="public"/>
+        <Method name="division" returnType="void" visibility="public"/>
+        <Method name="sqrt" returnType="void" visibility="public"/>
+        <Method name="invertSign" returnType="void" visibility="public"/>
+        <Method name="getAns" returnType="Complex" visibility="public"/>
+        <Method name="parser" returnType="Complex" visibility="private">
+          <Argument type="String" name="str"/>
+          <Argument type="String" name="imaginaryCharacter"/>
+        </Method>
+        <Method name="addNum" returnType="void" visibility="public">
+          <Argument type="Complex" name="num"/>
+        </Method>
+        <Method name="addNum" returnType="void" visibility="public">
+          <Argument type="String" name="num"/>
+        </Method>
+        <Method name="addNum" returnType="void" visibility="public">
+          <Argument type="String" name="num"/>
+          <Argument type="String" name="imaginaryCharacter"/>
+        </Method>
+        <Method name="clear" returnType="void" visibility="public"/>
+        <Method name="drop" returnType="void" visibility="public"/>
+        <Method name="dup" returnType="void" visibility="public"/>
+        <Method name="swap" returnType="void" visibility="public"/>
+        <Method name="over" returnType="void" visibility="public"/>
+        <Method name="setList" returnType="void" visibility="public">
+          <Argument type="ListView&lt;Complex&gt;" name="list"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Stack" package="MainMathOperation" visibility="public" xPosition="442.0" yPosition="20.0">
+      <Fields>
+        <Field name="list" type="ObservableList&lt;E&gt;" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="size" returnType="int" visibility="public"/>
+        <Method name="push" returnType="void" visibility="public">
+          <Argument type="E" name="element"/>
+        </Method>
+        <Method name="pop" returnType="E" visibility="public"/>
+        <Method name="top" returnType="E" visibility="public"/>
+        <Method name="clear" returnType="void" visibility="public"/>
+        <Method name="drop" returnType="void" visibility="public"/>
+        <Method name="dup" returnType="void" visibility="public"/>
+        <Method name="swap" returnType="void" visibility="public"/>
+        <Method name="over" returnType="void" visibility="public"/>
+        <Method name="setObserver" returnType="void" visibility="public">
+          <Argument type="ListView&lt;E&gt;" name="list"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="stack" source="MainMathOperation.RPNSolver" target="MainMathOperation.Stack" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="instance" source="MainMathOperation.RPNSolver" target="MainMathOperation.RPNSolver" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="MainMathOperation.RPNSolver" target="MainMathOperation.RPNSolver" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

@@ -2,7 +2,6 @@ package MainMathOperation;
 
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
-import MainMathOperation.ObservableStack.ObservableStackExtended;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.control.ListView;
@@ -18,10 +17,10 @@ import org.apache.commons.math3.exception.MathParseException;
  */
 public class RPNSolver {
     private static RPNSolver instance = null;
-    private ObservableStackExtended<Complex> stack = null;
+    private Stack<Complex> stack = null;
     
     private RPNSolver(){
-        this.stack = new ObservableStackExtended<>();
+        this.stack = new Stack<>();
     }
     
     /**
@@ -254,6 +253,6 @@ public class RPNSolver {
      * @param list
      */
     public void setList(ListView<Complex> list){
-        stack.setObservable(list);
+        stack.setObserver(list);
     }
 }

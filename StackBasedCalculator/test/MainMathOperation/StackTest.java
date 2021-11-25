@@ -1,29 +1,109 @@
-package MainMathOperation.ObservableStack;
+package MainMathOperation;
 
+import MainMathOperation.Stack;
 import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * This class test the features of extended observable stack.
+ * This class test the Stack's features.
  *
  * @author gparrella
  */
-public class ObservableStackExtendedTest {
+public class StackTest {
 
-    private ObservableStackExtended<Integer> stack;
+    private Stack<Integer> stack;
 
-    public ObservableStackExtendedTest() {
+    public StackTest() {
     }
 
     @Before
     public void setUp() {
-        stack = new ObservableStackExtended<>();
+        stack = new Stack<>();
     }
 
     /**
-     * Test of clear method, of class ObservableStackExtended.
+     * Test of isEmpty method, of class Stack.
+     */
+    @Test
+    public void testIsEmpty() {
+        System.out.println("isEmpty");
+        assertEquals("The stack isn't empty after creation", true, stack.isEmpty());
+        stack.push(1);
+        assertEquals("The stack is empty after a push", false, stack.isEmpty());
+        stack.top();
+        assertEquals("The stack is empty after a pop", false, stack.isEmpty());
+        stack.pop();
+        assertEquals("The stack isn't empty after pop", true, stack.isEmpty());
+    }
+
+    /**
+     * Test of size method, of class Stack.
+     */
+    @Test
+    public void testSize() {
+        System.out.println("size");
+        assertEquals("The stack isn't empty after creation", 0, stack.size());
+        for (int i = 0; i < 5; i++) {
+            stack.push(i + 1);
+        }
+        assertEquals("Invalid number of elements", 5, stack.size());
+        stack.top();
+        stack.pop();
+        assertEquals("Invalid number of elements", 4, stack.size());
+        stack.pop();
+        assertEquals("Invalid number of elements", 3, stack.size());
+        stack.push(45);
+        assertEquals("Invalid number of elements", 4, stack.size());
+    }
+
+    /**
+     * Test of push method, of class Stack.
+     */
+    @Test
+    public void testPush() {
+        System.out.println("push");
+        for (int i = 0; i < 10; i++) {
+            stack.push(i);
+            int top = stack.top();
+            assertEquals("Invalid element inserted", i, top);
+        }
+    }
+
+    /**
+     * Test of pop method, of class Stack.
+     */
+    @Test(expected = NoSuchElementException.class)
+    public void testPop() {
+        System.out.println("pop");
+        for (int i = 0; i < 10; i++) {
+            stack.push(i);
+            int top = stack.pop();
+            assertEquals("Invalid element inserted", i, top);
+        }
+        // An exception must be thrown
+        stack.pop();
+    }
+
+    /**
+     * Test of top method, of class Stack.
+     */
+    @Test(expected = NoSuchElementException.class)
+    public void testTop() {
+        System.out.println("top");
+        for (int i = 0; i < 10; i++) {
+            stack.push(i);
+            int top = stack.top();
+            assertEquals("Invalid element inserted", i, top);
+            stack.pop();
+        }
+        // An exception must be thrown
+        stack.top();
+    }
+
+    /**
+     * Test of clear method, of class Stack.
      */
     @Test(timeout = 15)
     public void testClear() {
@@ -38,7 +118,7 @@ public class ObservableStackExtendedTest {
     }
 
     /**
-     * Test of drop method, of class ObservableStackExtended.
+     * Test of drop method, of class Stack.
      */
     @Test
     public void testDrop() {
@@ -61,7 +141,7 @@ public class ObservableStackExtendedTest {
     }
 
     /**
-     * Test of dup method, of class ObservableStackExtended.
+     * Test of dup method, of class Stack.
      */
     @Test
     public void testDup() {
@@ -81,9 +161,9 @@ public class ObservableStackExtendedTest {
     }
 
     /**
-     * Test of swap method, of class ObservableStackExtended.
+     * Test of swap method, of class Stack.
      */
-    @Test(expected=NoSuchElementException.class)
+    @Test(expected = NoSuchElementException.class)
     public void testSwap() {
         System.out.println("swap");
         // Swap on an empty stack, the stack should not be modified
@@ -107,7 +187,7 @@ public class ObservableStackExtendedTest {
     }
 
     /**
-     * Test of over method, of class ObservableStackExtended.
+     * Test of over method, of class Stack.
      */
     @Test(expected = NoSuchElementException.class)
     public void testOver() {
@@ -120,7 +200,7 @@ public class ObservableStackExtendedTest {
         // Over operation
         stack.over();
         // Check stack size
-        assertEquals("Invalid size",3, stack.size());
+        assertEquals("Invalid size", 3, stack.size());
         int top = stack.pop();
         // Check if the correct element is copied
         assertEquals("Invalid element copied", top, 1);
@@ -129,7 +209,7 @@ public class ObservableStackExtendedTest {
         stack.push(2);
         // over on a stack of 1 element, an exception should be thrown
         stack.over();
-        
+
     }
 
 }

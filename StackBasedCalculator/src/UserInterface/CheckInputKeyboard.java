@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class CheckInputKeyboard {
 
-    private String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "sqrt"};
+    private String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
 
     /**

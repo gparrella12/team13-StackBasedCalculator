@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +21,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.math3.complex.Complex;
@@ -46,6 +50,8 @@ public class CalculatorController {
     private ListView<Complex> stackList;
     @FXML
     private Button btnPush;
+    @FXML
+    private Text textWarning;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -61,11 +67,12 @@ public class CalculatorController {
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
+        // Set bindings for warning
+        textWarning.visibleProperty().bind(Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("*").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("clear").or(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over").or(Bindings.size(stackList.getItems()).lessThan(1).and(textArea.textProperty().isEqualTo("+-").or(textArea.textProperty().isEqualTo("sqrt").or(textArea.textProperty().isEqualTo("drop").or(textArea.textProperty().isEqualTo("dup"))))))))))))));
 
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
                 -> textArea.getText().trim().isEmpty(),
                 textArea.textProperty()));
-
         //when the user presses the "back space" button on physical keyboard
         //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -218,9 +225,8 @@ public class CalculatorController {
                     return;
             }
         } catch (NoSuchElementException e) {
-            textArea.setText("Math Error");
+            new Alert(Alert.AlertType.ERROR, "Invalid operands for this operation", ButtonType.OK).showAndWait();
             return;
         }
     }
-
 }

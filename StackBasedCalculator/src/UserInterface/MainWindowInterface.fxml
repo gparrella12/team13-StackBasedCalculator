@@ -167,7 +167,7 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="±" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#onOperationPress" prefHeight="50.0" prefWidth="50.0" styleClass="highlight" text="+-" textFill="WHITE">
                            <font>
                               <Font size="17.0" />
                            </font>

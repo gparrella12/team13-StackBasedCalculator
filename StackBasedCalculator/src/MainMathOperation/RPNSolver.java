@@ -162,120 +162,121 @@ public class RPNSolver {
      * number
      */
     private Complex parser(String str, String imaginaryCharacter) {
-        double real = 0, imaginary = 0;
-        String numberNoWhiteSpace = str.replaceAll("\\s", "");
-
-        // Matches complex number with BOTH real AND imaginary parts.  
-        // Ex: -3-2.0i
-        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
-
-        // Matches ONLY real number.
-        // Ex: 3.145
-        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
-
-        // Matches ONLY imaginary number.
-        // Ex: -10i
-        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");;
-
-        Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
-        Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
-        Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
-
-        boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
-                || patternB.matcher(numberNoWhiteSpace).matches()
-                || patternC.matcher(numberNoWhiteSpace).matches();
-        if (flag) {
-            if (matcherA.find()) {
-                real = Double.parseDouble(matcherA.group(1));
-                imaginary = Double.parseDouble(matcherA.group(2));
-            } else if (matcherB.find()) {
-                real = Double.parseDouble(matcherB.group(1));
-                imaginary = 0;
-            } else if (matcherC.find()) {
-                real = 0;
-                imaginary = Double.parseDouble(matcherC.group(1));
-            }
-            return new Complex(real, imaginary);
+        String[] pattern = {"([-+]?[0-9]+\\.?[0-9]*j)",
+            "([-+]?j[0-9]+\\.?[0-9]*)",
+            "([-+]?[0-9]+\\.?[0-9]*)",
+            "([-+]?j)"};
+        boolean match = false;
+        double real = 0, img = 0;
+        str = str.replace(" ", "");
+        
+        Matcher m0 = Pattern.compile("(?<!\\d)([.][0-9]+)").matcher(str);
+        while (m0.find()){
+            String tmp = m0.group();
+            str = str.replace(tmp, "0"+tmp);
         }
 
-        return null;
+        for (int i = 0; i < pattern.length; i++) {
+            String p = pattern[i];
+            if (str.equals("")) {
+                break;
+            }
+            Matcher m = Pattern.compile(p).matcher(str);
+            if (m.find()) {
+                if (p.contains(imaginaryCharacter)) {
+                    String tmp = m.group().replace(imaginaryCharacter, "");
 
+                    if (i == pattern.length - 1) {
+                        tmp = tmp.replace("+", "").replace("-", "-1");
+                    }
+
+                    img = tmp.equals("") ? 1 : Double.parseDouble(tmp);
+                } else {
+                    real = Double.parseDouble(m.group());
+                }
+                str = m.replaceAll("");
+                match = true;
+            }
+        }
+        return match ? new Complex(real, img) : null;
     }
 
-
-
-/**
- * Push a number in the stack
- *
- * @param num
- */
-public void addNum(Complex num) {        
-        stack.push(num);
-    }
-    
     /**
      * Push a number in the stack
+     *
      * @param num
      */
-    public void addNum(String num){
-        this.addNum(num,"j");
+    public void addNum(Complex num) {
+        stack.push(num);
     }
-    
+
     /**
      * Push a number in the stack
+     *
+     * @param num
+     */
+    public void addNum(String num) {
+        this.addNum(num, "j");
+    }
+
+    /**
+     * Push a number in the stack
+     *
      * @param num
      * @param imaginaryCharacter
      * @throws MathParseException
      */
-    public void addNum(String num, String imaginaryCharacter) throws MathParseException{
+    public void addNum(String num, String imaginaryCharacter) throws MathParseException {
         Complex c = this.parser(num, imaginaryCharacter);
-        
-        if (c == null)
+
+        if (c == null) {
             throw new MathParseException("Bad string representation", 0);
-        
+        }
+
         stack.push(c);
     }
-    
+
     /**
      * Invoke clear() method of the stack
      */
-    public void clear(){
+    public void clear() {
         stack.clear();
     }
-    
+
     /**
      * Invoke drop() method of the stack
      */
-    public void drop(){
+    public void drop() {
         stack.drop();
     }
-    
+
     /**
      * Invoke dup() method of the stack
      */
-    public void dup(){
+    public void dup() {
         stack.dup();
     }
-    
+
     /**
      * Invoke swap() method of the stack
      */
-    public void swap(){
+    public void swap() {
         stack.swap();
     }
-    
+
     /**
      * Invoke over() method of the stack
      */
-    public void over(){
+    public void over() {
         stack.over();
     }
-    
+
     /**
      * Makes a link between a ListView and the stack
+     *
      * @param list
      */
-    public void setList(ListView<Complex> list){
+    public void setList(ListView<Complex> list) {
         stack.setObserver(list);
     }
 }

@@ -110,8 +110,14 @@ public class RPNSolver {
 
         Complex num1 = stack.pop();
         Complex num2 = stack.pop();
+        
+        Complex rst = num2.divide(num1);
+        
+        if (rst.isNaN()){
+            throw new ArithmeticException();
+        }
 
-        stack.push(num2.divide(num1));
+        stack.push(rst);
     }
 
     /**
@@ -166,22 +172,35 @@ public class RPNSolver {
             "([-+]?j[0-9]+\\.?[0-9]*)",
             "([-+]?[0-9]+\\.?[0-9]*)",
             "([-+]?j)"};
+        
         boolean match = false;
         double real = 0, img = 0;
-        str = str.replace(" ", "");
         
-        Matcher m0 = Pattern.compile("(?<!\\d)([.][0-9]+)").matcher(str);
-        while (m0.find()){
-            String tmp = m0.group();
+        // Init pre-check for bad string format
+        str = str.replace(" ", "");
+                
+        if (str.length() == 1 && str.equals(".")){
+            return new Complex(0,0);
+        }
+        
+        Matcher m = Pattern.compile("\\D+\\.\\D+").matcher(str);
+        if (m.find()){
+            return null;
+        }
+        
+        m = Pattern.compile("(?<!\\d)([.][0-9]+)").matcher(str);
+        while (m.find()){
+            String tmp = m.group();
             str = str.replace(tmp, "0"+tmp);
         }
-
+        
+        // Start extraxt numbers
         for (int i = 0; i < pattern.length; i++) {
             String p = pattern[i];
             if (str.equals("")) {
                 break;
             }
-            Matcher m = Pattern.compile(p).matcher(str);
+            m = Pattern.compile(p).matcher(str);
             if (m.find()) {
                 if (p.contains(imaginaryCharacter)) {
                     String tmp = m.group().replace(imaginaryCharacter, "");

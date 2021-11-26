@@ -5,8 +5,6 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
@@ -213,7 +210,7 @@ public class CalculatorController {
                     return;
                 case "dup":
                     rpn.dup();
-                    textArea.end();
+                    stackList.scrollTo(stackList.getItems().size());
                     return;
                 case "drop":
                     rpn.drop();
@@ -225,7 +222,7 @@ public class CalculatorController {
                     return;
                 case "over":
                     rpn.over();
-                    textArea.end();
+                    stackList.scrollTo(stackList.getItems().size());
                     return;
             }
         } catch (NoSuchElementException e) {

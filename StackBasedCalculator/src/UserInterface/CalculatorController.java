@@ -213,15 +213,19 @@ public class CalculatorController {
                     return;
                 case "dup":
                     rpn.dup();
+                    textArea.end();
                     return;
                 case "drop":
                     rpn.drop();
+
                     return;
                 case "swap":
                     rpn.swap();
+
                     return;
                 case "over":
                     rpn.over();
+                    textArea.end();
                     return;
             }
         } catch (NoSuchElementException e) {

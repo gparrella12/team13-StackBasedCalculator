@@ -1,44 +1,44 @@
-﻿input;test result
-6;(6.0, 0.0)
-+6;(6.0, 0.0)
--6;(-6.0, 0.0)
-5.022.222;(50.22222, 0.0)
-1.;(1.0, 0.0)
-.;fail
-3+.;fail
-…33..;fail
-93,5;fail
-j;(0.0, 1.0)
-5+9j;(5.0, 9.0)
-8j+9;fail
-j1;fail
-abcdefghi;fail
-cle;fail
-clear;fail
-5+;fail
-5-;fail
-5*;fail
-5/;fail
-5+-;fail
-5j+-;fail
-8+9;fail
-8/9;fail
-8*9;fail
-08-set;fail
-8+9j;(8.0, 9.0)
-8-9j;(8.0, -9.0)
-8*9j;fail
-8/9j;fail
-..3;fail
-.3.;fail
-3..;fail
-+.3..;fail
-1+-;fail
-1+-fssdffdsfds;fail
-1dfggfdfgdgfdgfd;fail
-jdsfdfdfsfds ;fail
-1+fgfgdfgj;fail
-1+dfgffgfgd.;fail
-6;fail
-5;fail
-+---.55.;fail
+﻿input;test result;
+6;(6.0, 0.0);
++6;(6.0, 0.0);
+-6;(-6.0, 0.0);
+50.22222;(50.22222, 0.0);
+1.;(1.0, 0.0);
+.;fail;
+3+.;fail;
+...33..;fail;
+93,5;fail;
+j;(0.0, 1.0);
+5+9j;(5.0, 9.0);
+8j+9;fail;
+j1;fail;
+abcde;fail;
+cle;fail;
+clear;fail;
+5+;fail;
+5-;fail;
+5*;fail;
+5/;fail;
+5+-;fail;
+5j+-;fail;
+8+9;fail;
+8/9;fail;
+8*9;fail;
+08-set;fail;
+8+9j;(8.0, 9.0);
+8-9j;(8.0, -9.0);
+8*9j;fail;
+8/9j;fail;
+..3;fail;
+.3.;fail;
+3..;fail;
++.3..;fail;
+1+-;fail;
+1+-fssdffdsfds;fail;
+1dfggfdfgdgfdgfd;fail;
+jdsfdfdfsfds;fail;
+1+fgfgdfgj;fail;
+1+dfgffgfgd.;fail;
+--6;fail;
++-+-+--5;fail;
++---.55.;fail;

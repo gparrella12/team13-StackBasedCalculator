@@ -28,40 +28,43 @@ public class RPNSolverTest {
     /**
      * Test of addNum method, of class RPNSolver.
      */
-    @Test(expected = MathParseException.class)
+    @Test
     public void testAddNum() {
         System.out.println("\naddNum");
         
         Scanner sc = new Scanner(new InputStreamReader(RPNSolver.class.getResourceAsStream("TestCasesParser.csv")));
         sc.nextLine();
-        sc.useDelimiter(";|\\n|\\r");
+        sc.useDelimiter(";");
         
         String input, testResult;
+        boolean exceptionFlag = false;
 
         while (sc.hasNext()){
-            input = sc.next();
-            testResult = sc.next();
+            input = sc.next().replace("\n", "").replace("\r", "");
+            testResult = sc.next().replace("\n", "").replace("\r", "");
             
-            if (testResult.equals("fail"))
+            System.out.print("input: " + input + "\tresult: " + testResult);
+            
+            if (testResult.equals("fail")){
                 try{
                     rpn.addNum(input);
                 } catch (MathParseException e){
-                    System.out.println("Fail for " + input);
+                    System.out.println(" >> Fail for " + input);
+                    exceptionFlag = true;
                 }
+                if (!exceptionFlag)
+                    throw new RuntimeException(">> Attention! this input < "+ input +" > not fail!");
+                exceptionFlag = false;
+            }
             else{
                 rpn.addNum(input);
                 Complex tmp = rpn.getAns();
-                assertEquals("Wrong parsing detect [: in<"+ input +"> out<"+testResult+">] ", tmp.toString(), testResult);
+                assertEquals("Wrong parsing detect : in< "+ input +" > out< "+testResult+" >] ", tmp.toString(), testResult);
                 rpn.drop();
+                System.out.println(" >> OK");
             }
         }
     }
-
-//    @Test(expected = MathParseException.class)
-//    public void testAddNumExcetpion() {
-//        System.out.println("addNum - bad string format");
-//        rpn.addNum();
-//    }
 
     @Test(expected = NoSuchElementException.class)
     public void testSumExcetpion() {

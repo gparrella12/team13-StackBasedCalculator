@@ -171,15 +171,15 @@ public class RPNSolver {
 
         // Matches complex number with BOTH real AND imaginary parts.  
         // Ex: -3-2.0i
-        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
+        Pattern patternA = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
 
         // Matches ONLY real number.
         // Ex: 3.145
-        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
+        Pattern patternB = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)$");
 
         // Matches ONLY imaginary number.
         // Ex: -10i
-        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");
+        Pattern patternC = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)[j$]");
 
         // Matches complex number when 1j is written as j.
         // Ex: 5+j (5+1j)

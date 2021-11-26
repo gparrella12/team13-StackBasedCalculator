@@ -42,7 +42,7 @@ public class CalculatorController {
     private Button btnClearEntry;
 
     private double x, y;
-    private CheckInputKeyboard check;
+    private CheckOperations check;
     private RPNSolver rpn;
     @FXML
     private ListView<Complex> stackList;
@@ -62,11 +62,13 @@ public class CalculatorController {
     public void init(Stage stage) {
 
         Scene scene = stage.getScene();
-        check = new CheckInputKeyboard();
+        check = new CheckOperations();
         rpn = RPNSolver.getInstance();
+        
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
+        
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("*")))));
@@ -74,9 +76,11 @@ public class CalculatorController {
         textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
         textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
 
+        //push button is disabled when the Text Area is empty
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
                 -> textArea.getText().trim().isEmpty(),
                 textArea.textProperty()));
+        
         //when the user presses the "back space" button on physical keyboard
         //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -95,7 +99,7 @@ public class CalculatorController {
             e.consume();
         });
 
-        //if the user presses the "back space" button oh physical keyboard
+        //if the user presses the "back space" button on physical keyboard
         //for more than 0.2 seconds the entire Text Area is cleaned up.
         btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
 
@@ -123,7 +127,7 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
         });
-
+        
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
     }
@@ -168,8 +172,9 @@ public class CalculatorController {
 
     /**
      * When the "push" (↑) button is pressed, the item in the Text Area is
-     * pushed in the stack. The function checks if the input is in a right
-     * format and checks if the user enters the operations supported by the
+     * pushed in the stack
+     * The function checks if the input is in a right format and
+     * checks if the user enters the operations supported by the
      * Calculator.
      *
      * @return

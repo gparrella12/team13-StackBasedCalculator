@@ -167,57 +167,45 @@ public class RPNSolver {
      * @return Complex or null if the string passed not rappresent a complex
      * number
      */
-    private Complex parser(String str, String imaginaryCharacter) {
-        String[] pattern = {"([-+]?[0-9]+\\.?[0-9]*j)",
-            "([-+]?j[0-9]+\\.?[0-9]*)",
-            "([-+]?[0-9]+\\.?[0-9]*)",
-            "([-+]?j)"};
-        
-        boolean match = false;
-        double real = 0, img = 0;
-        
-        // Init pre-check for bad string format
-        str = str.replace(" ", "");
-                
-        if (str.length() == 1 && str.equals(".")){
-            return new Complex(0,0);
-        }
-        
-        Matcher m = Pattern.compile("\\D+\\.\\D+").matcher(str);
-        if (m.find()){
-            return null;
-        }
-        
-        m = Pattern.compile("(?<!\\d)([.][0-9]+)").matcher(str);
-        while (m.find()){
-            String tmp = m.group();
-            str = str.replace(tmp, "0"+tmp);
-        }
-        
-        // Start extraxt numbers
-        for (int i = 0; i < pattern.length; i++) {
-            String p = pattern[i];
-            if (str.equals("")) {
-                break;
+     private Complex parser(String str, String imaginaryCharacter) {
+        double real = 0, imaginary = 0;
+        String numberNoWhiteSpace = str.replaceAll("\\s", "");
+ 
+        // Matches complex number with BOTH real AND imaginary parts.  
+        // Ex: -3-2.0i
+        Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
+ 
+        // Matches ONLY real number.
+        // Ex: 3.145
+        Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
+ 
+        // Matches ONLY imaginary number.
+        // Ex: -10i
+        Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");;
+ 
+        Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
+        Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
+        Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
+ 
+        boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
+                || patternB.matcher(numberNoWhiteSpace).matches()
+                || patternC.matcher(numberNoWhiteSpace).matches();
+        if (flag) {
+            if (matcherA.find()) {
+                real = Double.parseDouble(matcherA.group(1));
+                imaginary = Double.parseDouble(matcherA.group(2));
+            } else if (matcherB.find()) {
+                real = Double.parseDouble(matcherB.group(1));
+                imaginary = 0;
+            } else if (matcherC.find()) {
+                real = 0;
+                imaginary = Double.parseDouble(matcherC.group(1));
             }
-            m = Pattern.compile(p).matcher(str);
-            if (m.find()) {
-                if (p.contains(imaginaryCharacter)) {
-                    String tmp = m.group().replace(imaginaryCharacter, "");
-
-                    if (i == pattern.length - 1) {
-                        tmp = tmp.replace("+", "").replace("-", "-1");
-                    }
-
-                    img = tmp.equals("") ? 1 : Double.parseDouble(tmp);
-                } else {
-                    real = Double.parseDouble(m.group());
-                }
-                str = m.replaceAll("");
-                match = true;
-            }
+            return new Complex(real, imaginary);
         }
-        return match ? new Complex(real, img) : null;
+ 
+        return null;
+ 
     }
 
     /**

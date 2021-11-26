@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -67,7 +68,10 @@ public class CalculatorController {
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
         // Set bindings for warning
-        textWarning.visibleProperty().bind(Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("*").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("dup").or(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over").or(Bindings.size(stackList.getItems()).lessThan(1).and(textArea.textProperty().isEqualTo("+-").or(textArea.textProperty().isEqualTo("sqrt").or(textArea.textProperty().isEqualTo("drop")))))))))))));
+        BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));
+        BooleanBinding twoElements = Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("*")))));
+        BooleanBinding emptyList = Bindings.size(stackList.getItems()).isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").or(textArea.textProperty().isEqualTo("sqrt")));
+        textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
         textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
 
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()

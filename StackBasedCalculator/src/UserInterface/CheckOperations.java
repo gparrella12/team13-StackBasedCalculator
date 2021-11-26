@@ -1,10 +1,5 @@
 package UserInterface;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * CheckOperations class contains the utility methods to check all the
  keyboard entries.

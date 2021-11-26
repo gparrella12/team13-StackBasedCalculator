@@ -183,7 +183,7 @@ public class RPNSolver {
 
         // Matches complex number when 1j is written as j.
         // Ex: 5+j (5+1j)
-        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]?[0-9]*\\.*[0-9]*)[j$]+");
+        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.*[0-9]*)[j$]+");
 
         // Matches ONLY imaginary number when 1j is written as j.
         // Ex: +j (+1j)   

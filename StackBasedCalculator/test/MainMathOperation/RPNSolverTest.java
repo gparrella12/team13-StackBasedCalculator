@@ -1,6 +1,8 @@
 package MainMathOperation;
 
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathParseException;
 import org.junit.Before;
@@ -26,35 +28,40 @@ public class RPNSolverTest {
     /**
      * Test of addNum method, of class RPNSolver.
      */
-    @Test
+    @Test(expected = MathParseException.class)
     public void testAddNum() {
         System.out.println("\naddNum");
+        
+        Scanner sc = new Scanner(new InputStreamReader(RPNSolver.class.getResourceAsStream("TestCasesParser.csv")));
+        sc.nextLine();
+        sc.useDelimiter(";|\\n|\\r");
+        
+        String input, testResult;
 
-        String[] input = {"3+.", ".3", ".33 -.2j", "3. + 3.j", "3. + .555j","2j+1", "1-3j", "0 + 0j", "5.1 + 0j", "2+j", "1 -2.1 j", "1 + 2.1j", "3.3 - j15", "j", "-j", "2 j", "4"};
-        String[] result = {"(3.0, 0.0)", "(0.3, 0.0)", "(0.33, -0.2)", "(3.0, 3.0)", "(3.0, 0.555)", "(1.0, 2.0)", "(1.0, -3.0)", "(0.0, 0.0)", "(5.1, 0.0)", "(2.0, 1.0)", "(1.0, -2.1)", "(1.0, 2.1)", "(3.3, -15.0)", "(0.0, 1.0)", "(0.0, -1.0)", "(0.0, 2.0)", "(4.0, 0.0)"};
-
-        rpn.clear();
-        for (String s : input) {
-            rpn.addNum(s);
-        }
-
-        for (int i = result.length - 1; i > -1; i--) {
-            Complex tmp = rpn.getAns();
-            assertEquals("Wrong parsing detect [" + i + ": in<"+ input[i] +"> out<"+result[i]+">] ", tmp.toString(), result[i]);
-            rpn.drop();
+        while (sc.hasNext()){
+            input = sc.next();
+            testResult = sc.next();
+            
+            if (testResult.equals("fail"))
+                try{
+                    rpn.addNum(input);
+                } catch (MathParseException e){
+                    System.out.println("Fail for " + input);
+                }
+            else{
+                rpn.addNum(input);
+                Complex tmp = rpn.getAns();
+                assertEquals("Wrong parsing detect [: in<"+ input +"> out<"+testResult+">] ", tmp.toString(), testResult);
+                rpn.drop();
+            }
         }
     }
 
-    @Test(expected = MathParseException.class)
-    public void testAddNumExcetpion() {
-        System.out.println("addNum - bad string format");
-
-        String[] input = {"asdas....sad.asd.sad.asd..13.21.3s.r.q34.123.4qw.d",".",".....11111.....",".+.j","......3","abc", ",", "+-", "+","abc", "--2j+2"};
-        rpn.clear();
-        for (String s : input) {
-            rpn.addNum(s);
-        }
-    }
+//    @Test(expected = MathParseException.class)
+//    public void testAddNumExcetpion() {
+//        System.out.println("addNum - bad string format");
+//        rpn.addNum();
+//    }
 
     @Test(expected = NoSuchElementException.class)
     public void testSumExcetpion() {
@@ -66,12 +73,12 @@ public class RPNSolverTest {
     public void testSum() {
         System.out.println("\nsum");
         rpn.clear();
-        rpn.addNum("5+j");
+        rpn.addNum("5+1j");
         rpn.addNum("5");
         rpn.sum();
 
         Complex result = new Complex(10, 1);
-        assertEquals("Wrong result : 5+j + 5 ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5+1j + 5 ", rpn.getAns(), result);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -89,19 +96,19 @@ public class RPNSolverTest {
         System.out.println("\nsubtraction - simple");
 
         rpn.clear();
-        rpn.addNum("5+j");
+        rpn.addNum("5+1j");
         rpn.addNum("5");
         rpn.subtraction();
         Complex result = new Complex(0, 1);
-        assertEquals("Wrong result : 5+j - 5 ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5+1j - 5 ", rpn.getAns(), result);
 
         System.out.println("subtraction - operands order");
         rpn.clear();
         rpn.addNum("5");
-        rpn.addNum("9-j");
+        rpn.addNum("9-1j");
         rpn.subtraction();
         result = new Complex(-4, 1);
-        assertEquals("Wrong result : 5 - 9-j ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5 - 9-1j ", rpn.getAns(), result);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -119,12 +126,12 @@ public class RPNSolverTest {
         System.out.println("\nproduct");
 
         rpn.clear();
-        rpn.addNum("2+j");
+        rpn.addNum("2+1j");
         rpn.addNum("1-3j");
         rpn.product();
 
         Complex result = new Complex(5, -5);
-        assertEquals("Wrong result : 2+j * 1-3j = 5-5j" + result, rpn.getAns(), result);
+        assertEquals("Wrong result : 2+1j * 1-3j = 5-5j" + result, rpn.getAns(), result);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -142,30 +149,30 @@ public class RPNSolverTest {
         System.out.println("\ndivision - simple");
 
         rpn.clear();
-        rpn.addNum("5+j");
-        rpn.addNum("5+j");
+        rpn.addNum("5+1j");
+        rpn.addNum("5+1j");
         rpn.division();
         Complex result = new Complex(1, 0);
-        assertEquals("Wrong result : 5+j / 5+j ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5+1j / 5+1j ", rpn.getAns(), result);
 
         System.out.println("division - operands order");
         rpn.clear();
-        rpn.addNum("5+j");
+        rpn.addNum("5+1j");
         rpn.addNum("5");
         rpn.division();
         result = new Complex(1, 0.2);
-        assertEquals("Wrong result : 5+j / 5 ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5+1j / 5 ", rpn.getAns(), result);
     }
     
     @Test(expected = ArithmeticException.class)
     public void testDivisionByZero(){
         System.out.println("division by 0");
         rpn.clear();
-        rpn.addNum("5+j");
+        rpn.addNum("5+1j");
         rpn.addNum("0");
         rpn.division();
         Complex result = new Complex(Double.NaN, Double.NaN);
-        assertEquals("Wrong result : 5+j / 0 ", rpn.getAns(), result);
+        assertEquals("Wrong result : 5+1j / 0 ", rpn.getAns(), result);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -190,7 +197,7 @@ public class RPNSolverTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testInvertSignExcetpio() {
+    public void testInvertSignExcetpion() {
         System.out.println("\nTest invertSign without number");
         rpn.clear();
         rpn.invertSign();

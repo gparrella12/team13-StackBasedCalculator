@@ -263,7 +263,7 @@ public class RPNSolver {
         Complex c = this.parser(num, imaginaryCharacter);
 
         if (c == null) {
-            throw new MathParseException("Bad string representation", 0);
+            throw new MathParseException("Bad string representation : " + num, 0);
         }
 
         stack.push(c);

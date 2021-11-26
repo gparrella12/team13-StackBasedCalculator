@@ -108,16 +108,14 @@ public class RPNSolver {
             throw new NoSuchElementException("Need almost two elements in the stack");
         }
 
-        Complex num1 = stack.pop();
-        Complex num2 = stack.pop();
-        
-        Complex rst = num2.divide(num1);
-        
-        if (rst.isNaN()){
+        if (stack.top().equals(new Complex(0))) {
             throw new ArithmeticException();
         }
 
-        stack.push(rst);
+        Complex num1 = stack.pop();
+        Complex num2 = stack.pop();
+
+        stack.push(num2.divide(num1));
     }
 
     /**
@@ -167,26 +165,26 @@ public class RPNSolver {
      * @return Complex or null if the string passed not rappresent a complex
      * number
      */
-     private Complex parser(String str, String imaginaryCharacter) {
+    private Complex parser(String str, String imaginaryCharacter) {
         double real = 0, imaginary = 0;
         String numberNoWhiteSpace = str.replaceAll("\\s", "");
- 
+
         // Matches complex number with BOTH real AND imaginary parts.  
         // Ex: -3-2.0i
         Pattern patternA = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
- 
+
         // Matches ONLY real number.
         // Ex: 3.145
         Pattern patternB = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)$");
- 
+
         // Matches ONLY imaginary number.
         // Ex: -10i
         Pattern patternC = Pattern.compile("([-]?[0-9]+\\.?[0-9]*)[j$]");;
- 
+
         Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
         Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
         Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
- 
+
         boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
                 || patternB.matcher(numberNoWhiteSpace).matches()
                 || patternC.matcher(numberNoWhiteSpace).matches();
@@ -203,9 +201,9 @@ public class RPNSolver {
             }
             return new Complex(real, imaginary);
         }
- 
+
         return null;
- 
+
     }
 
     /**

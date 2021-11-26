@@ -196,6 +196,11 @@
                   <Font size="24.0" />
                </font>
             </Text>
+            <Text fx:id="textWarningSoft" fill="#eba700" layoutX="315.0" layoutY="330.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="⚠" visible="false" wrappingWidth="16.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
       <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="371.0" styleClass="topBar">

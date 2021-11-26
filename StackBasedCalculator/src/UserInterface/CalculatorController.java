@@ -225,7 +225,7 @@ public class CalculatorController {
                     stackList.scrollTo(stackList.getItems().size());
                     return;
             }
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | ArithmeticException e) {
             new Alert(Alert.AlertType.ERROR, "Invalid operands for this operation", ButtonType.OK).showAndWait();
             return;
         }

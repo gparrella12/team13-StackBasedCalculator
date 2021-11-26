@@ -27,7 +27,7 @@ Francesco Sonnessa: [@s0nFra](https://github.com/s0nFra)
 
 
 ## How to Run
-It's necessary to clone the repository in your favourite IDE and run the **StackBasedCalculator.java** file.
+It's necessary to clone the repository in your favourite IDE and run the **Main.java** file in **UserInterface** folder.
 
 ## Who can contribute to this project?
 Since this is an assignment project, only the authors can contribute to this project. Despite this, you are still free to use and distribute the code contained in this repository for your own projects according to **GNU GPL v3**.

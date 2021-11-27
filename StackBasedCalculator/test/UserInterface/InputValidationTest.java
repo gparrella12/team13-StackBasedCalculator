@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathParseException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
 /**
@@ -73,8 +74,14 @@ public class InputValidationTest {
         for (String m : mathOperations) {
             assertEquals("The inserted operation is invalid", m, i.checkOperation(m));
         }
-         for (String s : stackOperations) {
+        for (String s : stackOperations) {
             assertEquals("The inserted operation is invalid", s, i.checkOperation(s));
+        }
+
+        for (int k = 0; k < stackOperations.length; k++) {
+            for (int j = 0; j < mathOperations.length; j++) {
+                assertNotEquals("The inserted operation is invalid", mathOperations[j], i.checkOperation(stackOperations[k]));
+            }
         }
 
     }

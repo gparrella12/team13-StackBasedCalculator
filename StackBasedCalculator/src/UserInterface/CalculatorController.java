@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -190,7 +191,11 @@ public class CalculatorController {
             return;
         } catch (Exception e) {
             if (operation == null) {
-                new Alert(Alert.AlertType.ERROR, "Invalid input:\n" + input, ButtonType.OK).showAndWait();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Look, an Error!");
+                alert.setContentText("Invalid input:\n" + input);
+                alert.showAndWait();
                 return;
             }
         }
@@ -236,7 +241,11 @@ public class CalculatorController {
                     return;
             }
         } catch (NoSuchElementException | ArithmeticException e) {
-            new Alert(Alert.AlertType.ERROR, "Invalid operands for this operation", ButtonType.OK).showAndWait();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Look, an Error!");
+            alert.setContentText("Invalid operands for this operation");
+            alert.showAndWait();
             return;
         }
     }

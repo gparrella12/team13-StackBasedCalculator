@@ -19,19 +19,8 @@
         <Method name="sqrt" returnType="void" visibility="public"/>
         <Method name="invertSign" returnType="void" visibility="public"/>
         <Method name="getAns" returnType="Complex" visibility="public"/>
-        <Method name="parser" returnType="Complex" visibility="private">
-          <Argument type="String" name="str"/>
-          <Argument type="String" name="imaginaryCharacter"/>
-        </Method>
         <Method name="addNum" returnType="void" visibility="public">
           <Argument type="Complex" name="num"/>
-        </Method>
-        <Method name="addNum" returnType="void" visibility="public">
-          <Argument type="String" name="num"/>
-        </Method>
-        <Method name="addNum" returnType="void" visibility="public">
-          <Argument type="String" name="num"/>
-          <Argument type="String" name="imaginaryCharacter"/>
         </Method>
         <Method name="clear" returnType="void" visibility="public"/>
         <Method name="drop" returnType="void" visibility="public"/>

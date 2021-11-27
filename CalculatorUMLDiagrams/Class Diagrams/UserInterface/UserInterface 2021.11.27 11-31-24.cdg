@@ -8,13 +8,13 @@
         <Field name="btnMinimize" type="ImageView" visibility="private"/>
         <Field name="textArea" type="TextArea" visibility="private"/>
         <Field name="btnClearEntry" type="Button" visibility="private"/>
-        <Field name="x" type="double" visibility="private"/>
-        <Field name="check" type="CheckInputKeyboard" visibility="private"/>
-        <Field name="rpn" type="RPNSolver" visibility="private"/>
         <Field name="stackList" type="ListView&lt;Complex&gt;" visibility="private"/>
         <Field name="btnPush" type="Button" visibility="private"/>
         <Field name="textWarning" type="Text" visibility="private"/>
         <Field name="textWarningSoft" type="Text" visibility="private"/>
+        <Field name="x" type="double" visibility="private"/>
+        <Field name="check" type="InputValidation" visibility="private"/>
+        <Field name="rpn" type="RPNSolver" visibility="private"/>
       </Fields>
       <Constructors/>
       <Methods>
@@ -35,7 +35,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="CheckInputKeyboard" package="UserInterface" visibility="public" xPosition="320.0" yPosition="20.0">
+    <Class name="InputValidation" package="UserInterface" visibility="public" xPosition="320.0" yPosition="20.0">
       <Fields>
         <Field name="stackOperations" type="String[]" visibility="private"/>
         <Field name="mathOperations" type="String[]" visibility="private"/>
@@ -45,11 +45,9 @@
         <Method name="checkOperation" returnType="String" visibility="public">
           <Argument type="String" name="operation"/>
         </Method>
-        <Method name="checkIfComplex" returnType="boolean" visibility="public">
-          <Argument type="String" name="s"/>
-        </Method>
-        <Method name="parsingfComplex" returnType="List&lt;Double&gt;" visibility="public">
-          <Argument type="String" name="s"/>
+        <Method name="parser" returnType="Complex" visibility="public">
+          <Argument type="String" name="str"/>
+          <Argument type="String" name="imaginaryCharacter"/>
         </Method>
       </Methods>
     </Class>
@@ -77,6 +75,6 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="check" source="UserInterface.CalculatorController" target="UserInterface.CheckInputKeyboard" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="check" source="UserInterface.CalculatorController" target="UserInterface.InputValidation" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

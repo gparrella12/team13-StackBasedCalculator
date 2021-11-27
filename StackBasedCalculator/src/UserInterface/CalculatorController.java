@@ -28,7 +28,7 @@ import org.apache.commons.math3.complex.Complex;
 /**
  * Implementation of the Calculator User Interface Controller
  *
- * @authors emancusi & Speranza
+ * @authors ermancusi & Speranza
  */
 public class CalculatorController {
 
@@ -50,7 +50,7 @@ public class CalculatorController {
     private Text textWarningSoft;
 
     private double x, y;
-    private CheckOperations check;
+    private InputValidation check;
     private RPNSolver rpn;
 
     /**
@@ -62,7 +62,7 @@ public class CalculatorController {
     public void init(Stage stage) {
 
         Scene scene = stage.getScene();
-        check = new CheckOperations();
+        check = new InputValidation();
         rpn = RPNSolver.getInstance();
 
         // Set list cell for complex number visualization
@@ -185,7 +185,7 @@ public class CalculatorController {
         textArea.clear();
 
         try {
-            rpn.addNum(input);
+            rpn.addNum(check.parser(input, "j"));
             stackList.scrollTo(stackList.getItems().size());
             return;
         } catch (Exception e) {

@@ -25,47 +25,6 @@ public class RPNSolverTest {
         rpn = RPNSolver.getInstance();
     }
 
-    /**
-     * Test of addNum method, of class RPNSolver.
-     */
-    @Test
-    public void testAddNum() {
-        System.out.println("\naddNum");
-        
-        Scanner sc = new Scanner(new InputStreamReader(RPNSolver.class.getResourceAsStream("TestCasesParser.csv")));
-        sc.nextLine();
-        sc.useDelimiter(";");
-        
-        String input, testResult;
-        boolean exceptionFlag = false;
-
-        while (sc.hasNext()){
-            input = sc.next().replace("\n", "").replace("\r", "");
-            testResult = sc.next().replace("\n", "").replace("\r", "");
-            
-            System.out.print("input: " + input + "\tresult: " + testResult);
-            
-            if (testResult.equals("fail")){
-                try{
-                    rpn.addNum(input);
-                } catch (MathParseException e){
-                    System.out.println(" >> Fail for " + input);
-                    exceptionFlag = true;
-                }
-                if (!exceptionFlag)
-                    throw new RuntimeException(">> Attention! this input < "+ input +" > not fail!");
-                exceptionFlag = false;
-            }
-            else{
-                rpn.addNum(input);
-                Complex tmp = rpn.getAns();
-                assertEquals("Wrong parsing detect : in< "+ input +" > out< "+testResult+" >] ", tmp.toString(), testResult);
-                rpn.drop();
-                System.out.println(" >> OK");
-            }
-        }
-    }
-
     @Test(expected = NoSuchElementException.class)
     public void testSumExcetpion() {
         System.out.println("\nTest sum without numbers");
@@ -73,11 +32,12 @@ public class RPNSolverTest {
         rpn.sum();
     }
 
+    @Test
     public void testSum() {
         System.out.println("\nsum");
         rpn.clear();
-        rpn.addNum("5+1j");
-        rpn.addNum("5");
+        rpn.addNum(new Complex(5, 1));
+        rpn.addNum(new Complex(5, 0));
         rpn.sum();
 
         Complex result = new Complex(10, 1);
@@ -99,16 +59,17 @@ public class RPNSolverTest {
         System.out.println("\nsubtraction - simple");
 
         rpn.clear();
-        rpn.addNum("5+1j");
-        rpn.addNum("5");
+        rpn.addNum(new Complex(5, 1));
+        rpn.addNum(new Complex(5, 0));
         rpn.subtraction();
         Complex result = new Complex(0, 1);
         assertEquals("Wrong result : 5+1j - 5 ", rpn.getAns(), result);
 
         System.out.println("subtraction - operands order");
         rpn.clear();
-        rpn.addNum("5");
-        rpn.addNum("9-1j");
+        rpn.addNum(new Complex(5, 0));
+        rpn.addNum(new Complex(9, -1));
+
         rpn.subtraction();
         result = new Complex(-4, 1);
         assertEquals("Wrong result : 5 - 9-1j ", rpn.getAns(), result);
@@ -129,8 +90,9 @@ public class RPNSolverTest {
         System.out.println("\nproduct");
 
         rpn.clear();
-        rpn.addNum("2+1j");
-        rpn.addNum("1-3j");
+        rpn.addNum(new Complex(2, 1));
+        rpn.addNum(new Complex(1, -3));
+
         rpn.product();
 
         Complex result = new Complex(5, -5);
@@ -152,27 +114,28 @@ public class RPNSolverTest {
         System.out.println("\ndivision - simple");
 
         rpn.clear();
-        rpn.addNum("5+1j");
-        rpn.addNum("5+1j");
+        rpn.addNum(new Complex(5, 1));
+        rpn.addNum(new Complex(5, 1));
+
         rpn.division();
         Complex result = new Complex(1, 0);
         assertEquals("Wrong result : 5+1j / 5+1j ", rpn.getAns(), result);
 
         System.out.println("division - operands order");
         rpn.clear();
-        rpn.addNum("5+1j");
-        rpn.addNum("5");
+        rpn.addNum(new Complex(5, 1));
+        rpn.addNum(new Complex(5, 0));
         rpn.division();
         result = new Complex(1, 0.2);
         assertEquals("Wrong result : 5+1j / 5 ", rpn.getAns(), result);
     }
-    
+
     @Test(expected = ArithmeticException.class)
-    public void testDivisionByZero(){
+    public void testDivisionByZero() {
         System.out.println("division by 0");
         rpn.clear();
-        rpn.addNum("5+1j");
-        rpn.addNum("0");
+        rpn.addNum(new Complex(5, 1));
+        rpn.addNum(new Complex(0));
         rpn.division();
         Complex result = new Complex(Double.NaN, Double.NaN);
         assertEquals("Wrong result : 5+1j / 0 ", rpn.getAns(), result);
@@ -193,7 +156,7 @@ public class RPNSolverTest {
         System.out.println("\nsqrt");
 
         rpn.clear();
-        rpn.addNum("-4");
+        rpn.addNum(new Complex(-4, 0));
         rpn.sqrt();
         Complex result = new Complex(0, 2);
         assertEquals("Wrong result : sqrt(-4) ", rpn.getAns(), result);
@@ -214,7 +177,8 @@ public class RPNSolverTest {
         System.out.println("\ninvertSign");
 
         rpn.clear();
-        rpn.addNum("-4+3.5j");
+        rpn.addNum(new Complex(-4, 3.5));
+
         rpn.invertSign();
         Complex result = new Complex(4, -3.5);
         assertEquals("Wrong result : +-(-4+.35j) ", rpn.getAns(), result);

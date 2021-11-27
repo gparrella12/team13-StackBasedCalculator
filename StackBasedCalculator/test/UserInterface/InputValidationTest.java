@@ -5,9 +5,8 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathParseException;
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 public class InputValidationTest {
 
     /**
-     * Test of addNum method, of class RPNSolver.
+     * Test of testParser method, of class InputValidation.
      *
      * @author fsonnessa
      */
@@ -60,8 +59,23 @@ public class InputValidationTest {
         }
     }
 
+    /**
+     * Test of CheckOperation method, of class InputValidation.
+     *
+     * @author ermancusi
+     */
     @Test
     public void testCheckOperation() {
+        InputValidation i = new InputValidation();
+        String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
+        String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
+
+        for (String m : mathOperations) {
+            assertEquals("The inserted operation is invalid", m, i.checkOperation(m));
+        }
+         for (String s : stackOperations) {
+            assertEquals("The inserted operation is invalid", s, i.checkOperation(s));
+        }
 
     }
 

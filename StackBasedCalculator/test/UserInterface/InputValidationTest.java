@@ -15,21 +15,13 @@ import static org.junit.Assert.*;
  */
 public class InputValidationTest {
 
-    public InputValidationTest() {
-    }
-
-    @Before
-    public void setUp() {
-
-    }
-
     /**
      * Test of addNum method, of class RPNSolver.
      *
      * @author fsonnessa
      */
     @Test
-    public void testAddNum() {
+    public void testParser() {
         InputValidation i = new InputValidation();
         RPNSolver rpn = RPNSolver.getInstance();
         System.out.println("\naddNum");
@@ -66,6 +58,11 @@ public class InputValidationTest {
                 System.out.println(" >> OK");
             }
         }
+    }
+
+    @Test
+    public void testCheckOperation() {
+
     }
 
 }

@@ -18,7 +18,7 @@ public class InputValidation {
     /**
      * The function checks if the operation inserted in the physical keyboard is
      * supported by the Calculator.
-     *
+     * @param operation
      * @return the operation.
      */
     public String checkOperation(String operation) {
@@ -45,7 +45,7 @@ public class InputValidation {
      *
      * @param str
      * @param imaginaryCharacter
-     * @return Complex or null if the string passed not rappresent a complex
+     * @return Complex or null if the string passed not represent a complex
      * number
      */
     public Complex parser(String str, String imaginaryCharacter) {

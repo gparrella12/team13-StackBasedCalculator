@@ -2,8 +2,6 @@ package MainMathOperation;
 
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.scene.control.ListView;
 import org.apache.commons.math3.exception.MathParseException;
 
@@ -169,8 +167,8 @@ public class RPNSolver {
 
         stack.push(num);
     }
-
-
+    
+    
     /**
      * Invoke clear() method of the stack
      */

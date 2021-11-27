@@ -1,10 +1,7 @@
 package MainMathOperation;
 
-import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.exception.MathParseException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

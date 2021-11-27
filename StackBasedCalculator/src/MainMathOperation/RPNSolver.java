@@ -39,7 +39,7 @@ public class RPNSolver {
     }
 
     /**
-     * Adds the first two elements of the stack and save the reult on top. top =
+     * Adds the first two elements of the stack and save the result on top. top =
      * top + (top-1)
      *
      * @throws NoSuchElementException
@@ -57,8 +57,8 @@ public class RPNSolver {
     }
 
     /**
-     * Subtracts the first two elements of the stack and save the reult on top.
-     * This operation has fixed oreder of operands: the second element is the
+     * Subtracts the first two elements of the stack and save the result on top.
+     * This operation has fixed order of operands: the second element is the
      * left operant while the first element (top element) is the right operand
      * top = (top-1) - top
      *
@@ -77,7 +77,7 @@ public class RPNSolver {
     }
 
     /**
-     * Multiply the first two elements of the stack and save the reult on top.
+     * Multiply the first two elements of the stack and save the result on top.
      * top = top * (top-1)
      *
      * @throws NoSuchElementException
@@ -95,8 +95,8 @@ public class RPNSolver {
     }
 
     /**
-     * Divides the first two elements of the stack and save the reult on top.
-     * This operation has fixed oreder of operands: the second element is the
+     * Divides the first two elements of the stack and save the result on top.
+     * This operation has fixed order of operands: the second element is the
      * left operant while the first element (top element) is the right operand
      * top = (top-1) / top
      *
@@ -158,116 +158,18 @@ public class RPNSolver {
     }
 
     /**
-     * Given a complex number as a string return it as a Complex object
-     *
-     * @param str
-     * @param imaginaryCharacter
-     * @return Complex or null if the string passed not rappresent a complex
-     * number
-     */
-    private Complex parser(String str, String imaginaryCharacter) {
-        double real = 0, imaginary = 0;
-        String numberNoWhiteSpace = str.replaceAll("\\s", "");
-
-        // Matches complex number with BOTH real AND imaginary parts.  
-        // Ex: -3-2.0i
-        Pattern patternA = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.?[0-9]*)[j$]+");
-
-        // Matches ONLY real number.
-        // Ex: 3.145
-        Pattern patternB = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)$");
-
-        // Matches ONLY imaginary number.
-        // Ex: -10i
-        Pattern patternC = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)[j$]");
-
-        // Matches complex number when 1j is written as j.
-        // Ex: 5+j (5+1j)
-        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.*[0-9]*)[j$]+");
-
-        // Matches ONLY imaginary number when 1j is written as j.
-        // Ex: +j (+1j)   
-        Pattern patternE = Pattern.compile("([-|+]?[0-9]*\\.*[0-9]*)[j$]");
-
-        Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
-        Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
-        Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
-        Matcher matcherD = patternD.matcher(numberNoWhiteSpace);
-        Matcher matcherE = patternE.matcher(numberNoWhiteSpace);
-
-        boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
-                || patternB.matcher(numberNoWhiteSpace).matches()
-                || patternC.matcher(numberNoWhiteSpace).matches()
-                || patternD.matcher(numberNoWhiteSpace).matches()
-                || patternE.matcher(numberNoWhiteSpace).matches();
-
-        if (flag) {
-            if (matcherA.find()) {
-                real = Double.parseDouble(matcherA.group(1));
-                imaginary = Double.parseDouble(matcherA.group(2));
-            } else if (matcherB.find()) {
-                real = Double.parseDouble(matcherB.group(1));
-                imaginary = 0;
-            } else if (matcherC.find()) {
-                real = 0;
-                imaginary = Double.parseDouble(matcherC.group(1));
-            } else if (matcherD.find()) {
-                real = Double.parseDouble(matcherD.group(1));
-                if (matcherD.group(2).toString().equals("-")) {
-                    imaginary = -1.0;
-                } else {
-                    imaginary = 1.0;
-                }
-            } else if (matcherE.find()) {
-                real = 0.0;
-                if (matcherE.group(1).toString().equals("-")) {
-                    imaginary = -1.0;
-                } else {
-                    imaginary = 1.0;
-                }
-            }
-            return new Complex(real, imaginary);
-
-        }
-
-        return null;
-
-    }
-
-    /**
      * Push a number in the stack
      *
      * @param num
      */
-    public void addNum(Complex num) {
-        stack.push(num);
-    }
-
-    /**
-     * Push a number in the stack
-     *
-     * @param num
-     */
-    public void addNum(String num) {
-        this.addNum(num, "j");
-    }
-
-    /**
-     * Push a number in the stack
-     *
-     * @param num
-     * @param imaginaryCharacter
-     * @throws MathParseException
-     */
-    public void addNum(String num, String imaginaryCharacter) throws MathParseException {
-        Complex c = this.parser(num, imaginaryCharacter);
-
-        if (c == null) {
+    public void addNum(Complex num) {   
+        if (num == null) {
             throw new MathParseException("Bad string representation : " + num, 0);
         }
 
-        stack.push(c);
+        stack.push(num);
     }
+
 
     /**
      * Invoke clear() method of the stack

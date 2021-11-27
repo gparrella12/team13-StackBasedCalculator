@@ -154,7 +154,7 @@ public class CalculatorController {
     private void onOperationPress(ActionEvent event) {
 
         String operation = ((Button) event.getSource()).getText();
-        textArea.setText(textArea.getText() + operation);
+        textArea.setText(operation);
     }
 
     /**

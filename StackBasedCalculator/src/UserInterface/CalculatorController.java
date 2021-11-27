@@ -40,10 +40,6 @@ public class CalculatorController {
     private TextArea textArea;
     @FXML
     private Button btnClearEntry;
-
-    private double x, y;
-    private CheckOperations check;
-    private RPNSolver rpn;
     @FXML
     private ListView<Complex> stackList;
     @FXML
@@ -52,6 +48,10 @@ public class CalculatorController {
     private Text textWarning;
     @FXML
     private Text textWarningSoft;
+
+    private double x, y;
+    private CheckOperations check;
+    private RPNSolver rpn;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -64,11 +64,11 @@ public class CalculatorController {
         Scene scene = stage.getScene();
         check = new CheckOperations();
         rpn = RPNSolver.getInstance();
-        
+
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
-        
+
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("*")))));
@@ -80,7 +80,7 @@ public class CalculatorController {
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
                 -> textArea.getText().trim().isEmpty(),
                 textArea.textProperty()));
-        
+
         //when the user presses the "back space" button on physical keyboard
         //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -127,7 +127,7 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
         });
-        
+
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
     }
@@ -172,10 +172,8 @@ public class CalculatorController {
 
     /**
      * When the "push" (↑) button is pressed, the item in the Text Area is
-     * pushed in the stack
-     * The function checks if the input is in a right format and
-     * checks if the user enters the operations supported by the
-     * Calculator.
+     * pushed in the stack The function checks if the input is in a right format
+     * and checks if the user enters the operations supported by the Calculator.
      *
      * @return
      */

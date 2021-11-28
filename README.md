@@ -22,7 +22,7 @@ You can find our first Sprint presentation [here](link)
 
 ## Second Sprint
 In this second Sprint, our goal is to increase the functionality of the calculator, allowing the user to perform calculations using 26 types of variables.
-In particular, at the end of this Sprint, the calculator should allow to save the last value of the stack in a variable (operator >x), load a value associated with a variable in the stack (operator <x), increase the last value in the stack and add it to the value of a variable (operator +x) and decrease the value of a variable of the quantity present in the top of the stack (operator -x). Finally, the calculator should allow the user to define custom operations.
+In particular, at the end of this Sprint, the calculator should allow to save the last value of the stack in a variable (operation >x), load a value associated with a variable in the stack (operation <x), increase the last value in the stack and add it to the value of a variable (operation +x) and decrease the value of a variable of the quantity present in the top of the stack (operation -x). Finally, the calculator should allow the user to define custom operations.
 
 The second sprint backlog is available [here](link)
 

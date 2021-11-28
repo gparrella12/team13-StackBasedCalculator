@@ -1,7 +1,7 @@
 # Team13 - Stack Based Calculator
 Stack Based Calculator for Software Engineering Project - Team 13
 
-The Product Backlog is available [here](https://bit.ly/ProductBacklogTeam13)
+The Product Backlog is available [here](https://docs.google.com/spreadsheets/d/1LAl9Ye-v_B1QAoQmLhA1dgFnolhaHTqy/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 The Trello Board is available [here](https://trello.com/b/xHw2hRTP)
 
@@ -15,7 +15,7 @@ In this first Sprint, our goal is to obtain a calculator that supports the basic
 In addition we want to have commands to manipulate the stack, in particular: Clear, Drop, Dup, Swap and Over operations.
 In this phase is also included the design of a graphic user interface.
 
-The first sprint backlog is available [here](https://bit.ly/FirstSprintBacklog)
+The first sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1Q9QlEwOfzl2DQ3K-AtF7fwuvvETX_2zK/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 You can find our first Sprint presentation [here](link)
 

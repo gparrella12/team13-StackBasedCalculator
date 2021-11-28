@@ -162,7 +162,7 @@ public class RPNSolver {
      */
     public void addNum(Complex num) {   
         if (num == null) {
-            throw new MathParseException("Bad string representation : " + num, 0);
+            throw new NumberFormatException("Null element");
         }
 
         stack.push(num);

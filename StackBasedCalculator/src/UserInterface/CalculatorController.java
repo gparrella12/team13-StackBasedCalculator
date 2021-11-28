@@ -2,8 +2,6 @@ package UserInterface;
 
 import MainMathOperation.RPNSolver;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -23,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.math3.complex.Complex;
 
 /**
@@ -86,11 +82,8 @@ public class CalculatorController {
         //the last element in the Text Area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ENTER && textArea.getText().length() > 0) {
-                try {
-                    push(new ActionEvent());
-                } catch (ExecutionControl.NotImplementedException ex) {
-                    Logger.getLogger(CalculatorController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                push(new ActionEvent());
+
             }
             if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
                 textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
@@ -179,7 +172,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void push(ActionEvent event) throws ExecutionControl.NotImplementedException {
+    private void push(ActionEvent event) {
 
         String input = textArea.getText();
         String operation = check.checkOperation(input);
@@ -229,11 +222,9 @@ public class CalculatorController {
                     return;
                 case "drop":
                     rpn.drop();
-
                     return;
                 case "swap":
                     rpn.swap();
-
                     return;
                 case "over":
                     rpn.over();

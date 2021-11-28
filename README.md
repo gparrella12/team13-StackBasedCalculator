@@ -19,6 +19,10 @@ The first sprint backlog is available [here](https://bit.ly/FirstSprintBacklog)
 
 You can find our first Sprint presentation [here](link)
 
+The Sprint Review is available [here](link)
+
+The Sprint Retrospective is available [here](link)
+
 
 ## Second Sprint
 In this second Sprint, our goal is to increase the functionality of the calculator, allowing the user to perform calculations using 26 types of variables.

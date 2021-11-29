@@ -42,7 +42,7 @@ public class InputValidationTest {
             if (testResult.equals("fail")) {
                 try {
                     rpn.addNum(i.parser(input, "j"));
-                } catch (MathParseException e) {
+                } catch (NumberFormatException e) {
                     System.out.println(" >> Fail for " + input);
                     exceptionFlag = true;
                 }

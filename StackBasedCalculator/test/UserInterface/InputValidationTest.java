@@ -2,6 +2,7 @@ package UserInterface;
 
 import MainMathOperation.RPNSolver;
 import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathParseException;
@@ -37,12 +38,12 @@ public class InputValidationTest {
             input = sc.next().replace("\n", "").replace("\r", "");
             testResult = sc.next().replace("\n", "").replace("\r", "");
 
-            System.out.print("input: " + input + "\tresult: " + testResult);
+            System.out.println("input: " + input + "\tresult: " + testResult);
 
             if (testResult.equals("fail")) {
                 try {
                     rpn.addNum(i.parser(input, "j"));
-                } catch (MathParseException e) {
+                } catch (NumberFormatException ex) {
                     System.out.println(" >> Fail for " + input);
                     exceptionFlag = true;
                 }
@@ -57,6 +58,7 @@ public class InputValidationTest {
                 rpn.drop();
                 System.out.println(" >> OK");
             }
+
         }
     }
 

@@ -17,8 +17,6 @@ In this phase is also included the design of a graphic user interface.
 
 The first sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1Q9QlEwOfzl2DQ3K-AtF7fwuvvETX_2zK/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You can find our first Sprint presentation [here](link)
-
 The Sprint Review is available [here](https://docs.google.com/document/d/1b6Ugnyc16_WT_S3m8ui3NiM1wjTRkQyw/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 The Sprint Retrospective is available [here](https://docs.google.com/document/d/161RfjZqIJH7EgHDvbQToV6mUUMA1G4Eu/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)

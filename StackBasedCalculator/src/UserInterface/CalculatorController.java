@@ -66,7 +66,7 @@ public class CalculatorController {
     private double x, y;
     private InputValidation check;
     private RPNSolver rpn;
-
+    //private VariablesStorage<Complex> var;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -84,6 +84,9 @@ public class CalculatorController {
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
 
+        //set table view columns for variables visualization
+        //var = new VariablesStorage<>();
+        //var.setObserver(tableVariables, clnVariable, clnValue);
         
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));

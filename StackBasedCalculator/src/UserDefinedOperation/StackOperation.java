@@ -46,7 +46,7 @@ public class StackOperation extends SupportedOperation {
     private static List<String> operationList = List.of(CLEAR, DROP, DUP, SWAP, OVER, PUSH);
 // An instance of RPNSolver is used to execute arithmetic operation
     private final RPNSolver rpn;
-    private final Complex number = null;
+    private Complex number = null;
 
     /**
      * Create a StackOperation given its name and an rpn instance to execute it.
@@ -55,9 +55,9 @@ public class StackOperation extends SupportedOperation {
      * @throws UnsupportedOperationException if the name of operation is not valid
      */
     public StackOperation(String name, RPNSolver rpn) {
+        super(name);
         this.chechOperation(name);
         this.rpn = rpn;
-        super.setName(name);
     }
 
     /**
@@ -71,12 +71,13 @@ public class StackOperation extends SupportedOperation {
      * @throws NumberFormatException if <code>number</code> is <code>null</code>
      */
     public StackOperation(String name, RPNSolver rpn, Complex number) {
+        super(name);
         this.chechOperation(name);
         if (name.equals(PUSH) && number == null) {
             throw new NumberFormatException("Null pointer for complex operand");
         }
         this.rpn = rpn;
-        super.setName(name);
+        this.number = number;
     }
 
     /**

@@ -20,22 +20,6 @@ public abstract class SupportedOperation implements Operation {
     public SupportedOperation(String name) {
         this.name = name;
     }
-
-    /**
-     * Create a Supported Operation.
-     */
-    public SupportedOperation() {
-    }
-
-    /**
-     * Set the name of the Supported Operation.
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * Get the operation name.
      *

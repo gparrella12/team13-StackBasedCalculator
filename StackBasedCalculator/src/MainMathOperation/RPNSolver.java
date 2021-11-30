@@ -212,4 +212,12 @@ public class RPNSolver {
     public void setList(ListView<Complex> list) {
         stack.setObserver(list);
     }
+    
+    /**
+     * Get the stack's size.
+     * @return the size of the stack
+     */
+    public int getStackSize(){
+        return stack.size();
+    }
 }

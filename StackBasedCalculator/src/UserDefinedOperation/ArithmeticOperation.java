@@ -56,8 +56,8 @@ public class ArithmeticOperation extends SupportedOperation {
      * @throws UnsupportedOperationException if the name of operation is not valid
      */
     public ArithmeticOperation(String name, RPNSolver rpn) {
-        checkOperation(name);
-        super.setName(name);
+        super(name);
+        this.checkOperation(name);
         this.rpn = rpn;
     }
 

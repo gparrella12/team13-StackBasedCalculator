@@ -203,6 +203,7 @@ public class CalculatorController {
 
         String input = textArea.getText();
         String operation = check.checkOperation(input);
+        String variable=check.checkVariable(input);
         textArea.clear();
 
         try {
@@ -210,7 +211,7 @@ public class CalculatorController {
             stackList.scrollTo(stackList.getItems().size());
             return;
         } catch (Exception e) {
-            if (operation == null) {
+            if (operation == null && variable==null) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Look, an Error!");
@@ -221,6 +222,7 @@ public class CalculatorController {
         }
 
         try {
+            if (operation!=null)
             switch (operation) {
                 case "+":
                     rpn.sum();
@@ -266,6 +268,9 @@ public class CalculatorController {
             alert.showAndWait();
             return;
         }
+        
+        //fare le operazioni con variables...
+        
     }
 
     @FXML

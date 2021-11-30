@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * The class provide an implementation of a user-defined operation. A
+ * user-defined operation should contain supported operation and also previus
+ * user-defined operation.
  *
  * @author gparrella
  */
@@ -16,28 +19,15 @@ public class UserDefinedOperation implements Operation {
     private List<Operation> operationList;
 
     /**
+     * Create a user-defined operation given its name, the number of required
+     * operands, and the operations that compose it.
      *
-     * @param name
-     * @param requiredOperands
-     * @param operations
+     * @param name is the operation's name
+     * @param requiredOperands is the number of operands required to this
+     * operation
+     * @param operations the operation that compose this user defined operation
      */
-    public UserDefinedOperation(String name, int requiredOperands, String... operations) {
-        this.name = name;
-        this.requiredOperands = requiredOperands;
-        this.operationList = new ArrayList<>();
-        for (String operation : operations) {
-            Operation op = new BasicOperation(operation);
-            this.operationList.add(op);
-        }
-    }
-
-    /**
-     *
-     * @param name
-     * @param requiredOperands
-     * @param operations
-     */
-    public UserDefinedOperation(String name, int requiredOperands, Operation ... operations) {
+    public UserDefinedOperation(String name, int requiredOperands, Operation... operations) {
         this.name = name;
         this.requiredOperands = requiredOperands;
         this.operationList = new ArrayList<>();
@@ -45,7 +35,7 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
-     *
+     * Execute this user-defined operation.
      */
     @Override
     public void execute() {
@@ -55,15 +45,17 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
+     * Return a string that contains operation's name.
      *
-     * @return
+     * @return a string with operation's name
      */
     @Override
     public String toString() {
-        return  this.name;
-    } 
+        return this.name;
+    }
 
     /**
+     * A hashcode for this operation, based on its name.
      *
      * @return
      */
@@ -75,9 +67,11 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
+     * Compare two user-defined operation.
      *
-     * @param obj
-     * @return
+     * @param obj other user-defined operation
+     * @return <code> true </code> if the two user-defined operation have the
+     * same name, <code>false</code> otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -96,32 +90,36 @@ public class UserDefinedOperation implements Operation {
         }
         return true;
     }
-    
+
     /**
+     * Get the operation's name.
      *
-     * @return
+     * @return a string that is the operation's name.
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Set the operation's name
      *
-     * @param name
+     * @param name is the name of this operation
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
+     * Get the required operands for this operation
      *
-     * @return
+     * @return the required operands of user-defined operation
      */
     public int getRequiredOperands() {
         return requiredOperands;
     }
 
     /**
+     * Set the required operands for this operation
      *
      * @param requiredOperands
      */
@@ -130,24 +128,13 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
-     *
-     * @param operations
+     * Update the operation list
+     * @param operations is the new list of operation of user-defined operation
      */
-    public void updateList(Operation ... operations) {
+    public void updateList(Operation... operations) {
         this.operationList.clear();
         this.operationList.addAll(Arrays.asList(operations));
     }
-
-    /**
-     *
-     * @return
-     */
-    public String getListAsString() {
-        String output = "";
-        output = this.operationList.stream().map(op -> op.toString()+"\n").reduce(output, String::concat);
-        return output;
-    }
-
     /**
      *
      */

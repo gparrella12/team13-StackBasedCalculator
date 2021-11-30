@@ -34,7 +34,7 @@ import org.apache.commons.math3.complex.Complex;
  * @author ermancusi
  */
 public class CalculatorController {
-
+    //FXML components
     @FXML
     private Pane titlePane;
     @FXML
@@ -58,12 +58,13 @@ public class CalculatorController {
     @FXML
     private TableColumn<String, Complex> clnValue;
     @FXML
-    private ListView<?> definedOperationsList;
+    private ListView<String> definedOperationsList;
     @FXML
     private Button btnSave;
     @FXML
     private Button btnRestore;
     
+    //useful variables
     private double x, y;
     private InputValidation check;
     private RPNSolver rpn;
@@ -78,6 +79,7 @@ public class CalculatorController {
     public void init(Stage stage) {
 
         Scene scene = stage.getScene();
+        
         check = new InputValidation();
         rpn = RPNSolver.getInstance();
         
@@ -89,12 +91,29 @@ public class CalculatorController {
         var = new VariablesStorage();
         var.setObserver(tableVariables, clnVariable, clnValue);
         
+        //disable buttons that will be developed in the next Sprint
+        btnSave.setDisable(true);
+        btnRestore.setDisable(true);
+        
         // Set bindings for warning
-        BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));
-        BooleanBinding twoElements = Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("*")))));
-        BooleanBinding emptyList = Bindings.size(stackList.getItems()).isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").or(textArea.textProperty().isEqualTo("sqrt")));
+        BooleanBinding oneElements = Bindings.size(stackList.getItems()).
+                isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").
+                        or(textArea.textProperty().isEqualTo("over")));
+        
+        BooleanBinding twoElements = Bindings.size(stackList.getItems()).
+                lessThan(2).and(textArea.textProperty().isEqualTo("+").
+                        or(textArea.textProperty().isEqualTo("-").
+                                or(textArea.textProperty().isEqualTo("/").
+                                        or(textArea.textProperty().isEqualTo("*")))));
+        
+        BooleanBinding emptyList = Bindings.size(stackList.getItems()).
+                isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").
+                        or(textArea.textProperty().isEqualTo("sqrt")));
+        
         textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
-        textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
+        
+        textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).
+                greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
 
         //push button is disabled when the Text Area is empty
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
@@ -139,7 +158,6 @@ public class CalculatorController {
             x = mouseEvent.getSceneX();
             y = mouseEvent.getSceneY();
         });
-
         titlePane.setOnMouseDragged(mouseEvent -> {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
@@ -161,6 +179,7 @@ public class CalculatorController {
      */
     @FXML
     private void onNumberPress(ActionEvent event) {
+        
         String number = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + number);
     }
@@ -186,28 +205,34 @@ public class CalculatorController {
      */
     @FXML
     private void deleteLast(ActionEvent event) {
+        
         if (textArea.getText().length() > 0) {
             textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
         }
     }
 
     /**
-     * When the "push" (↑) button is pressed, the item in the Text Area is
-     * pushed in the stack The function checks if the input is in a right format
+     * When the "push" (↑) button is pressed, the value in the Text Area is
+     * pushed in the stack if it's a number, otherwise is executed the operation
+     * on the variable indicated by the user and entered it in the associated 
+     * table.
+     * The function checks if the input is in a right format
      * and checks if the user enters the operations supported by the Calculator.
      *
      * @return
      */
     @FXML
     private void push(ActionEvent event) {
-
+        //define of used variables
         String input = textArea.getText();
         String operation = check.checkOperation(input);
         String variable=check.checkVariable(input);
         textArea.clear();
 
         try {
+            //add a number in the stack
             rpn.addNum(check.parser(input, "j"));
+            //update the Stack view and scroll the list to the last element
             stackList.scrollTo(stackList.getItems().size());
             return;
         } catch (Exception e) {
@@ -222,6 +247,8 @@ public class CalculatorController {
         }
 
         try {
+            //according to the operation entered by the user
+            //perform the corresponding operation
             if (operation!=null)
             switch (operation) {
                 case "+":
@@ -273,15 +300,33 @@ public class CalculatorController {
         
     }
 
+     /**
+     * Allows the User to view the window to define a custom operation.
+     *
+     * @return
+     */
     @FXML
     private void onCreatePress(ActionEvent event) {
+        
     }
 
+     /**
+     * Allows the User to save the state of current variables.
+     *
+     * @return
+     */
     @FXML
     private void onSavePress(ActionEvent event) {
+        
     }
 
+    /**
+     * Allows the User to restore the state of variables.
+     *
+     * @return
+     */
     @FXML
     private void onRestorePress(ActionEvent event) {
+        
     }
 }

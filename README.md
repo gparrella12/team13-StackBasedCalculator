@@ -21,6 +21,7 @@ The Sprint Review is available [here](https://docs.google.com/document/d/1b6Ugny
 
 The Sprint Retrospective is available [here](https://docs.google.com/document/d/161RfjZqIJH7EgHDvbQToV6mUUMA1G4Eu/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
+Fist Sprint presentation is available [here](https://docs.google.com/presentation/d/1PBarlg32BP50PnT7Vh31hP-WiHDWm2Eh/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 ## Second Sprint
 In this second Sprint, our goal is to increase the functionality of the calculator developed in the previous Sprint, allowing the user to perform calculations using 26 types of variables.

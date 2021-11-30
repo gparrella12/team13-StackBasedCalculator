@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.math3.complex.Complex;
 
 /**
- * InputValidation class contains the utility methods to check all the
- keyboard entries.
+ * InputValidation class contains the utility methods to check all the keyboard
+ * entries.
  *
  * @authors ermancusi & Speranza
  */
@@ -18,6 +18,7 @@ public class InputValidation {
     /**
      * The function checks if the operation inserted in the physical keyboard is
      * supported by the Calculator.
+     *
      * @param operation
      * @return the operation.
      */
@@ -38,8 +39,7 @@ public class InputValidation {
         return null;
 
     }
-    
-    
+
     /**
      * Given a complex number as a string return it as a Complex object
      *
@@ -117,4 +117,14 @@ public class InputValidation {
 
     }
 
+    public String checkVariable(String str) {
+        // Matches ONLY "<x",">x","+x","-x"
+        Pattern patternF = Pattern.compile("[<|>|-|+][a-z]");
+        Matcher matcherF = patternF.matcher(str);
+
+        if (patternF.matcher(str).matches() && matcherF.find()) {
+            return str;
+        }
+        return null;
+    }
 }

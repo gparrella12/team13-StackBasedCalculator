@@ -1,6 +1,7 @@
 package UserInterface;
 
 import MainMathOperation.RPNSolver;
+import VariablesManager.VariablesStorage;
 import java.util.NoSuchElementException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -51,11 +52,11 @@ public class CalculatorController {
     @FXML
     private Text textWarningSoft;
     @FXML
-    private TableView<?> tableVariables;
+    private TableView<String> tableVariables;
     @FXML
-    private TableColumn<?, ?> clnVariable;
+    private TableColumn<String, String> clnVariable;
     @FXML
-    private TableColumn<?,?> clnValue;
+    private TableColumn<String, Complex> clnValue;
     @FXML
     private ListView<?> definedOperationsList;
     @FXML
@@ -66,7 +67,7 @@ public class CalculatorController {
     private double x, y;
     private InputValidation check;
     private RPNSolver rpn;
-
+    private VariablesStorage var;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -84,6 +85,9 @@ public class CalculatorController {
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
 
+        //set table view columns for variables visualization
+        var = new VariablesStorage();
+        var.setObserver(tableVariables, clnVariable, clnValue);
         
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));

@@ -8,19 +8,22 @@ import org.apache.commons.math3.complex.Complex;
  * InputValidation class contains the utility methods to check all the keyboard
  * entries.
  *
- * @authors ermancusi & Speranza
+ * @author ermancusi
+ * @author Speranza
  */
 public class InputValidation {
-
+    
+    //operations supported by the Calculator
     private String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
 
     /**
-     * The function checks if the operation inserted in the physical keyboard is
+     * The function checks if the operation entered by physical keyboard is
      * supported by the Calculator.
      *
-     * @param operation
-     * @return the operation.
+     * @param operation is the operation entered by the User.
+     * @return the operation as <code>String</code> or <code>null</code>
+     * if the input is not supported by the Calculator.
      */
     public String checkOperation(String operation) {
 
@@ -41,11 +44,13 @@ public class InputValidation {
     }
 
     /**
-     * Given a complex number as a string return it as a Complex object
+     * Given a complex number as a <code>String</code>, returns it as a 
+     * <code>Complex</code> object.
      *
-     * @param str
-     * @param imaginaryCharacter
-     * @return Complex or null if the string passed not represent a complex
+     * @param str is the complex number entered by the User.
+     * @param imaginaryCharacter is the character used to identify the immaginary part.
+     * @return <code>Complex</code> or <code>null</code> if the string passed
+     * doesn't represent a complex number.
      * number
      */
     public Complex parser(String str, String imaginaryCharacter) {
@@ -116,9 +121,16 @@ public class InputValidation {
         return null;
 
     }
-
+   
+    /**
+     * The function checks if the operation entered by physical keyboard is
+     * supported by the Calculator.
+     *
+     * @param str is the User input.
+     * @return the operation as <code>String</code> or <code>null</code> if the input is not supported.
+     */
     public String checkVariable(String str) {
-        // Matches ONLY "<x",">x","+x","-x"
+        // Matches ONLY "<x", ">x", "+x", "-x"
         Pattern patternF = Pattern.compile("[<|>|-|+][a-z]");
         Matcher matcherF = patternF.matcher(str);
 

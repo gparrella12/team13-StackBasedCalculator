@@ -4,6 +4,8 @@ import MainMathOperation.RPNSolver;
 import java.util.NoSuchElementException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -25,7 +29,8 @@ import org.apache.commons.math3.complex.Complex;
 /**
  * Implementation of the Calculator User Interface Controller
  *
- * @authors ermancusi & Speranza
+ * @author Speranza
+ * @author ermancusi
  */
 public class CalculatorController {
 
@@ -45,10 +50,23 @@ public class CalculatorController {
     private Text textWarning;
     @FXML
     private Text textWarningSoft;
-
+    @FXML
+    private TableView<?> tableVariables;
+    @FXML
+    private TableColumn<?, ?> clnVariable;
+    @FXML
+    private TableColumn<?,?> clnValue;
+    @FXML
+    private ListView<?> definedOperationsList;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnRestore;
+    
     private double x, y;
     private InputValidation check;
     private RPNSolver rpn;
+
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -61,11 +79,12 @@ public class CalculatorController {
         Scene scene = stage.getScene();
         check = new InputValidation();
         rpn = RPNSolver.getInstance();
-
+        
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
 
+        
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").or(textArea.textProperty().isEqualTo("over")));
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).lessThan(2).and(textArea.textProperty().isEqualTo("+").or(textArea.textProperty().isEqualTo("-").or(textArea.textProperty().isEqualTo("/").or(textArea.textProperty().isEqualTo("*")))));
@@ -121,9 +140,13 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
         });
-
+        
+        //close the Calculator
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
+        //minimize the Calculator
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
+        
+
     }
 
     /**
@@ -239,5 +262,17 @@ public class CalculatorController {
             alert.showAndWait();
             return;
         }
+    }
+
+    @FXML
+    private void onCreatePress(ActionEvent event) {
+    }
+
+    @FXML
+    private void onSavePress(ActionEvent event) {
+    }
+
+    @FXML
+    private void onRestorePress(ActionEvent event) {
     }
 }

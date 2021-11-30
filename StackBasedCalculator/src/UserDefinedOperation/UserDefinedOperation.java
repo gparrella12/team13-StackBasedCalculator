@@ -14,23 +14,7 @@ public class UserDefinedOperation implements Operation {
     private String name;
     private int requiredOperands;
     private List<Operation> operationList;
-
-    /**
-     *
-     * @param name
-     * @param requiredOperands
-     * @param operations
-     */
-    public UserDefinedOperation(String name, int requiredOperands, String... operations) {
-        this.name = name;
-        this.requiredOperands = requiredOperands;
-        this.operationList = new ArrayList<>();
-        for (String operation : operations) {
-            Operation op = new BasicOperation(operation);
-            this.operationList.add(op);
-        }
-    }
-
+    
     /**
      *
      * @param name
@@ -60,7 +44,7 @@ public class UserDefinedOperation implements Operation {
      */
     @Override
     public String toString() {
-        return  this.name;
+        return this.name;
     } 
 
     /**

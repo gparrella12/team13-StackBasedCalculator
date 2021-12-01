@@ -5,8 +5,6 @@ import VariablesManager.VariablesStorage;
 import java.util.NoSuchElementException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,6 +32,7 @@ import org.apache.commons.math3.complex.Complex;
  * @author ermancusi
  */
 public class CalculatorController {
+
     //FXML components
     @FXML
     private Pane titlePane;
@@ -63,7 +62,7 @@ public class CalculatorController {
     private Button btnSave;
     @FXML
     private Button btnRestore;
-    
+
     //useful variables
     private double x, y;
     private InputValidation check;
@@ -77,38 +76,39 @@ public class CalculatorController {
      * @return
      */
     public void init(Stage stage) {
-
+        
         Scene scene = stage.getScene();
         
         check = new InputValidation();
         rpn = RPNSolver.getInstance();
-        
+
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
 
-        //set table view columns for variables visualization
+        //set table cell columns for variables visualization
         var = new VariablesStorage();
+        clnValue.setCellFactory(new ColumnCellFactory());
         var.setObserver(tableVariables, clnVariable, clnValue);
-        
+
         //disable buttons that will be developed in the next Sprint
         btnSave.setDisable(true);
         btnRestore.setDisable(true);
-        
+
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).
                 isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").
-                        or(textArea.textProperty().isEqualTo("over")));
+                or(textArea.textProperty().isEqualTo("over")));
         
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).
                 lessThan(2).and(textArea.textProperty().isEqualTo("+").
-                        or(textArea.textProperty().isEqualTo("-").
-                                or(textArea.textProperty().isEqualTo("/").
-                                        or(textArea.textProperty().isEqualTo("*")))));
+                or(textArea.textProperty().isEqualTo("-").
+                        or(textArea.textProperty().isEqualTo("/").
+                                or(textArea.textProperty().isEqualTo("*")))));
         
         BooleanBinding emptyList = Bindings.size(stackList.getItems()).
                 isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").
-                        or(textArea.textProperty().isEqualTo("sqrt")));
+                or(textArea.textProperty().isEqualTo("sqrt")));
         
         textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
         
@@ -125,22 +125,22 @@ public class CalculatorController {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ENTER && textArea.getText().length() > 0) {
                 push(new ActionEvent());
-
+                
             }
             if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
                 textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
                 textArea.end();
             }
-
+            
             e.consume();
         });
 
         //if the user presses the "back space" button on physical keyboard
         //for more than 0.2 seconds the entire Text Area is cleaned up.
         btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-
+            
             long startTime;
-
+            
             @Override
             public void handle(MouseEvent event) {
                 if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
@@ -162,13 +162,12 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - x);
             stage.setY(mouseEvent.getScreenY() - y);
         });
-        
+
         //close the Calculator
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         //minimize the Calculator
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
         
-
     }
 
     /**
@@ -192,7 +191,7 @@ public class CalculatorController {
      */
     @FXML
     private void onOperationPress(ActionEvent event) {
-
+        
         String operation = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + operation);
     }
@@ -214,10 +213,9 @@ public class CalculatorController {
     /**
      * When the "push" (↑) button is pressed, the value in the Text Area is
      * pushed in the stack if it's a number, otherwise is executed the operation
-     * on the variable indicated by the user and entered it in the associated 
-     * table.
-     * The function checks if the input is in a right format
-     * and checks if the user enters the operations supported by the Calculator.
+     * on the variable indicated by the user and entered it in the associated
+     * table. The function checks if the input is in a right format and checks
+     * if the user enters the operations supported by the Calculator.
      *
      * @return
      */
@@ -226,9 +224,10 @@ public class CalculatorController {
         //define of used variables
         String input = textArea.getText();
         String operation = check.checkOperation(input);
-        String variable=check.checkVariable(input);
+        String supportedVariable = check.checkVariable(input);
+        
         textArea.clear();
-
+        
         try {
             //add a number in the stack
             rpn.addNum(check.parser(input, "j"));
@@ -236,7 +235,7 @@ public class CalculatorController {
             stackList.scrollTo(stackList.getItems().size());
             return;
         } catch (Exception e) {
-            if (operation == null && variable==null) {
+            if (operation == null && supportedVariable == null) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Look, an Error!");
@@ -245,47 +244,48 @@ public class CalculatorController {
                 return;
             }
         }
-
+        
         try {
             //according to the operation entered by the user
             //perform the corresponding operation
-            if (operation!=null)
-            switch (operation) {
-                case "+":
-                    rpn.sum();
-                    return;
-                case "-":
-                    rpn.subtraction();
-                    return;
-                case "*":
-                    rpn.product();
-                    return;
-                case "/":
-                    rpn.division();
-                    return;
-                case "sqrt":
-                    rpn.sqrt();
-                    return;
-                case "+-":
-                    rpn.invertSign();
-                    return;
-                case "clear":
-                    rpn.clear();
-                    return;
-                case "dup":
-                    rpn.dup();
-                    stackList.scrollTo(stackList.getItems().size());
-                    return;
-                case "drop":
-                    rpn.drop();
-                    return;
-                case "swap":
-                    rpn.swap();
-                    return;
-                case "over":
-                    rpn.over();
-                    stackList.scrollTo(stackList.getItems().size());
-                    return;
+            if (operation != null) {
+                switch (operation) {
+                    case "+":
+                        rpn.sum();
+                        return;
+                    case "-":
+                        rpn.subtraction();
+                        return;
+                    case "*":
+                        rpn.product();
+                        return;
+                    case "/":
+                        rpn.division();
+                        return;
+                    case "sqrt":
+                        rpn.sqrt();
+                        return;
+                    case "+-":
+                        rpn.invertSign();
+                        return;
+                    case "clear":
+                        rpn.clear();
+                        return;
+                    case "dup":
+                        rpn.dup();
+                        stackList.scrollTo(stackList.getItems().size());
+                        return;
+                    case "drop":
+                        rpn.drop();
+                        return;
+                    case "swap":
+                        rpn.swap();
+                        return;
+                    case "over":
+                        rpn.over();
+                        stackList.scrollTo(stackList.getItems().size());
+                        return;
+                }
             }
         } catch (NoSuchElementException | ArithmeticException e) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -296,11 +296,47 @@ public class CalculatorController {
             return;
         }
         
-        //fare le operazioni con variables...
+        try {
+            //according to the operation entered by the user
+            //perform the corresponding operation
+            if (supportedVariable != null) {
+                String varOperation = supportedVariable.substring(0, 1);
+                String variable = supportedVariable.substring(1);
+                switch (varOperation) {
+                    // >x: takes the top element from the stack
+                    // and saves it into the variable "x".
+                    case ">":
+                        var.save(variable, rpn.getAns());
+                        return;
+                    // <x: pushes the value of the variable "x" onto the stack.
+                    case "<":
+                        Complex num = var.getVariableValue(variable);
+                        rpn.addNum(num);
+                        return;
+                    // +x: takes the top element from the stack and adds it
+                    // to the value of the variable "x"
+                    case "+":
+                        var.addToVariable(variable, rpn.getAns());
+                        return;
+                    // -x: takes the top element from the stack and subtracts it
+                    // from the value of the variable "x"
+                    case "-":
+                        var.subFromVariable(variable, rpn.getAns());
+                        return;
+                }
+            }
+        } catch (NoSuchElementException | ArithmeticException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Look, an Error!");
+            alert.setContentText("Invalid operands for this operation");
+            alert.showAndWait();
+            return;
+        }
         
     }
 
-     /**
+    /**
      * Allows the User to view the window to define a custom operation.
      *
      * @return
@@ -310,7 +346,7 @@ public class CalculatorController {
         
     }
 
-     /**
+    /**
      * Allows the User to save the state of current variables.
      *
      * @return

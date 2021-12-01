@@ -76,7 +76,7 @@ public class ArithmeticOperation extends SupportedOperation {
                 rpn.subtraction();
                 return;
             }
-            case "*" -> {
+            case PRODUCT -> {
                 rpn.product();
                 return;
             }

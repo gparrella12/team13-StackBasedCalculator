@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The class provide an implementation of a user-defined operation. A
- * user-defined operation should contain supported operation and also previus
+ * The class provide an implementation of a user-defined operation.
+ * <p>
+ * A user-defined operation should contain supported operation and also previus
  * user-defined operation.
  *
  * @author gparrella
@@ -129,12 +130,14 @@ public class UserDefinedOperation implements Operation {
 
     /**
      * Update the operation list
+     *
      * @param operations is the new list of operation of user-defined operation
      */
     public void updateList(Operation... operations) {
         this.operationList.clear();
         this.operationList.addAll(Arrays.asList(operations));
     }
+
     /**
      *
      */

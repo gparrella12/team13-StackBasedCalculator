@@ -1,14 +1,13 @@
 package UserDefinedOperation;
 
 import MainMathOperation.RPNSolver;
+import VariablesManager.VariablesStorage;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.math3.complex.Complex;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,54 +17,32 @@ import static org.junit.Assert.*;
  */
 public class UserDefinedOperationTest {
 
-    private List<UserDefinedOperation> myOperations;
-
-    private class MyOperands {
-
-        private RPNSolver rpn = RPNSolver.getInstance();
-        private List<Complex> myOperand;
-
-        public MyOperands(Complex... operands) {
-            this.myOperand = new ArrayList<>();
-            this.myOperand.addAll(Arrays.asList(operands));
-        }
-
-        private void pushIntoStack() {
-            myOperand.forEach(c -> {
-                rpn.addNum(c);
-            });
-        }
-
-        public void execute(Operation operation, Complex expected) {
-            this.pushIntoStack();
-            operation.execute();
-            assertEquals(operation + " error: ", expected, rpn.getAns());
-            rpn.clear();
-        }
-    }
+    private HashMap<String, UserDefinedOperation> myOperations2;
+    private HashMap<String, SupportedOperation> supported;
+    private RPNSolver rpn = RPNSolver.getInstance();
+    private final String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
+    private final String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
+    private final VariablesStorage variableManager;
+    private List<Complex> myOperands;
 
     public UserDefinedOperationTest() {
-        myOperations = new ArrayList<>();
-    }
+        this.variableManager = new VariablesStorage();
+        this.myOperands = new ArrayList<>();
+        myOperands = List.of(new Complex(2, 3), new Complex(-4, 7), new Complex(0, 0.66), new Complex(45, 6), new Complex(-66, -0.235), new Complex(2, -3), new Complex(-2, 3), new Complex(0, -3));
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+        supported = new HashMap<>();
+        for (String op : arithmeticOperation) {
+            supported.put(op, new ArithmeticOperation(op, rpn));
+        }
+        for (String op : stackOperations) {
+            supported.put(op, new StackOperation(op, rpn));
+        }
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-        UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2, "dup", "*", "swap", "dup", "*", "+", "sqrt");
-        myOperations.add(hypotenuse);
-        UserDefinedOperation squareModule = new UserDefinedOperation("squareModule", 2,hypotenuse,new BasicOperation("dup"),new BasicOperation("*"));
-        myOperations.add(squareModule);
-    }
-
-    @After
-    public void tearDown() {
+        myOperations2 = new HashMap<>();
+        UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2, supported.get("dup"), supported.get("*"), supported.get("swap"), supported.get("dup"), supported.get("*"), supported.get("+"), supported.get("sqrt"));
+        myOperations2.put("hypotenuse", hypotenuse);
+        UserDefinedOperation squareModule = new UserDefinedOperation("squareModule", 2, hypotenuse, supported.get("dup"), supported.get("*"));
+        myOperations2.put("squareModule", squareModule);
     }
 
     /**
@@ -73,19 +50,49 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("Execute");
-
-        MyOperands twoOperands = new MyOperands(new Complex(9, 0), new Complex(8, 0));
-        for (Operation op : myOperations) {
-            if (op.toString().equals("hypotenuse")) {
-                
-                twoOperands.execute(myOperations.get(0), new Complex(145, 0).sqrt());
-            }else{
-                twoOperands.execute(myOperations.get(1), new Complex(145, 0));
+        System.out.println("Execute - User Defined Operation");
+        for (Operation op : myOperations2.values()) {
+            
+            for (int i = 0; i < 5; i++) {
+                rpn.clear();
+                Random generator = new Random(113131646);
+                Complex op1 = myOperands.get(generator.nextInt(myOperands.size()));
+                Complex op2 = myOperands.get(generator.nextInt(myOperands.size()));
+                rpn.addNum(op1);
+                rpn.addNum(op2);
+                op.execute();
+                switch (op.toString()) {
+                    case "hypotenuse" -> {
+                        Complex result = new Complex(Precision.round(this.hypotenuse(op1, op2).getReal(), 10), Precision.round(this.hypotenuse(op1, op2).getImaginary(), 10));
+                        Complex myResult = new Complex(Precision.round(rpn.getAns().getReal(), 10), Precision.round(rpn.getAns().getImaginary(), 10));
+                        assertEquals("Invalid result ", result, myResult);
+                    }
+                    case "squareModule" -> {
+                        Complex result = new Complex(Precision.round(this.squareModule(op1, op2).getReal(), 10), Precision.round(this.squareModule(op1, op2).getImaginary(), 10));
+                        Complex myResult = new Complex(Precision.round(rpn.getAns().getReal(), 10), Precision.round(rpn.getAns().getImaginary(), 10));
+                        assertEquals("Invalid result ", result, myResult);
+                    }
+                    default -> {
+                        fail("Cannot verify this operation: " + op.toString());
+                    }
+                }
+                System.out.println("\t" + op.toString() + ": test #" + (i + 1) + "-> OK");
             }
-            System.out.println("\tMy operation: " + op + " - test");
-        }
+            System.out.println("\t---------------------------------");
 
+        }
+    }
+
+    private Complex hypotenuse(Complex c1, Complex c2) {
+        Complex myOp1 = new Complex(c1.getReal(), c1.getImaginary());
+        Complex myOp2 = new Complex(c2.getReal(), c2.getImaginary());
+        return myOp1.pow(2).add(myOp2.pow(2)).sqrt();
+    }
+
+    private Complex squareModule(Complex c1, Complex c2) {
+        Complex myOp1 = new Complex(c1.getReal(), c1.getImaginary());
+        Complex myOp2 = new Complex(c2.getReal(), c2.getImaginary());
+        return myOp1.pow(2).add(myOp2.pow(2));
     }
 
     /**
@@ -93,12 +100,7 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName - Test");
-        UserDefinedOperation instance = new UserDefinedOperation("sum", 4, "+", "+", "+");
-        String expResult = "sum";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-
+        fail("prototype");
     }
 
     /**
@@ -106,10 +108,8 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testSetName() {
-        System.out.println("setName");
-        String name = "myNewSum";
-        UserDefinedOperation instance = new UserDefinedOperation("ciao", 1, "+");
-        instance.setName(name);
+        fail("prototype");
+
     }
 
     /**
@@ -117,11 +117,8 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testGetRequiredOperands() {
-        System.out.println("getRequiredOperands");
-        UserDefinedOperation instance = new UserDefinedOperation("ciao", 1, "+");
-        int expResult = 1;
-        int result = instance.getRequiredOperands();
-        assertEquals(expResult, result);
+        fail("prototype");
+
     }
 
     /**
@@ -129,11 +126,8 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testSetRequiredOperands() {
-        System.out.println("setRequiredOperands");
-        int requiredOperands = 2;
-        UserDefinedOperation instance = new UserDefinedOperation("ciao", 1, "+");
-        instance.setRequiredOperands(requiredOperands);
-        fail("Prototype");
+        fail("prototype");
+
     }
 
     /**
@@ -149,13 +143,8 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testGetListAsString() {
-        System.out.println("getListAsString");
-        UserDefinedOperation instance = null;
-        String expResult = "";
-        String result = instance.getListAsString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("prototype");
+
     }
 
     /**
@@ -163,11 +152,8 @@ public class UserDefinedOperationTest {
      */
     @Test
     public void testExportOperation() {
-        System.out.println("exportOperation");
-        UserDefinedOperation instance = null;
-        instance.exportOperation();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("prototype");
+
     }
 
 }

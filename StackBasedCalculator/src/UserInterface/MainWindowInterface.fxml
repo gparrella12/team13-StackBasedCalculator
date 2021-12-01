@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -25,7 +26,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="650.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
     <children>
-        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="652.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane fx:id="calculatorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="652.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <TextArea fx:id="textArea" layoutX="19.0" layoutY="302.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="331.0" promptText="insert">
                     <font>
@@ -216,19 +217,7 @@
                 <TableColumn fx:id="clnValue" prefWidth="110.0" text="Value" />
               </columns>
             </TableView>
-            <ListView fx:id="definedOperationsList" layoutX="410.0" layoutY="382.0" prefHeight="245.0" prefWidth="220.0" />
-            <HBox alignment="CENTER" layoutX="410.0" layoutY="639.0" prefHeight="47.0" prefWidth="220.0" spacing="20.0">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onCreatePress" prefWidth="65.0" styleClass="highlight" text="Create" textFill="WHITE">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
+            <ListView fx:id="definedOperationsList" layoutX="410.0" layoutY="380.0" prefHeight="261.0" prefWidth="220.0" />
             <HBox alignment="CENTER" layoutX="410.0" layoutY="297.0" prefHeight="37.0" prefWidth="220.0" spacing="20.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -257,7 +246,7 @@
                   <InnerShadow />
                </effect>
             </Separator>
-            <Label layoutX="447.0" layoutY="359.0" text="User defined operations" textFill="WHITE">
+            <Label layoutX="445.0" layoutY="359.0" text="User Defined Operations" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -265,6 +254,11 @@
                   <DropShadow height="14.83" radius="6.172499999999999" width="11.86" />
                </effect>
             </Label>
+            <Button layoutX="473.0" layoutY="652.0" mnemonicParsing="false" onAction="#onCreatePress" prefHeight="27.0" prefWidth="94.0" styleClass="highlight" text="Create" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
             </children>
         </Pane>
         <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="650.0" styleClass="topBar">
@@ -287,5 +281,65 @@
                 </ImageView>
             </children>
         </Pane>
+      <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" visible="false">
+         <children>
+            <Label layoutX="257.0" layoutY="241.0" prefHeight="47.0" prefWidth="137.0" text="Insert Operations" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="operationsList" layoutX="24.0" layoutY="331.0" prefHeight="150.0" prefWidth="160.0" />
+            <Label layoutX="35.0" layoutY="304.0" text="Supported operations:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="510.0" text="User defined operations:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ListView fx:id="userDefinedList" layoutX="24.0" layoutY="536.0" prefHeight="150.0" prefWidth="160.0" />
+            <Button fx:id="btnFinalCreate" layoutX="514.0" layoutY="653.0" mnemonicParsing="false" onAction="#onFinalCreatePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Create" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnInsert" layoutX="295.0" layoutY="448.0" mnemonicParsing="false" onAction="#onInsertPress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBack" layoutX="295.0" layoutY="494.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <ListView fx:id="finalList" layoutX="448.0" layoutY="385.0" prefHeight="250.0" prefWidth="178.0" />
+            <Label layoutX="488.0" layoutY="362.0" text="Final Operation:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Separator layoutX="10.0" layoutY="232.0" prefWidth="630.0" />
+            <TextField fx:id="inputNumber" alignment="TOP_LEFT" layoutX="172.0" layoutY="122.0" prefHeight="30.0" prefWidth="200.0" promptText="number of operands" />
+            <TextField fx:id="inputName" alignment="TOP_LEFT" layoutX="172.0" layoutY="77.0" prefHeight="30.0" prefWidth="200.0" promptText="operation name" />
+            <Label layoutX="14.0" layoutY="127.0" text="Number of operands:" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="82.0" text="Operation name:" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="574.0" layoutY="199.0" mnemonicParsing="false" onAction="#onBackPress" styleClass="highlight" stylesheets="@MainWindowStyle.css" text="Back" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

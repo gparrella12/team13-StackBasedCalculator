@@ -36,6 +36,21 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
+     * Create a user-defined operation given its name, the number of required
+     * operands, and the operations that compose it.
+     *
+     * @param name is the operation's name
+     * @param requiredOperands is the number of operands required to this
+     * operation
+     * @param operationList the operation that compose this user defined operation
+     */
+    public UserDefinedOperation(String name, int requiredOperands, List<Operation> operationList) {
+        this.name = name;
+        this.requiredOperands = requiredOperands;
+        this.operationList = operationList;
+    }
+
+    /**
      * Execute this user-defined operation.
      */
     @Override

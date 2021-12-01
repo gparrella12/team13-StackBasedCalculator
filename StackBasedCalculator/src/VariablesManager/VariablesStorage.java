@@ -1,5 +1,6 @@
 package VariablesManager;
 
+import VariablesManager.ArchiveModule.Archive;
 import java.util.NoSuchElementException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -8,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import org.apache.commons.math3.complex.Complex;
 
 /**
@@ -17,14 +17,14 @@ import org.apache.commons.math3.complex.Complex;
  */
 public class VariablesStorage {
     private ObservableMap<String, Complex> variables;
-    private Archive<VariablesStorage> stack;
+    private Archive<ObservableMap<String, Complex>> backup;
     
     /**
      *
      */
     public VariablesStorage(){
         variables = FXCollections.observableHashMap();
-        stack = new Archive<>();
+        backup = new Archive<>();
     }
     
     /**
@@ -36,7 +36,7 @@ public class VariablesStorage {
      */
     private String checkVarName(String key) throws IllegalArgumentException{        
         key = key.toLowerCase();
-        if (!Character.isLetter(key.charAt(0)) && key.length() > 1)
+        if (!Character.isLetter(key.charAt(0)) || key.length() > 1)
             throw new IllegalArgumentException("Character not allowed");
         return key;
     }
@@ -97,7 +97,7 @@ public class VariablesStorage {
     public void addToVariable(String name, Complex value) throws NoSuchElementException{
         String key = checkVarName(name);
         Complex toAdd = getVariableValue(key);
-        save(key, toAdd.add(value));          
+        variables.put(key, toAdd.add(value));          
     }
     
     /**
@@ -109,7 +109,7 @@ public class VariablesStorage {
     public void subFromVariable(String name, Complex value) throws NoSuchElementException{
         String key = checkVarName(name);
         Complex toSub = getVariableValue(key);
-        save(key, value.subtract(toSub));
+        variables.put(key, value.subtract(toSub));
     }
     
     // reference: https://stackoverflow.com/questions/37171820/populating-a-tableview-with-a-hashmap-that-will-update-when-hashmap-changes
@@ -142,17 +142,15 @@ public class VariablesStorage {
     
     /**
      * Store current state of saved variables to permet its restore
-     * @throws NotImplementedException
      */
-    public void saveState()throws NotImplementedException{
-        throw new NotImplementedException("TODO");
+    public void saveState() {
+        backup.save(this.variables);
     }
     
     /**
      * Restore last saved state of variables
-     * @throws NotImplementedException
      */
-    public void restoreState() throws NotImplementedException{
-        throw new NotImplementedException("TODO");
+    public void restoreState() {
+        variables = backup.restore();
     }
 }

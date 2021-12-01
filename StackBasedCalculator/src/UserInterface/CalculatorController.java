@@ -94,8 +94,6 @@ public class CalculatorController {
     @FXML
     private Button btnFinalCreate;
     @FXML
-    private Button btnInsert;
-    @FXML
     private Button btnBack;
 
     @FXML
@@ -106,6 +104,10 @@ public class CalculatorController {
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
+    @FXML
+    private Button btnInsertSupported;
+    @FXML
+    private Button btnInsertDefined;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -215,6 +217,22 @@ public class CalculatorController {
         finalList.setItems(finalObservable);
         operationsList.setItems(operationsObservable);
         populate();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.BACK_SPACE && inputName.getText().length() > 0 && inputName.isFocused()) {
+                inputName.setText(inputName.getText().substring(0, inputName.getText().length() - 1));
+                inputName.end();
+            }
+            if (e.getCode() == KeyCode.BACK_SPACE && inputNumber.getText().length() > 0 && inputNumber.isFocused()) {
+                inputNumber.setText(inputNumber.getText().substring(0, inputNumber.getText().length() - 1));
+                inputNumber.end();
+            }
+
+            e.consume();
+        });
+
+        btnFinalCreate.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)).or(inputName.textProperty().isEmpty()).or(inputNumber.textProperty().isEmpty()));
+        btnBack.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)));
     }
 
     /**
@@ -392,10 +410,8 @@ public class CalculatorController {
     private void onCreatePress(ActionEvent event) {
         operationsPane.setVisible(true);
         operationsPane.setDisable(false);
-
         calculatorPane.setVisible(false);
         calculatorPane.setDisable(true);
-
     }
 
     /**
@@ -435,25 +451,15 @@ public class CalculatorController {
         }
         UserDefinedOperations.add(u);
         finalObservable.clear();
-    }
-
-    @FXML
-    private void onInsertPress(ActionEvent event) {
-
-        if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
-            finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
-            operationsList.getSelectionModel().clearSelection();
-        }
-
-        if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
-            finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
-            userDefinedList.getSelectionModel().clearSelection();
-        }
-
+        inputName.clear();
+        inputNumber.clear();
     }
 
     @FXML
     private void onDeletePress(ActionEvent event) {
+        if (finalObservable.size() > 0) {
+            finalObservable.remove(finalObservable.size() - 1);
+        }
     }
 
     private void populate() {
@@ -473,6 +479,24 @@ public class CalculatorController {
         calculatorPane.setDisable(false);
         operationsPane.setVisible(false);
         operationsPane.setDisable(true);
+    }
 
+    @FXML
+    private void onInsertSupportedPress(ActionEvent event) {
+
+        if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
+            finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
+            operationsList.getSelectionModel().clearSelection();
+        }
+
+    }
+
+    @FXML
+    private void onInsertDefinedPress(ActionEvent event) {
+
+        if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
+            finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
+            userDefinedList.getSelectionModel().clearSelection();
+        }
     }
 }

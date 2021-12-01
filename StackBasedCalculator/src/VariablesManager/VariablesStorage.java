@@ -36,7 +36,7 @@ public class VariablesStorage {
      */
     private String checkVarName(String key) throws IllegalArgumentException{        
         key = key.toLowerCase();
-        if (!Character.isLetter(key.charAt(0)) && key.length() > 1)
+        if (!Character.isLetter(key.charAt(0)) || key.length() > 1)
             throw new IllegalArgumentException("Character not allowed");
         return key;
     }
@@ -97,7 +97,7 @@ public class VariablesStorage {
     public void addToVariable(String name, Complex value) throws NoSuchElementException{
         String key = checkVarName(name);
         Complex toAdd = getVariableValue(key);
-        save(key, toAdd.add(value));          
+        variables.put(key, toAdd.add(value));          
     }
     
     /**

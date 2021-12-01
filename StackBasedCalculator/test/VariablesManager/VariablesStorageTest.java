@@ -3,6 +3,9 @@ package VariablesManager;
 import UserInterface.InputValidation;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexFormat;
@@ -14,44 +17,41 @@ import static org.junit.Assert.*;
  * @author fsonnessa
  */
 public class VariablesStorageTest {
-    
+
     private VariablesStorage vs = new VariablesStorage();
 //    private HashMap<String, Complex> tmpHash = new HashMap<>();
-    
+
     /**
      * Test of save method, of class VariablesStorage.
      */
     @Test
     public void testSave() {
-        System.out.println("save");
-        
-        Scanner sc = new Scanner(new InputStreamReader(InputValidation.class.getResourceAsStream("saveInput.csv")));
-        System.out.println("WEEEEEEEEE");
+        System.out.println("\nsave");
+
+        Scanner sc = new Scanner(new InputStreamReader(VariablesStorageTest.class.getResourceAsStream("inputCSV.csv")));
         sc.nextLine();
         sc.useDelimiter(";");
-        
+
         ComplexFormat cf = new ComplexFormat();
         HashMap<String, Complex> tmpHash = new HashMap<>();
         boolean exceptionFlag = false;
         String name, value, result;
-        
-        while (sc.hasNext()){
+
+        while (sc.hasNext()) {
             name = sc.next().replace("\n", "").replace("\r", "").toLowerCase();
-            value = sc.next().replace("\n", "").replace("\r", "");
+            value = sc.next().replace("\n", "").replace("\r", "").replace("j", "i");
             result = sc.next().replace("\n", "").replace("\r", "");
-            
-            System.out.print("name: " + name + "\tvalue: " + value + "\tresult: " + result);
-            
-            if (result.equals("ok")){
+
+            System.out.print("name: " + name + " \tvalue: " + value + " \tresult: " + result);
+
+            if (result.equals("ok")) {
                 vs.save(name, cf.parse(value));
                 tmpHash.put(name, cf.parse(value));
                 System.out.println(" >> ok");
-            }
-            
-            if (result.equals("error")){
+            } else if (result.equals("error")) {
                 try {
                     vs.save(name, cf.parse(value));
-                } catch (IllegalArgumentException argEx){
+                } catch (IllegalArgumentException argEx) {
                     System.out.println(" >> arg error");
                     exceptionFlag = true;
                 }
@@ -59,75 +59,96 @@ public class VariablesStorageTest {
                     throw new RuntimeException(">> Attention! this input < " + name + " = " + value + " > not fail!");
                 }
                 exceptionFlag = false;
-            }
-            
-            if (result.equals("update")){
+            } else if (result.equals("update")) {
                 vs.save(name, cf.parse(value));
-                Complex tmp = vs.getVariableValue(name);                
-                if (tmpHash.get(name).equals(tmp)){
+                Complex tmp = vs.getVariableValue(name);
+                Complex stored = tmpHash.get(name);
+
+                if (stored == null) {
                     System.out.println(" >> update fail");
-                    throw new RuntimeException("input < " + name + " = " + value + " > update fail");
-                }                
+                    throw new RuntimeException("input < " + name + " = " + value + " >> update fail - support structure error");
+                }
+
+                if (stored.equals(tmp)) {
+                    System.out.println(" >> update fail");
+                    throw new RuntimeException("input < " + name + " = " + value + " >> update fail");
+                }
                 System.out.println(" >> update ok");
             }
         }
+        vs.clear();
     }
 
-//    /**
-//     * Test of getVariableValue method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testGetVariableValue() {
-//        System.out.println("getVariableValue");
-//        String name = "";
-//        VariablesStorage instance = new VariablesStorage();
-//        Complex expResult = null;
-//        Complex result = instance.getVariableValue(name);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of removeVariable method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testRemoveVariable() {
-//        System.out.println("removeVariable");
-//        String name = "";
-//        VariablesStorage instance = new VariablesStorage();
-//        instance.removeVariable(name);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of addToVariable method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testAddToVariable() {
-//        System.out.println("addToVariable");
-//        String name = "";
-//        Complex value = null;
-//        VariablesStorage instance = new VariablesStorage();
-//        instance.addToVariable(name, value);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of subFromVariable method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testSubFromVariable() {
-//        System.out.println("subFromVariable");
-//        String name = "";
-//        Complex value = null;
-//        VariablesStorage instance = new VariablesStorage();
-//        instance.subFromVariable(name, value);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getVariableValue method, of class VariablesStorage.
+     */
+    @Test(expected = NoSuchElementException.class)
+    public void testGetVariableValue() {
+        System.out.println("\ngetVariableValue");
+        
+        vs.save("a", new Complex(1,2));
+        vs.removeVariable("a");
+        vs.getVariableValue("a");
+        vs.clear();
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void testRemoveVariable() {
+        System.out.println("\nremoveVariable");        
+        vs.removeVariable("a");
+    }
+
+    /**
+     * Test of addToVariable method, of class VariablesStorage.
+     */
+    @Test
+    public void testAddToVariable() {
+        System.out.println("\naddToVariable");
+        
+        Complex a = new Complex(1,2);
+        Complex b = new Complex(1,2).negate();
+        Complex result;
+        
+        vs.save("a", a);
+        vs.addToVariable("a", a);
+        result = a.add(a);
+        assertEquals(result, vs.getVariableValue("a"));
+        
+        vs.addToVariable("a", b);
+        result = result.add(b);
+        assertEquals(result, vs.getVariableValue("a"));
+        
+        vs.addToVariable("a", b);
+        result = result.add(b);
+        assertEquals(result, vs.getVariableValue("a"));
+        
+        vs.clear();
+    }
+
+    /**
+     * Test of subFromVariable method, of class VariablesStorage.
+     */
+    @Test
+    public void testSubFromVariable() {
+        System.out.println("\naddToVariable");
+        
+        Complex a = new Complex(1,2);
+        Complex b = new Complex(1,2).negate();
+        Complex result;
+        
+        vs.save("a", a);
+        vs.subFromVariable("a", a);
+        result = a.subtract(a);
+        assertEquals(result, vs.getVariableValue("a"));
+        
+        vs.subFromVariable("a", b);
+        result = b.subtract(result);
+        assertEquals(result, vs.getVariableValue("a"));
+        
+        vs.subFromVariable("a", b);
+        result = b.subtract(result);
+        assertEquals(result, vs.getVariableValue("a"));
+    }
 
 //    /**
 //     * Test of saveState method, of class VariablesStorage.
@@ -140,7 +161,7 @@ public class VariablesStorageTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
+
 //    /**
 //     * Test of restoreState method, of class VariablesStorage.
 //     */
@@ -152,5 +173,4 @@ public class VariablesStorageTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-    
 }

@@ -1,10 +1,18 @@
 package UserInterface;
 
 import MainMathOperation.RPNSolver;
+import UserDefinedOperation.ArithmeticOperation;
+import UserDefinedOperation.Operation;
+import UserDefinedOperation.StackOperation;
+import UserDefinedOperation.SupportedOperation;
+import UserDefinedOperation.UserDefinedOperation;
 import VariablesManager.VariablesStorage;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -56,8 +65,7 @@ public class CalculatorController {
     private TableColumn<String, String> clnVariable;
     @FXML
     private TableColumn<String, Complex> clnValue;
-    @FXML
-    private ListView<String> definedOperationsList;
+
     @FXML
     private Button btnSave;
     @FXML
@@ -68,6 +76,36 @@ public class CalculatorController {
     private InputValidation check;
     private RPNSolver rpn;
     private VariablesStorage var;
+    @FXML
+    private Pane calculatorPane;
+    @FXML
+    private Pane operationsPane;
+    @FXML
+    private ListView<SupportedOperation> operationsList;
+
+    @FXML
+    private ListView<UserDefinedOperation> userDefinedList;
+    @FXML
+    private ListView<UserDefinedOperation> definedOperationsList;
+
+    @FXML
+    private ListView<Operation> finalList;
+
+    @FXML
+    private Button btnFinalCreate;
+    @FXML
+    private Button btnInsert;
+    @FXML
+    private Button btnBack;
+
+    @FXML
+    private TextField inputNumber;
+    @FXML
+    private TextField inputName;
+
+    private ObservableList<UserDefinedOperation> UserDefinedOperations;
+    private ObservableList<Operation> finalObservable;
+    private ObservableList<SupportedOperation> operationsObservable;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -76,9 +114,9 @@ public class CalculatorController {
      * @return
      */
     public void init(Stage stage) {
-        
+
         Scene scene = stage.getScene();
-        
+
         check = new InputValidation();
         rpn = RPNSolver.getInstance();
 
@@ -99,19 +137,19 @@ public class CalculatorController {
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).
                 isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").
                 or(textArea.textProperty().isEqualTo("over")));
-        
+
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).
                 lessThan(2).and(textArea.textProperty().isEqualTo("+").
                 or(textArea.textProperty().isEqualTo("-").
                         or(textArea.textProperty().isEqualTo("/").
                                 or(textArea.textProperty().isEqualTo("*")))));
-        
+
         BooleanBinding emptyList = Bindings.size(stackList.getItems()).
                 isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").
                 or(textArea.textProperty().isEqualTo("sqrt")));
-        
+
         textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
-        
+
         textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).
                 greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
 
@@ -125,22 +163,22 @@ public class CalculatorController {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ENTER && textArea.getText().length() > 0) {
                 push(new ActionEvent());
-                
+
             }
             if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
                 textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
                 textArea.end();
             }
-            
+
             e.consume();
         });
 
         //if the user presses the "back space" button on physical keyboard
         //for more than 0.2 seconds the entire Text Area is cleaned up.
         btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-            
+
             long startTime;
-            
+
             @Override
             public void handle(MouseEvent event) {
                 if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
@@ -167,7 +205,16 @@ public class CalculatorController {
         btnClose.setOnMouseClicked(mouseEvent -> stage.close());
         //minimize the Calculator
         btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
-        
+
+        finalObservable = FXCollections.observableArrayList();
+        operationsObservable = FXCollections.observableArrayList();
+        UserDefinedOperations = FXCollections.observableArrayList();
+
+        userDefinedList.setItems(UserDefinedOperations);
+        definedOperationsList.setItems(UserDefinedOperations);
+        finalList.setItems(finalObservable);
+        operationsList.setItems(operationsObservable);
+        populate();
     }
 
     /**
@@ -178,7 +225,7 @@ public class CalculatorController {
      */
     @FXML
     private void onNumberPress(ActionEvent event) {
-        
+
         String number = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + number);
     }
@@ -191,7 +238,7 @@ public class CalculatorController {
      */
     @FXML
     private void onOperationPress(ActionEvent event) {
-        
+
         String operation = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + operation);
     }
@@ -204,7 +251,7 @@ public class CalculatorController {
      */
     @FXML
     private void deleteLast(ActionEvent event) {
-        
+
         if (textArea.getText().length() > 0) {
             textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
         }
@@ -225,9 +272,9 @@ public class CalculatorController {
         String input = textArea.getText();
         String operation = check.checkOperation(input);
         String supportedVariable = check.checkVariable(input);
-        
+
         textArea.clear();
-        
+
         try {
             //add a number in the stack
             rpn.addNum(check.parser(input, "j"));
@@ -244,7 +291,7 @@ public class CalculatorController {
                 return;
             }
         }
-        
+
         try {
             //according to the operation entered by the user
             //perform the corresponding operation
@@ -295,7 +342,7 @@ public class CalculatorController {
             alert.showAndWait();
             return;
         }
-        
+
         try {
             //according to the operation entered by the user
             //perform the corresponding operation
@@ -333,7 +380,7 @@ public class CalculatorController {
             alert.showAndWait();
             return;
         }
-        
+
     }
 
     /**
@@ -343,7 +390,12 @@ public class CalculatorController {
      */
     @FXML
     private void onCreatePress(ActionEvent event) {
-        
+        operationsPane.setVisible(true);
+        operationsPane.setDisable(false);
+
+        calculatorPane.setVisible(false);
+        calculatorPane.setDisable(true);
+
     }
 
     /**
@@ -353,7 +405,7 @@ public class CalculatorController {
      */
     @FXML
     private void onSavePress(ActionEvent event) {
-        
+
     }
 
     /**
@@ -363,6 +415,64 @@ public class CalculatorController {
      */
     @FXML
     private void onRestorePress(ActionEvent event) {
-        
+
+    }
+
+    @FXML
+    private void onFinalCreatePress(ActionEvent event) {
+        String name = inputName.getText();
+        int operatorsNumber = Integer.parseInt(inputNumber.getText());
+
+        UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
+
+        if (UserDefinedOperations.contains(u)) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Look, an Error!");
+            alert.setContentText("Operazione già esistente");
+            alert.showAndWait();
+            return;
+        }
+        UserDefinedOperations.add(u);
+        finalObservable.clear();
+    }
+
+    @FXML
+    private void onInsertPress(ActionEvent event) {
+
+        if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
+            finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
+            operationsList.getSelectionModel().clearSelection();
+        }
+
+        if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
+            finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
+            userDefinedList.getSelectionModel().clearSelection();
+        }
+
+    }
+
+    @FXML
+    private void onDeletePress(ActionEvent event) {
+    }
+
+    private void populate() {
+        String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
+        String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
+        for (String op : arithmeticOperation) {
+            operationsObservable.add(new ArithmeticOperation(op, rpn));
+        }
+        for (String op : stackOperations) {
+            operationsObservable.add(new StackOperation(op, rpn));
+        }
+    }
+
+    @FXML
+    private void onBackPress(ActionEvent event) {
+        calculatorPane.setVisible(true);
+        calculatorPane.setDisable(false);
+        operationsPane.setVisible(false);
+        operationsPane.setDisable(true);
+
     }
 }

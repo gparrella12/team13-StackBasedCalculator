@@ -24,4 +24,8 @@ public class Archive<E> {
     public E restore() {
         return stack.pop().getElement();
     }
+    
+    public ArchivedItem<E> checkLastSave(){
+        return stack.top();
+    }
 }

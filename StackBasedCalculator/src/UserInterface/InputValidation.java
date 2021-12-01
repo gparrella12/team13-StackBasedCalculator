@@ -131,7 +131,7 @@ public class InputValidation {
      */
     public String checkVariable(String str) {
         // Matches ONLY "<x", ">x", "+x", "-x"
-        Pattern patternF = Pattern.compile("[<|>|-|+][a-z]");
+        Pattern patternF = Pattern.compile("[-|+|<|>][a-z]");
         Matcher matcherF = patternF.matcher(str);
 
         if (patternF.matcher(str).matches() && matcherF.find()) {

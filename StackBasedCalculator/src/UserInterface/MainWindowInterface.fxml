@@ -261,26 +261,6 @@
             </Button>
             </children>
         </Pane>
-        <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="650.0" styleClass="topBar">
-            <children>
-                <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="16.0" layoutX="620.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Graphics/close.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="btnMinimize" fitHeight="16.0" fitWidth="16.0" layoutX="595.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Graphics/hide.png" />
-                    </image>
-                </ImageView>
-                <Label layoutX="49.0" layoutY="11.0" text="Calculator" textFill="WHITE" />
-                <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="24.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Graphics/icon.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </Pane>
       <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" visible="false">
          <children>
             <Label layoutX="257.0" layoutY="241.0" prefHeight="47.0" prefWidth="137.0" text="Insert Operations" textAlignment="RIGHT" textFill="WHITE">
@@ -300,17 +280,17 @@
                </font>
             </Label>
             <ListView fx:id="userDefinedList" layoutX="24.0" layoutY="536.0" prefHeight="150.0" prefWidth="160.0" />
-            <Button fx:id="btnFinalCreate" layoutX="514.0" layoutY="653.0" mnemonicParsing="false" onAction="#onFinalCreatePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Create" textFill="WHITE">
+            <Button fx:id="btnFinalCreate" layoutX="544.0" layoutY="653.0" mnemonicParsing="false" onAction="#onFinalCreatePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Create" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnInsertSupported" layoutX="197.0" layoutY="346.0" mnemonicParsing="false" onAction="#onInsertSupportedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnInsert" layoutX="295.0" layoutY="448.0" mnemonicParsing="false" onAction="#onInsertPress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnBack" layoutX="295.0" layoutY="494.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
+            <Button fx:id="btnBack" layoutX="458.0" layoutY="653.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -339,7 +319,32 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <Button fx:id="btnInsertDefined" layoutX="197.0" layoutY="550.0" mnemonicParsing="false" onAction="#onInsertDefinedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
+        <Pane fx:id="titlePane" prefHeight="37.0" prefWidth="650.0" styleClass="topBar">
+            <children>
+                <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="16.0" layoutX="620.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Graphics/close.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="btnMinimize" fitHeight="16.0" fitWidth="16.0" layoutX="595.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Graphics/hide.png" />
+                    </image>
+                </ImageView>
+                <Label layoutX="49.0" layoutY="11.0" text="Calculator" textFill="WHITE" />
+                <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="24.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Graphics/icon.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>

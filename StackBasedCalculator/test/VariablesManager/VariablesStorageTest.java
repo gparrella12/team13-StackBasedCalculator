@@ -1,10 +1,8 @@
 package VariablesManager;
 
-import UserInterface.InputValidation;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
@@ -150,27 +148,39 @@ public class VariablesStorageTest {
         assertEquals(result, vs.getVariableValue("a"));
     }
 
-//    /**
-//     * Test of saveState method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testSaveState() throws Exception {
-//        System.out.println("saveState");
-//        VariablesStorage instance = new VariablesStorage();
-//        instance.saveState();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of saveState method, of class VariablesStorage.
+     */
+    @Test
+    public void testSaveState() throws Exception {
+        System.out.println("saveState");
+        
+        vs.save("a", new Complex(1,3));
+        
+        vs.saveState();
+        assertEquals(vs.toString(), vs.chekLastSavedState().getElement().toString());
+        
+        vs.save("a", new Complex(2.3, 0));
+        vs.save("b", new Complex(0,0));
+        assertNotEquals(vs.toString(), vs.chekLastSavedState().getElement().toString());
+    }
 
-//    /**
-//     * Test of restoreState method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testRestoreState() throws Exception {
-//        System.out.println("restoreState");
-//        VariablesStorage instance = new VariablesStorage();
-//        instance.restoreState();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of restoreState method, of class VariablesStorage.
+     */
+    @Test
+    public void testRestoreState() throws Exception {
+        System.out.println("restoreState");
+        
+        vs.save("a", new Complex(1,3));
+        String initialState = vs.toString();
+        vs.saveState();
+        
+        vs.save("a", new Complex(2.3, 0));
+        vs.save("b", new Complex(0,0));
+        assertNotEquals(vs.toString(), initialState);
+        
+        vs.restoreState();
+        assertEquals(vs.toString(), initialState);       
+    }
 }

@@ -26,5 +26,10 @@ public class ArchivedItem<E> {
 
     public LocalDateTime getArchivingDate() {
         return archivingDate;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "ArchivedItem{" + "element=" + element + ", archivingDate=" + archivingDate + '}';
+    }
 }

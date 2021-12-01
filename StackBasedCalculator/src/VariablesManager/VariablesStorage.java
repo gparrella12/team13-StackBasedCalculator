@@ -1,6 +1,10 @@
 package VariablesManager;
 
+import VariablesManager.ArchiveModule.Archivable;
 import VariablesManager.ArchiveModule.Archive;
+import VariablesManager.ArchiveModule.ArchivedItem;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -15,9 +19,9 @@ import org.apache.commons.math3.complex.Complex;
  *
  * @author fsonnessa
  */
-public class VariablesStorage {
+public class VariablesStorage implements Archivable {
     private ObservableMap<String, Complex> variables;
-    private Archive<ObservableMap<String, Complex>> backup;
+    private final Archive<HashMap<String, Complex>> backup;
     
     /**
      *
@@ -143,14 +147,33 @@ public class VariablesStorage {
     /**
      * Store current state of saved variables to permet its restore
      */
-    public void saveState() {
-        backup.save(this.variables);
+    @Override
+    public void saveState() {        
+       HashMap<String, Complex> toStore = new HashMap<>();
+       for (Map.Entry<String, Complex> entry : variables.entrySet()){
+            toStore.put(entry.getKey(), entry.getValue());
+        }        
+        backup.save(toStore);
     }
     
     /**
      * Restore last saved state of variables
      */
+    @Override
     public void restoreState() {
-        variables = backup.restore();
+        HashMap<String, Complex> toRestore = backup.restore();
+        variables.clear();
+        for(Map.Entry<String, Complex> entry : toRestore.entrySet()){
+            variables.put(entry.getKey(), entry.getValue());
+        }
+    }
+    
+    public ArchivedItem chekLastSavedState(){
+        return backup.checkLastSave();
+    }
+    
+    @Override
+    public String toString(){
+        return variables.toString();
     }
 }

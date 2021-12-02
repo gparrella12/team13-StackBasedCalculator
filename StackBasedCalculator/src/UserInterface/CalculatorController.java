@@ -437,6 +437,17 @@ public class CalculatorController {
     @FXML
     private void onFinalCreatePress(ActionEvent event) {
         String name = inputName.getText();
+
+        if (name.contains("$") || name.contains("£")
+                || name.contains("#") || name.contains("!")
+                || name.contains("?") || name.contains("%") || name.contains("&")) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Look, an Error!");
+            alert.setContentText("The operation name can’t contain special characters ($, £,#,!,?,%,&)");
+            alert.showAndWait();
+            return;
+        }
         int operatorsNumber = Integer.parseInt(inputNumber.getText());
 
         UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
@@ -445,7 +456,7 @@ public class CalculatorController {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Look, an Error!");
-            alert.setContentText("Operazione già esistente");
+            alert.setContentText("An operation with this name already exists, please change it.");
             alert.showAndWait();
             return;
         }
@@ -453,6 +464,10 @@ public class CalculatorController {
         finalObservable.clear();
         inputName.clear();
         inputNumber.clear();
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Operation created");
+        alert.setContentText("The operation is created properly!");
+        alert.showAndWait();
     }
 
     @FXML

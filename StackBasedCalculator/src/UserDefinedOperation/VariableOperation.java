@@ -5,18 +5,18 @@ import VariablesManager.VariablesStorage;
 import java.util.List;
 
 /**
- * This class implement a Variable Operation supported by the calculator. The stack's
- * operation are executed using an instance of RPNSolver class in order to
- * execute the operation in the calculator, while the variable operation are executed using
- * an instance of variable manager in the calculator.
- * 
+ * This class implement a Variable Operation supported by the calculator. The
+ * stack's operation are executed using an instance of RPNSolver class in order
+ * to execute the operation in the calculator, while the variable operation are
+ * executed using an instance of variable manager in the calculator.
+ *
  * @author gparrella
  */
 public class VariableOperation extends SupportedOperation {
-    
+
     private final VariablesStorage variableManager;
-    private final String variableName;
-    private final RPNSolver  rpn;
+    private String variableName;
+    private final RPNSolver rpn;
     /* The following constant can be used in the constructor to avoid manually insert of operation */
     /**
      * Constant for saving operator, ">".
@@ -41,10 +41,13 @@ public class VariableOperation extends SupportedOperation {
 
     /**
      * Create a VariableOperation
+     *
      * @param variableManager is the manager of variable in the calculator
-     * @param variableName is the name of the variable involved in this operation
+     * @param variableName is the name of the variable involved in this
+     * operation
      * @param rpn is the rpn solver that manages the stack in the calculator
-     * @param operationName is the name of the operation, it can be "-","+","<",">"
+     * @param operationName is the name of the operation, it can be
+     * "-","+","<",">"
      */
     public VariableOperation(VariablesStorage variableManager, String variableName, RPNSolver rpn, String operationName) {
         super(operationName);
@@ -53,7 +56,24 @@ public class VariableOperation extends SupportedOperation {
         this.variableName = variableName;
         this.rpn = rpn;
     }
-     
+
+    /**
+     * Create a VariableOperation
+     *
+     * @param variableManager is the manager of variable in the calculator
+     *
+     * @param rpn is the rpn solver that manages the stack in the calculator
+     * @param operationName is the name of the operation, it can be
+     * "-","+","<",">"
+     */
+    public VariableOperation(VariablesStorage variableManager, RPNSolver rpn, String operationName) {
+        super(operationName);
+        this.checkOperation(operationName);
+        this.variableManager = variableManager;
+        this.rpn = rpn;
+        this.variableName = null;
+    }
+
     /**
      * Execute this variable operation.
      */
@@ -82,10 +102,24 @@ public class VariableOperation extends SupportedOperation {
             }
         }
     }
-    
+
     private void checkOperation(String name) {
         if (!operationList.contains(name)) {
             throw new UnsupportedOperationException("Operation " + name + " not supported as variable operation");
         }
     }
+
+    public void setVariableName(String variableName) {
+        this.variableName = variableName;
+    }
+
+    @Override
+    public String toString() {
+        if (this.variableName == null) {
+            return super.toString() + "varName";
+        } else {
+            return super.toString() + this.variableName;
+        }
+    }
+
 }

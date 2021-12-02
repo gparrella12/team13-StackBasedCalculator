@@ -28,7 +28,7 @@
     <children>
         <Pane fx:id="calculatorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="652.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <TextArea fx:id="textArea" layoutX="19.0" layoutY="302.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="331.0" promptText="insert">
+                <TextArea fx:id="textAreaCalculator" layoutX="19.0" layoutY="302.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="331.0" promptText="insert">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -213,8 +213,8 @@
                 </Text>
             <TableView fx:id="tableVariables" layoutX="410.0" layoutY="42.0" prefHeight="252.0" prefWidth="220.0">
               <columns>
-                <TableColumn fx:id="clnVariable" prefWidth="110.0" text="Variable" />
-                <TableColumn fx:id="clnValue" prefWidth="110.0" text="Value" />
+                <TableColumn fx:id="columnVariable" prefWidth="110.0" text="Variable" />
+                <TableColumn fx:id="columnValue" prefWidth="110.0" text="Value" />
               </columns>
             </TableView>
             <ListView fx:id="definedOperationsList" layoutX="410.0" layoutY="380.0" prefHeight="261.0" prefWidth="220.0" />
@@ -285,12 +285,12 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnInsertSupported" layoutX="197.0" layoutY="346.0" mnemonicParsing="false" onAction="#onInsertSupportedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+            <Button layoutX="197.0" layoutY="346.0" mnemonicParsing="false" onAction="#onInsertSupportedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnBack" layoutX="448.0" layoutY="653.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
+            <Button fx:id="btnDelete" layoutX="448.0" layoutY="653.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -319,7 +319,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnInsertDefined" layoutX="197.0" layoutY="550.0" mnemonicParsing="false" onAction="#onInsertDefinedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+            <Button layoutX="197.0" layoutY="550.0" mnemonicParsing="false" onAction="#onInsertDefinedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

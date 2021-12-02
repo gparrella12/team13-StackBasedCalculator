@@ -261,47 +261,56 @@
             </Button>
             </children>
         </Pane>
-      <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" visible="false" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" styleClass="test" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="257.0" layoutY="241.0" prefHeight="47.0" prefWidth="137.0" text="Insert Operations" textAlignment="RIGHT" textFill="WHITE">
+            <Label layoutX="257.0" layoutY="234.0" prefHeight="47.0" prefWidth="137.0" text="Insert Operations" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="16.0" />
                </font>
             </Label>
-            <ListView fx:id="operationsList" layoutX="24.0" layoutY="331.0" prefHeight="150.0" prefWidth="160.0" />
-            <Label layoutX="35.0" layoutY="304.0" text="Supported operations:" textFill="WHITE">
+            <ListView fx:id="operationsList" layoutX="24.0" layoutY="310.0" prefHeight="150.0" prefWidth="160.0" />
+            <Label layoutX="35.0" layoutY="288.0" text="Supported operations:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="28.0" layoutY="510.0" text="User defined operations:" textFill="WHITE">
+            <Label layoutX="29.0" layoutY="491.0" text="User defined operations:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ListView fx:id="userDefinedList" layoutX="24.0" layoutY="536.0" prefHeight="150.0" prefWidth="160.0" />
-            <Button fx:id="btnFinalCreate" layoutX="565.0" layoutY="653.0" mnemonicParsing="false" onAction="#onFinalCreatePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Create" textFill="WHITE">
+            <ListView fx:id="userDefinedList" layoutX="24.0" layoutY="520.0" prefHeight="150.0" prefWidth="160.0" />
+            <Button fx:id="btnFinalCreate" layoutX="556.0" layoutY="637.0" mnemonicParsing="false" onAction="#onFinalCreatePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Create" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="197.0" layoutY="346.0" mnemonicParsing="false" onAction="#onInsertSupportedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+            <Button layoutX="197.0" layoutY="372.0" mnemonicParsing="false" onAction="#onInsertSupportedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnDelete" layoutX="448.0" layoutY="653.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
+            <Button fx:id="btnDelete" layoutX="458.0" layoutY="637.0" mnemonicParsing="false" onAction="#onDeletePress" prefHeight="33.0" prefWidth="60.0" styleClass="highlight" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <ListView fx:id="finalList" layoutX="448.0" layoutY="385.0" prefHeight="250.0" prefWidth="178.0" />
-            <Label layoutX="488.0" layoutY="362.0" text="Final Operation:" textFill="WHITE">
+            <ListView fx:id="finalList" layoutX="448.0" layoutY="350.0" prefHeight="250.0" prefWidth="178.0" />
+            <Label layoutX="488.0" layoutY="331.0" text="Final Operation:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Separator layoutX="10.0" layoutY="232.0" prefWidth="630.0" />
+            <Separator layoutX="10.0" layoutY="224.0" prefWidth="630.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding></Separator>
             <TextField fx:id="inputNumber" alignment="TOP_LEFT" layoutX="172.0" layoutY="122.0" prefHeight="30.0" prefWidth="200.0" promptText="number of operands" />
             <TextField fx:id="inputName" alignment="TOP_LEFT" layoutX="172.0" layoutY="77.0" prefHeight="30.0" prefWidth="200.0" promptText="operation name" />
             <Label layoutX="14.0" layoutY="127.0" text="Number of operands:" textFill="WHITE">
@@ -314,12 +323,12 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button layoutX="574.0" layoutY="199.0" mnemonicParsing="false" onAction="#onBackPress" styleClass="highlight" stylesheets="@MainWindowStyle.css" text="Back" textFill="WHITE">
+            <Button layoutX="564.0" layoutY="170.0" mnemonicParsing="false" onAction="#onBackPress" styleClass="highlight" stylesheets="@MainWindowStyle.css" text="Back" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button layoutX="197.0" layoutY="550.0" mnemonicParsing="false" onAction="#onInsertDefinedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
+            <Button layoutX="197.0" layoutY="582.0" mnemonicParsing="false" onAction="#onInsertDefinedPress" prefHeight="20.0" prefWidth="43.0" styleClass="highlight" text="&gt;&gt;" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

@@ -261,7 +261,7 @@
             </Button>
             </children>
         </Pane>
-      <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" visible="false">
+      <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" visible="false" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="257.0" layoutY="241.0" prefHeight="47.0" prefWidth="137.0" text="Insert Operations" textAlignment="RIGHT" textFill="WHITE">
                <font>

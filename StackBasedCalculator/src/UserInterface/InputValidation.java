@@ -12,7 +12,7 @@ import org.apache.commons.math3.complex.Complex;
  * @author Speranza
  */
 public class InputValidation {
-    
+
     //operations supported by the Calculator
     private String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
@@ -22,8 +22,8 @@ public class InputValidation {
      * supported by the Calculator.
      *
      * @param operation is the operation entered by the User.
-     * @return the operation as <code>String</code> or <code>null</code>
-     * if the input is not supported by the Calculator.
+     * @return the operation as <code>String</code> or <code>null</code> if the
+     * input is not supported by the Calculator.
      */
     public String checkOperation(String operation) {
 
@@ -44,14 +44,14 @@ public class InputValidation {
     }
 
     /**
-     * Given a complex number as a <code>String</code>, returns it as a 
+     * Given a complex number as a <code>String</code>, returns it as a
      * <code>Complex</code> object.
      *
      * @param str is the complex number entered by the User.
-     * @param imaginaryCharacter is the character used to identify the immaginary part.
+     * @param imaginaryCharacter is the character used to identify the
+     * immaginary part.
      * @return <code>Complex</code> or <code>null</code> if the string passed
-     * doesn't represent a complex number.
-     * number
+     * doesn't represent a complex number. number
      */
     public Complex parser(String str, String imaginaryCharacter) {
         double real = 0, imaginary = 0;
@@ -71,7 +71,7 @@ public class InputValidation {
 
         // Matches complex number when 1j is written as j.
         // Ex: 5+j (5+1j)
-        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]+\\.*[0-9]*)[j$]+");
+        Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]*\\.*[0-9]*)[j$]+");
 
         // Matches ONLY imaginary number when 1j is written as j.
         // Ex: +j (+1j)   
@@ -121,13 +121,14 @@ public class InputValidation {
         return null;
 
     }
-   
+
     /**
      * The function checks if the operation entered by physical keyboard is
      * supported by the Calculator.
      *
      * @param str is the User input.
-     * @return the operation as <code>String</code> or <code>null</code> if the input is not supported.
+     * @return the operation as <code>String</code> or <code>null</code> if the
+     * input is not supported.
      */
     public String checkVariable(String str) {
         // Matches ONLY "<x", ">x", "+x", "-x"

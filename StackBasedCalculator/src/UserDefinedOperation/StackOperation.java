@@ -5,17 +5,17 @@ import java.util.List;
 import org.apache.commons.math3.complex.Complex;
 
 /**
- * This class implement a Stack Operation supported by the calculator. The stack's
- * operation are executed using an instance of RPNSolver class in order to
- * execute the operation in the calculator.
- * 
+ * This class implement a Stack Operation supported by the calculator. The
+ * stack's operation are executed using an instance of RPNSolver class in order
+ * to execute the operation in the calculator.
+ *
  * @author gparrella
  */
 public class StackOperation extends SupportedOperation {
 
     /* The following constant can be used in the constructor to avoid manually insert of operation */
     /**
-     * 
+     *
      */
     public static final String CLEAR = "clear";
 
@@ -50,9 +50,11 @@ public class StackOperation extends SupportedOperation {
 
     /**
      * Create a StackOperation given its name and an rpn instance to execute it.
+     *
      * @param name the operation's name
      * @param rpn the rpn istance that execute this operation
-     * @throws UnsupportedOperationException if the name of operation is not valid
+     * @throws UnsupportedOperationException if the name of operation is not
+     * valid
      */
     public StackOperation(String name, RPNSolver rpn) {
         super(name);
@@ -61,13 +63,15 @@ public class StackOperation extends SupportedOperation {
     }
 
     /**
-     * Create a StackOperation given its name, an rpn instance to execute it and a complex number.
-     * The complex number is used in case of push operation.
-     * 
+     * Create a StackOperation given its name, an rpn instance to execute it and
+     * a complex number. The complex number is used in case of push operation.
+     *
      * @param name the operation's name
      * @param rpn the rpn istance that execute this operation
-     * @param number the complex number pushed in the stack if this is a PUSH operation
-     * @throws UnsupportedOperationException if the name of operation is not valid
+     * @param number the complex number pushed in the stack if this is a PUSH
+     * operation
+     * @throws UnsupportedOperationException if the name of operation is not
+     * valid
      * @throws NumberFormatException if <code>number</code> is <code>null</code>
      */
     public StackOperation(String name, RPNSolver rpn, Complex number) {
@@ -82,8 +86,10 @@ public class StackOperation extends SupportedOperation {
 
     /**
      * Execute the stack operation, using the rpn.
+     *
      * @throws UnsupportedOperationException if the operation is not supported
-     * @throws NumberFormatException if this is a push operation with <code>null</code> number.
+     * @throws NumberFormatException if this is a push operation with
+     * <code>null</code> number.
      */
     @Override
     public void execute() {
@@ -109,7 +115,7 @@ public class StackOperation extends SupportedOperation {
                 return;
             }
             case PUSH -> {
-                if(number == null){
+                if (number == null) {
                     throw new NumberFormatException("Unable to insert complex - Null pointer");
                 }
                 rpn.addNum(this.number);
@@ -125,6 +131,16 @@ public class StackOperation extends SupportedOperation {
         if (!operationList.contains(name)) {
             throw new UnsupportedOperationException("Operation " + name + " not supported as stack operation");
         }
+    }
+
+    @Override
+    public String toString() {
+        if (!super.getName().equals("push")) {
+            return super.toString();
+        } else if (number != null) {
+            return super.getName() + ": " + number.getReal() + " " + number.getImaginary() + "j";
+        }
+        return super.getName();
     }
 
 }

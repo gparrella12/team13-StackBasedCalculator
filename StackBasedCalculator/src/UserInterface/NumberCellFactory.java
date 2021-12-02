@@ -34,8 +34,8 @@ public class NumberCellFactory implements Callback<ListView<Complex>, ListCell<C
                     // If the cell is empty or number is null, then the visualized text is empy
                     setText(null);
                 } else {
-                    Double image = Precision.round(number.getImaginary(), 3);
-                    Double real = Precision.round(number.getReal(), 3);
+                    Double image = Precision.round(number.getImaginary(), 8);
+                    Double real = Precision.round(number.getReal(), 8);
                     String realDisplay = "", imageDisplay = "";
                     if (image != 0.000) {
                         imageDisplay = image + "j";

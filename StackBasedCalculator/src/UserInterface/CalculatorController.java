@@ -68,49 +68,43 @@ public class CalculatorController {
     private TableColumn<String, String> clnVariable;
     @FXML
     private TableColumn<String, Complex> clnValue;
-
+    @FXML
+    private Button btnInsertSupported;
+    @FXML
+    private Button btnInsertDefined;
     @FXML
     private Button btnSave;
     @FXML
     private Button btnRestore;
-
-    //useful variables
-    private double x, y;
-    private InputValidation check;
-    private RPNSolver rpn;
-    private VariablesStorage var;
     @FXML
     private Pane calculatorPane;
     @FXML
     private Pane operationsPane;
     @FXML
     private ListView<SupportedOperation> operationsList;
-
     @FXML
     private ListView<UserDefinedOperation> userDefinedList;
     @FXML
     private ListView<UserDefinedOperation> definedOperationsList;
-
     @FXML
     private ListView<Operation> finalList;
-
     @FXML
     private Button btnFinalCreate;
     @FXML
     private Button btnBack;
-
     @FXML
     private TextField inputNumber;
     @FXML
     private TextField inputName;
 
+    //useful variables
+    private double xAxis, yAxis;
+    private InputValidation check;
+    private RPNSolver rpn;
+    private VariablesStorage var;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
-    @FXML
-    private Button btnInsertSupported;
-    @FXML
-    private Button btnInsertDefined;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -198,12 +192,12 @@ public class CalculatorController {
 
         //allows the user to move around, on the screen, the calculator
         titlePane.setOnMousePressed(mouseEvent -> {
-            x = mouseEvent.getSceneX();
-            y = mouseEvent.getSceneY();
+            xAxis = mouseEvent.getSceneX();
+            yAxis = mouseEvent.getSceneY();
         });
         titlePane.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - x);
-            stage.setY(mouseEvent.getScreenY() - y);
+            stage.setX(mouseEvent.getScreenX() - xAxis);
+            stage.setY(mouseEvent.getScreenY() - yAxis);
         });
 
         //close the Calculator
@@ -246,7 +240,6 @@ public class CalculatorController {
      */
     @FXML
     private void onNumberPress(ActionEvent event) {
-
         String number = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + number);
     }
@@ -259,7 +252,6 @@ public class CalculatorController {
      */
     @FXML
     private void onOperationPress(ActionEvent event) {
-
         String operation = ((Button) event.getSource()).getText();
         textArea.setText(textArea.getText() + operation);
     }
@@ -304,11 +296,7 @@ public class CalculatorController {
             return;
         } catch (Exception e) {
             if (operation == null && supportedVariable == null) {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Look, an Error!");
-                alert.setContentText("Invalid input:\n" + input);
-                alert.showAndWait();
+                createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid input:\n" + input);
                 return;
             }
         }
@@ -356,11 +344,7 @@ public class CalculatorController {
                 }
             }
         } catch (NoSuchElementException | ArithmeticException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Look, an Error!");
-            alert.setContentText("Invalid operands for this operation");
-            alert.showAndWait();
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid operands for this operation");
             return;
         }
 
@@ -371,34 +355,31 @@ public class CalculatorController {
                 String varOperation = supportedVariable.substring(0, 1);
                 String variable = supportedVariable.substring(1);
                 switch (varOperation) {
-                    // >x: takes the top element from the stack
-                    // and saves it into the variable "x".
+                    // >xAxis: takes the top element from the stack
+                    // and saves it into the variable "xAxis".
                     case ">":
                         var.save(variable, rpn.getAns());
                         return;
-                    // <x: pushes the value of the variable "x" onto the stack.
+                    // <x: pushes the value of the variable "xAxis" onto the stack.
                     case "<":
                         Complex num = var.getVariableValue(variable);
                         rpn.addNum(num);
                         return;
-                    // +x: takes the top element from the stack and adds it
-                    // to the value of the variable "x"
+                    // +xAxis: takes the top element from the stack and adds it
+                    // to the value of the variable "xAxis"
                     case "+":
                         var.addToVariable(variable, rpn.getAns());
                         return;
-                    // -x: takes the top element from the stack and subtracts it
-                    // from the value of the variable "x"
+                    // -xAxis: takes the top element from the stack and subtracts it
+                    // from the value of the variable "xAxis"
                     case "-":
                         var.subFromVariable(variable, rpn.getAns());
                         return;
                 }
             }
         } catch (NoSuchElementException | ArithmeticException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Look, an Error!");
-            alert.setContentText("Invalid operands for this operation");
-            alert.showAndWait();
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid operands for this operation");
+
             return;
         }
 
@@ -441,36 +422,23 @@ public class CalculatorController {
     private void onFinalCreatePress(ActionEvent event) {
         String name = inputName.getText();
 
-        if (name.contains("$") || name.contains("£")
-                || name.contains("#") || name.contains("!")
-                || name.contains("?") || name.contains("%") || name.contains("&")) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Look, an Error!");
-            alert.setContentText("The operation name can’t contain special characters ($, £,#,!,?,%,&)");
-            alert.showAndWait();
+        if (name.contains("$") || name.contains("£") || name.contains("#") || name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operation name can’t contain special characters ($, £,#,!,?,%,&)");
             return;
         }
         int operatorsNumber = Integer.parseInt(inputNumber.getText());
-
         UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
 
         if (UserDefinedOperations.contains(u)) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Look, an Error!");
-            alert.setContentText("An operation with this name already exists, please change it.");
-            alert.showAndWait();
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "An operation with this name already exists, please change it.");
             return;
         }
         UserDefinedOperations.add(u);
         finalObservable.clear();
         inputName.clear();
         inputNumber.clear();
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Operation created");
-        alert.setContentText("The operation is created properly!");
-        alert.showAndWait();
+        createAlert(AlertType.INFORMATION, "Operation created", "The operation is created properly!", "");
+
     }
 
     @FXML
@@ -490,9 +458,9 @@ public class CalculatorController {
         for (String op : stackOperations) {
             operationsObservable.add(new StackOperation(op, rpn));
         }
-        //for (String op : variableOperations) {
-        //    operationsObservable.add(new VariableOperation(op, rpn));
-        // }
+        for (String op : variableOperations) {
+            operationsObservable.add(new VariableOperation(var, rpn, op));
+        }
     }
 
     @FXML
@@ -508,30 +476,41 @@ public class CalculatorController {
 
         if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
             SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
+
+            //CASO PUSH
             if (op.getName().equalsIgnoreCase("push")) {
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setTitle("Push Operation");
-                dialog.setHeaderText("Please, insert a complex number");
-                dialog.setContentText("insert here:");
-                Optional<String> result = dialog.showAndWait();
+                Optional<String> result = createTextInputDialog("Push Operation", "Please, insert a complex number", "insert here:");
+
                 if (result.isPresent()) {
-                    InputValidation i = new InputValidation();
-                    Complex num = i.parser(result.get(), "j");
+
+                    Complex num = check.parser(result.get(), "j");
                     if (num == null) {
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Look, an Error!");
-                        alert.setContentText("Invalid complex number inserted!");
-                        alert.showAndWait();
+
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid complex number inserted:\n" + result.get());
                         return;
                     }
                     finalObservable.add(new StackOperation("push", rpn, num));
                 }
 
-            } else {
+            } //CASO STACK E ARITHMETIC
+            else if (op instanceof StackOperation || op instanceof ArithmeticOperation) {
                 finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
-            }
+            } else {
+                Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
 
+                if (result.isPresent()) {
+                    InputValidation i = new InputValidation();
+                    String variableName = i.checkVariable(op.getName() + result.get());
+                    if (variableName == null) {
+
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
+                        return;
+                    }
+                    finalObservable.add(new VariableOperation(var, variableName.substring(1, variableName.length()), rpn, op.getName()));
+                }
+
+            }
+            finalList.scrollTo(finalList.getItems().size());
             operationsList.getSelectionModel().clearSelection();
         }
 
@@ -539,10 +518,27 @@ public class CalculatorController {
 
     @FXML
     private void onInsertDefinedPress(ActionEvent event) {
-
         if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
             finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
             userDefinedList.getSelectionModel().clearSelection();
         }
+    }
+
+    private Optional<String> createTextInputDialog(String title, String header, String content) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        dialog.setContentText(content);
+        return dialog.showAndWait();
+
+    }
+
+    private void createAlert(AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+
     }
 }

@@ -140,11 +140,11 @@ public class VariablesStorageTest {
         assertEquals(result, vs.getVariableValue("a"));
         
         vs.subFromVariable("a", b);
-        result = b.subtract(result);
+        result = result.subtract(b);
         assertEquals(result, vs.getVariableValue("a"));
         
         vs.subFromVariable("a", b);
-        result = b.subtract(result);
+        result = result.subtract(b);
         assertEquals(result, vs.getVariableValue("a"));
     }
 

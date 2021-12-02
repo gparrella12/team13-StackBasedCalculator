@@ -113,7 +113,7 @@ public class VariablesStorage implements Archivable {
     public void subFromVariable(String name, Complex value) throws NoSuchElementException{
         String key = checkVarName(name);
         Complex toSub = getVariableValue(key);
-        variables.put(key, value.subtract(toSub));
+        variables.put(key, toSub.subtract(value));
     }
     
     // reference: https://stackoverflow.com/questions/37171820/populating-a-tableview-with-a-hashmap-that-will-update-when-hashmap-changes

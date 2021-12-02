@@ -359,7 +359,7 @@ public class CalculatorController {
                 String varOperation = supportedVariable.substring(0, 1);
                 String variable = supportedVariable.substring(1);
                 switch (varOperation) {
-                    // >xAxis: takes the top element from the stack
+                    // >x: takes the top element from the stack
                     // and saves it into the variable "xAxis".
                     case ">":
                         variableStorage.save(variable, rpn.getAns());
@@ -370,12 +370,12 @@ public class CalculatorController {
                         Complex num = variableStorage.getVariableValue(variable);
                         rpn.addNum(num);
                         return;
-                    // +xAxis: takes the top element from the stack and adds it
+                    // +x: takes the top element from the stack and adds it
                     // to the value of the variable "xAxis"
                     case "+":
                         variableStorage.addToVariable(variable, rpn.getAns());
                         return;
-                    // -xAxis: takes the top element from the stack and subtracts it
+                    // -x: takes the top element from the stack and subtracts it
                     // from the value of the variable "xAxis"
                     case "-":
                         variableStorage.subFromVariable(variable, rpn.getAns());

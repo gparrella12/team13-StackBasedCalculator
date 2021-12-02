@@ -6,8 +6,10 @@ import UserDefinedOperation.Operation;
 import UserDefinedOperation.StackOperation;
 import UserDefinedOperation.SupportedOperation;
 import UserDefinedOperation.UserDefinedOperation;
+import UserDefinedOperation.VariableOperation;
 import VariablesManager.VariablesStorage;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -25,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -479,13 +482,17 @@ public class CalculatorController {
 
     private void populate() {
         String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
-        String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
+        String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "push"};
+        String[] variableOperations = {"+", "-", ">", "<"};
         for (String op : arithmeticOperation) {
             operationsObservable.add(new ArithmeticOperation(op, rpn));
         }
         for (String op : stackOperations) {
             operationsObservable.add(new StackOperation(op, rpn));
         }
+        //for (String op : variableOperations) {
+        //    operationsObservable.add(new VariableOperation(op, rpn));
+        // }
     }
 
     @FXML
@@ -500,7 +507,31 @@ public class CalculatorController {
     private void onInsertSupportedPress(ActionEvent event) {
 
         if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
-            finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
+            SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
+            if (op.getName().equalsIgnoreCase("push")) {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Push Operation");
+                dialog.setHeaderText("Please, insert a complex number");
+                dialog.setContentText("insert here:");
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    InputValidation i = new InputValidation();
+                    Complex num = i.parser(result.get(), "j");
+                    if (num == null) {
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Look, an Error!");
+                        alert.setContentText("Invalid complex number inserted!");
+                        alert.showAndWait();
+                        return;
+                    }
+                    finalObservable.add(new StackOperation("push", rpn, num));
+                }
+
+            } else {
+                finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
+            }
+
             operationsList.getSelectionModel().clearSelection();
         }
 

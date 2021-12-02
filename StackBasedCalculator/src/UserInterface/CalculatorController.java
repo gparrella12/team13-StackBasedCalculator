@@ -1,34 +1,18 @@
 package UserInterface;
 
 import MainMathOperation.RPNSolver;
-import UserDefinedOperation.ArithmeticOperation;
-import UserDefinedOperation.Operation;
-import UserDefinedOperation.StackOperation;
-import UserDefinedOperation.SupportedOperation;
-import UserDefinedOperation.UserDefinedOperation;
-import UserDefinedOperation.VariableOperation;
+import UserDefinedOperation.*;
 import VariablesManager.VariablesStorage;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.binding.*;
+import javafx.collections.*;
+import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -47,57 +31,33 @@ public class CalculatorController {
 
     //FXML components
     @FXML
-    private Pane titlePane;
+    private Pane titlePane, calculatorPane, operationsPane;
     @FXML
     private ImageView btnMinimize, btnClose;
     @FXML
-    private TextArea textArea;
+    private TextArea textAreaCalculator;
     @FXML
-    private Button btnClearEntry;
+    private TextField inputNumber, inputName;
     @FXML
-    private ListView<Complex> stackList;
+    private Button btnClearEntry, btnPush, btnSave, btnRestore, btnFinalCreate, btnDelete;
     @FXML
-    private Button btnPush;
-    @FXML
-    private Text textWarning;
-    @FXML
-    private Text textWarningSoft;
+    private Text textWarning, textWarningSoft;
     @FXML
     private TableView<String> tableVariables;
     @FXML
-    private TableColumn<String, String> clnVariable;
+    private TableColumn<String, String> columnVariable;
     @FXML
-    private TableColumn<String, Complex> clnValue;
-    @FXML
-    private Button btnInsertSupported;
-    @FXML
-    private Button btnInsertDefined;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnRestore;
-    @FXML
-    private Pane calculatorPane;
-    @FXML
-    private Pane operationsPane;
+    private TableColumn<String, Complex> columnValue;
     @FXML
     private ListView<SupportedOperation> operationsList;
     @FXML
-    private ListView<UserDefinedOperation> userDefinedList;
-    @FXML
-    private ListView<UserDefinedOperation> definedOperationsList;
+    private ListView<UserDefinedOperation> userDefinedList, definedOperationsList;
     @FXML
     private ListView<Operation> finalList;
     @FXML
-    private Button btnFinalCreate;
-    @FXML
-    private Button btnBack;
-    @FXML
-    private TextField inputNumber;
-    @FXML
-    private TextField inputName;
+    private ListView<Complex> stackList;
 
-    //useful variables
+    //definition of utils variables
     private double xAxis, yAxis;
     private InputValidation check;
     private RPNSolver rpn;
@@ -113,20 +73,33 @@ public class CalculatorController {
      * @return
      */
     public void init(Stage stage) {
-
         Scene scene = stage.getScene();
 
         check = new InputValidation();
         rpn = RPNSolver.getInstance();
 
+        //create observable lists and set them to the respective lists (components).
+        finalObservable = FXCollections.observableArrayList();
+        finalList.setItems(finalObservable);
+
+        operationsObservable = FXCollections.observableArrayList();
+        operationsList.setItems(operationsObservable);
+
+        UserDefinedOperations = FXCollections.observableArrayList();
+        userDefinedList.setItems(UserDefinedOperations);
+        definedOperationsList.setItems(UserDefinedOperations);
+
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberCellFactory());
         rpn.setList(stackList);
 
+        //populate the list of supported operations
+        populate();
+
         //set table cell columns for variables visualization
         variableStorage = new VariablesStorage();
-        clnValue.setCellFactory(new ColumnCellFactory());
-        variableStorage.setObserver(tableVariables, clnVariable, clnValue);
+        columnValue.setCellFactory(new ColumnCellFactory());
+        variableStorage.setObserver(tableVariables, columnVariable, columnValue);
 
         //disable buttons that will be developed in the next Sprint
         btnSave.setDisable(true);
@@ -134,88 +107,44 @@ public class CalculatorController {
 
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).
-                isEqualTo(1).and(textArea.textProperty().isEqualTo("swap").
-                or(textArea.textProperty().isEqualTo("over")));
+                isEqualTo(1).and(textAreaCalculator.textProperty().isEqualTo("swap").
+                or(textAreaCalculator.textProperty().isEqualTo("over")));
 
         BooleanBinding twoElements = Bindings.size(stackList.getItems()).
-                lessThan(2).and(textArea.textProperty().isEqualTo("+").
-                or(textArea.textProperty().isEqualTo("-").
-                        or(textArea.textProperty().isEqualTo("/").
-                                or(textArea.textProperty().isEqualTo("*")))));
-
+                lessThan(2).and(textAreaCalculator.textProperty().isEqualTo("+").
+                or(textAreaCalculator.textProperty().isEqualTo("-").
+                        or(textAreaCalculator.textProperty().isEqualTo("/").
+                                or(textAreaCalculator.textProperty().isEqualTo("*")))));
         BooleanBinding emptyList = Bindings.size(stackList.getItems()).
-                isEqualTo(0).and(textArea.textProperty().isEqualTo("+-").
-                or(textArea.textProperty().isEqualTo("sqrt")));
+                isEqualTo(0).and(textAreaCalculator.textProperty().isEqualTo("+-").
+                or(textAreaCalculator.textProperty().isEqualTo("sqrt")));
 
         textWarning.visibleProperty().bind(oneElements.or(twoElements).or(emptyList));
-
         textWarningSoft.visibleProperty().bind(Bindings.size(stackList.getItems()).
-                greaterThan(0).and(textArea.textProperty().isEqualTo("clear")));
+                greaterThan(0).and(textAreaCalculator.textProperty().isEqualTo("clear")));
 
-        //push button is disabled when the Text Area is empty
+        //btnPush is disabled when the Text Area is empty
         btnPush.disableProperty().bind(Bindings.createBooleanBinding(()
-                -> textArea.getText().trim().isEmpty(),
-                textArea.textProperty()));
+                -> textAreaCalculator.getText().trim().isEmpty(),
+                textAreaCalculator.textProperty()));
+
+        //btnFinalCreate is disable if the list finalObservable is empty or inputName is empty or inputNumber is empty
+        btnFinalCreate.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)).or(inputName.textProperty().isEmpty()).or(inputNumber.textProperty().isEmpty()));
+
+        //btnDelete is disable if finalObservable does not contain elements.
+        btnDelete.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)));
 
         //when the user presses the "back space" button on physical keyboard
-        //the last element in the Text Area is deleted.
+        //the last element in the specific text area is deleted.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.ENTER && textArea.getText().length() > 0) {
+            if (e.getCode() == KeyCode.ENTER && textAreaCalculator.getText().length() > 0) {
                 push(new ActionEvent());
 
             }
-            if (e.getCode() == KeyCode.BACK_SPACE && textArea.getText().length() > 0) {
-                textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
-                textArea.end();
+            if (e.getCode() == KeyCode.BACK_SPACE && textAreaCalculator.getText().length() > 0) {
+                textAreaCalculator.setText(textAreaCalculator.getText().substring(0, textAreaCalculator.getText().length() - 1));
+                textAreaCalculator.end();
             }
-
-            e.consume();
-        });
-
-        //if the user presses the "back space" button on physical keyboard
-        //for more than 0.2 seconds the entire Text Area is cleaned up.
-        btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-
-            long startTime;
-
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                    startTime = System.currentTimeMillis();
-                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                    if (System.currentTimeMillis() - startTime > 0.2 * 1000) {
-                        textArea.setText("");
-                    }
-                }
-            }
-        });
-
-        //allows the user to move around, on the screen, the calculator
-        titlePane.setOnMousePressed(mouseEvent -> {
-            xAxis = mouseEvent.getSceneX();
-            yAxis = mouseEvent.getSceneY();
-        });
-        titlePane.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - xAxis);
-            stage.setY(mouseEvent.getScreenY() - yAxis);
-        });
-
-        //close the Calculator
-        btnClose.setOnMouseClicked(mouseEvent -> stage.close());
-        //minimize the Calculator
-        btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
-
-        finalObservable = FXCollections.observableArrayList();
-        operationsObservable = FXCollections.observableArrayList();
-        UserDefinedOperations = FXCollections.observableArrayList();
-
-        userDefinedList.setItems(UserDefinedOperations);
-        definedOperationsList.setItems(UserDefinedOperations);
-        finalList.setItems(finalObservable);
-        operationsList.setItems(operationsObservable);
-        populate();
-
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.BACK_SPACE && inputName.getText().length() > 0 && inputName.isFocused()) {
                 inputName.setText(inputName.getText().substring(0, inputName.getText().length() - 1));
                 inputName.end();
@@ -228,8 +157,38 @@ public class CalculatorController {
             e.consume();
         });
 
-        btnFinalCreate.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)).or(inputName.textProperty().isEmpty()).or(inputNumber.textProperty().isEmpty()));
-        btnBack.disableProperty().bind((Bindings.size(finalObservable).isEqualTo(0)));
+        //if the user presses the "back space" button on physical keyboard
+        //for more than 0.2 seconds the entire Text Area is cleaned up.
+        btnClearEntry.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+            long startTime;
+
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
+                    startTime = System.currentTimeMillis();
+                } else if (event.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
+                    if (System.currentTimeMillis() - startTime > 0.2 * 1000) {
+                        textAreaCalculator.setText("");
+                    }
+                }
+            }
+        });
+
+        //close the Calculator
+        btnClose.setOnMouseClicked(mouseEvent -> stage.close());
+        //minimize the Calculator
+        btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
+
+        //allows the user to move around, on the screen, the calculator
+        titlePane.setOnMousePressed(mouseEvent -> {
+            xAxis = mouseEvent.getSceneX();
+            yAxis = mouseEvent.getSceneY();
+        });
+        titlePane.setOnMouseDragged(mouseEvent -> {
+            stage.setX(mouseEvent.getScreenX() - xAxis);
+            stage.setY(mouseEvent.getScreenY() - yAxis);
+        });
+
     }
 
     /**
@@ -241,7 +200,7 @@ public class CalculatorController {
     @FXML
     private void onNumberPress(ActionEvent event) {
         String number = ((Button) event.getSource()).getText();
-        textArea.setText(textArea.getText() + number);
+        textAreaCalculator.setText(textAreaCalculator.getText() + number);
     }
 
     /**
@@ -253,7 +212,7 @@ public class CalculatorController {
     @FXML
     private void onOperationPress(ActionEvent event) {
         String operation = ((Button) event.getSource()).getText();
-        textArea.setText(textArea.getText() + operation);
+        textAreaCalculator.setText(textAreaCalculator.getText() + operation);
     }
 
     /**
@@ -264,9 +223,8 @@ public class CalculatorController {
      */
     @FXML
     private void deleteLast(ActionEvent event) {
-
-        if (textArea.getText().length() > 0) {
-            textArea.setText(textArea.getText().substring(0, textArea.getText().length() - 1));
+        if (textAreaCalculator.getText().length() > 0) {
+            textAreaCalculator.setText(textAreaCalculator.getText().substring(0, textAreaCalculator.getText().length() - 1));
         }
     }
 
@@ -282,11 +240,11 @@ public class CalculatorController {
     @FXML
     private void push(ActionEvent event) {
         //define of used variables
-        String input = textArea.getText();
+        String input = textAreaCalculator.getText();
         String operation = check.checkOperation(input);
         String supportedVariable = check.checkVariable(input);
 
-        textArea.clear();
+        textAreaCalculator.clear();
 
         try {
             //add a number in the stack
@@ -347,7 +305,7 @@ public class CalculatorController {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                     "\nImpossible to continue.\nInsufficient number of operands.");
             return;
-        }catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!", "\nMATH ERROR.");
             return;
         }
@@ -404,33 +362,31 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to save the state of current variables.
+     * Allows the User to create a custom operation after its definition.
      *
      * @return
      */
-    @FXML
-    private void onSavePress(ActionEvent event) {
-
-    }
-
-    /**
-     * Allows the User to restore the state of variables.
-     *
-     * @return
-     */
-    @FXML
-    private void onRestorePress(ActionEvent event) {
-
-    }
-
     @FXML
     private void onFinalCreatePress(ActionEvent event) {
         String name = inputName.getText();
+        String operandsNumber = inputNumber.getText();
 
         if (name.contains("$") || name.contains("£") || name.contains("#") || name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operation name can’t contain special characters ($, £,#,!,?,%,&)");
             return;
         }
+
+        try {
+            Integer.parseInt(operandsNumber);
+        } catch (Exception e) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operands number must be an integer!");
+            return;
+        }
+
+        // if (name.contains("$")) {
+        // createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operands number must be an integer!");
+        //return;
+        // }
         int operatorsNumber = Integer.parseInt(inputNumber.getText());
         UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
 
@@ -446,6 +402,12 @@ public class CalculatorController {
 
     }
 
+    /**
+     * Allows the User to delete the last inserted operation during the
+     * definition of a custom operation
+     *
+     * @return
+     */
     @FXML
     private void onDeletePress(ActionEvent event) {
         if (finalObservable.size() > 0) {
@@ -453,6 +415,117 @@ public class CalculatorController {
         }
     }
 
+    /**
+     * Allows the User to return to the calculator's view
+     *
+     * @return
+     */
+    @FXML
+    private void onBackPress(ActionEvent event) {
+        calculatorPane.setVisible(true);
+        calculatorPane.setDisable(false);
+        operationsPane.setVisible(false);
+        operationsPane.setDisable(true);
+    }
+
+    /**
+     * Allows the User to insert a new operation (not custom)during the
+     * definition of a custom operation
+     *
+     * @return
+     */
+    @FXML
+    private void onInsertSupportedPress(ActionEvent event) {
+
+        if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
+            SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
+
+            //selected th push operation
+            if (op.getName().equalsIgnoreCase("push")) {
+                Optional<String> result = createTextInputDialog("Push Operation", "Please, insert a complex number", "insert here:");
+                if (result.isPresent()) {
+                    Complex num = check.parser(result.get(), "j");
+                    if (num == null) {
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid complex number inserted:\n" + result.get());
+                        return;
+                    }
+                    finalObservable.add(new StackOperation("push", rpn, num));
+                }
+
+            } //selected a stack or an arithmetic operation
+            else if (op instanceof StackOperation || op instanceof ArithmeticOperation) {
+                finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
+            } //selected an user defined operation
+            else {
+                Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
+                if (result.isPresent()) {
+                    InputValidation i = new InputValidation();
+                    String variableName = i.checkVariable(op.getName() + result.get());
+                    if (variableName == null) {
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
+                        return;
+                    }
+                    finalObservable.add(new VariableOperation(variableStorage, variableName.substring(1, variableName.length()), rpn, op.getName()));
+                }
+
+            }
+            //finalList autoscroll enable
+            finalList.scrollTo(finalList.getItems().size());
+
+            operationsList.getSelectionModel().clearSelection();
+        }
+
+    }
+
+    /**
+     * Allows the User to insert a new operation (custom) during the definition
+     * of a custom operation
+     *
+     * @return
+     */
+    @FXML
+    private void onInsertDefinedPress(ActionEvent event) {
+        if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
+            finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
+            userDefinedList.getSelectionModel().clearSelection();
+        }
+    }
+
+    //UTILS METHOD
+    /**
+     * Util method to create a text input dialog
+     *
+     * @return
+     */
+    private Optional<String> createTextInputDialog(String title, String header, String content) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        dialog.setContentText(content);
+        return dialog.showAndWait();
+
+    }
+
+    /**
+     * Util method to create an alert
+     *
+     * @return
+     */
+    private void createAlert(AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+
+    }
+
+    /**
+     * Util method to populate the list with al the operations (non custom)
+     * usable from the user.
+     *
+     * @return
+     */
     private void populate() {
         String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
         String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "push"};
@@ -468,82 +541,22 @@ public class CalculatorController {
         }
     }
 
+    //FOR NEXT SPRINT
+    /**
+     * Allows the User to save the state of current variables.
+     *
+     * @return
+     */
     @FXML
-    private void onBackPress(ActionEvent event) {
-        calculatorPane.setVisible(true);
-        calculatorPane.setDisable(false);
-        operationsPane.setVisible(false);
-        operationsPane.setDisable(true);
+    private void onSavePress(ActionEvent event) {
     }
 
+    /**
+     * Allows the User to restore the state of variables.
+     *
+     * @return
+     */
     @FXML
-    private void onInsertSupportedPress(ActionEvent event) {
-
-        if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
-            SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
-
-            //CASO PUSH
-            if (op.getName().equalsIgnoreCase("push")) {
-                Optional<String> result = createTextInputDialog("Push Operation", "Please, insert a complex number", "insert here:");
-
-                if (result.isPresent()) {
-
-                    Complex num = check.parser(result.get(), "j");
-                    if (num == null) {
-
-                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid complex number inserted:\n" + result.get());
-                        return;
-                    }
-                    finalObservable.add(new StackOperation("push", rpn, num));
-                }
-
-            } //CASO STACK E ARITHMETIC
-            else if (op instanceof StackOperation || op instanceof ArithmeticOperation) {
-                finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
-            } else {
-                Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
-
-                if (result.isPresent()) {
-                    InputValidation i = new InputValidation();
-                    String variableName = i.checkVariable(op.getName() + result.get());
-                    if (variableName == null) {
-
-                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
-                        return;
-                    }
-                    finalObservable.add(new VariableOperation(variableStorage, variableName.substring(1, variableName.length()), rpn, op.getName()));
-                }
-
-            }
-            finalList.scrollTo(finalList.getItems().size());
-            operationsList.getSelectionModel().clearSelection();
-        }
-
-    }
-
-    @FXML
-    private void onInsertDefinedPress(ActionEvent event) {
-        if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
-            finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
-            userDefinedList.getSelectionModel().clearSelection();
-        }
-    }
-
-    private Optional<String> createTextInputDialog(String title, String header, String content) {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle(title);
-        dialog.setHeaderText(header);
-        dialog.setContentText(content);
-        return dialog.showAndWait();
-
-    }
-
-    private void createAlert(AlertType type, String title, String header, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-
+    private void onRestorePress(ActionEvent event) {
     }
 }

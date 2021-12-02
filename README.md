@@ -49,5 +49,20 @@ Francesco Sonnessa: [@s0nFra](https://github.com/s0nFra)
 ## How to Run
 It's necessary to clone the repository in your favourite IDE and run the **Main.java** file in **UserInterface** folder.
 
+*Preliminar Phase on Netbeans to be performed immediately after cloning the repository*
+
+In order to run the calculator:
+-Right Click on the project; 
+-Select "Packaging" thath is child of "Build";
+-Here deselect "Build Jar after Compiling".
+
+
+In order to run the test:
+-Right Click on the project; 
+-Select "Libraries";
+-Here press on "+" key, situated on the same row of "Classpath"; 
+-Press "Add Library..." and, from the folder "Global Libries", add "JUnit 4.13.2" e "Hamcrest 1.3".
+
+
 ## Who can contribute to this project?
 Since this is an assignment project, only the authors can contribute to this project. Despite this, you are still free to use and distribute the code contained in this repository for your own projects according to **GNU GPL v3**.

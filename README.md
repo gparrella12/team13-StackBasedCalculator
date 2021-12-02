@@ -49,9 +49,11 @@ Francesco Sonnessa: [@s0nFra](https://github.com/s0nFra)
 ## How to Run
 It's necessary to clone the repository in your favourite IDE and run the **Main.java** file in **UserInterface** folder.
 
+
 **Preliminar Phase on Netbeans to be performed immediately after cloning the repository**
 
 **In order to run the calculator**:
+
 -Right Click on the project; 
 
 -Select "Packaging" thath is child of "Build";
@@ -59,7 +61,9 @@ It's necessary to clone the repository in your favourite IDE and run the **Main.
 -Here deselect "Build Jar after Compiling".
 
 
+
 **In order to run the test**:
+
 -Right Click on the project; 
 
 -Select "Libraries";

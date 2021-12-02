@@ -101,7 +101,7 @@ public class CalculatorController {
     private double xAxis, yAxis;
     private InputValidation check;
     private RPNSolver rpn;
-    private VariablesStorage var;
+    private VariablesStorage variableStorage;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
@@ -124,9 +124,9 @@ public class CalculatorController {
         rpn.setList(stackList);
 
         //set table cell columns for variables visualization
-        var = new VariablesStorage();
+        variableStorage = new VariablesStorage();
         clnValue.setCellFactory(new ColumnCellFactory());
-        var.setObserver(tableVariables, clnVariable, clnValue);
+        variableStorage.setObserver(tableVariables, clnVariable, clnValue);
 
         //disable buttons that will be developed in the next Sprint
         btnSave.setDisable(true);
@@ -343,8 +343,12 @@ public class CalculatorController {
                         return;
                 }
             }
-        } catch (NoSuchElementException | ArithmeticException e) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid operands for this operation");
+        } catch (NoSuchElementException e) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "\nImpossible to continue.\nInsufficient number of operands.");
+            return;
+        }catch (ArithmeticException e) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "\nMATH ERROR.");
             return;
         }
 
@@ -358,28 +362,29 @@ public class CalculatorController {
                     // >xAxis: takes the top element from the stack
                     // and saves it into the variable "xAxis".
                     case ">":
-                        var.save(variable, rpn.getAns());
+                        variableStorage.save(variable, rpn.getAns());
+                        rpn.drop();
                         return;
                     // <x: pushes the value of the variable "xAxis" onto the stack.
                     case "<":
-                        Complex num = var.getVariableValue(variable);
+                        Complex num = variableStorage.getVariableValue(variable);
                         rpn.addNum(num);
                         return;
                     // +xAxis: takes the top element from the stack and adds it
                     // to the value of the variable "xAxis"
                     case "+":
-                        var.addToVariable(variable, rpn.getAns());
+                        variableStorage.addToVariable(variable, rpn.getAns());
                         return;
                     // -xAxis: takes the top element from the stack and subtracts it
                     // from the value of the variable "xAxis"
                     case "-":
-                        var.subFromVariable(variable, rpn.getAns());
+                        variableStorage.subFromVariable(variable, rpn.getAns());
                         return;
                 }
             }
-        } catch (NoSuchElementException | ArithmeticException e) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid operands for this operation");
-
+        } catch (NoSuchElementException e) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "Impossible to continue.\nInsufficient number of operands.");
             return;
         }
 
@@ -459,7 +464,7 @@ public class CalculatorController {
             operationsObservable.add(new StackOperation(op, rpn));
         }
         for (String op : variableOperations) {
-            operationsObservable.add(new VariableOperation(var, rpn, op));
+            operationsObservable.add(new VariableOperation(variableStorage, rpn, op));
         }
     }
 
@@ -506,7 +511,7 @@ public class CalculatorController {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
                         return;
                     }
-                    finalObservable.add(new VariableOperation(var, variableName.substring(1, variableName.length()), rpn, op.getName()));
+                    finalObservable.add(new VariableOperation(variableStorage, variableName.substring(1, variableName.length()), rpn, op.getName()));
                 }
 
             }

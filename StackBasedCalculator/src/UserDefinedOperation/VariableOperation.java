@@ -11,6 +11,7 @@ import java.util.List;
  * executed using an instance of variable manager in the calculator.
  *
  * @author gparrella
+ * @see VariablesManager.VariablesStorage
  */
 public class VariableOperation extends SupportedOperation {
 
@@ -46,7 +47,7 @@ public class VariableOperation extends SupportedOperation {
      * @param variableName is the name of the variable involved in this
      * operation
      * @param rpn is the rpn solver that manages the stack in the calculator
-     * @param operationName is the name of the operation, it can be
+     * @param operationName is the name of the operation, it can be *
      * "-","+","<",">"
      */
     public VariableOperation(VariablesStorage variableManager, String variableName, RPNSolver rpn, String operationName) {
@@ -109,17 +110,23 @@ public class VariableOperation extends SupportedOperation {
         }
     }
 
+    /**
+     * Set the name of the variable
+     *
+     * @param variableName the variable's name
+     */
     public void setVariableName(String variableName) {
         this.variableName = variableName;
     }
 
+    /**
+     * Return a string that represent this operation.
+     *
+     * @return a string that represent this operation
+     */
     @Override
     public String toString() {
-        if (this.variableName == null) {
-            return super.toString() + "varName";
-        } else {
-            return super.toString() + this.variableName;
-        }
+        return super.toString() + ((this.variableName == null) ? "varName" : this.variableName);
     }
 
 }

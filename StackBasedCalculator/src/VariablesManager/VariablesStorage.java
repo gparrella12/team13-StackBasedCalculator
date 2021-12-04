@@ -17,6 +17,8 @@ import org.apache.commons.math3.complex.Complex;
 
 /**
  *
+ * The class provides an implementation of a Variable Storage for the Calculator.
+ * 
  * @author fsonnessa
  */
 public class VariablesStorage implements Archivable {
@@ -24,7 +26,9 @@ public class VariablesStorage implements Archivable {
     private final Archive<HashMap<String, Complex>> backup;
     
     /**
-     *
+     * Creates a VariablesStorage object containing all the variables 
+     * defined by the user.
+     * 
      */
     public VariablesStorage(){
         variables = FXCollections.observableHashMap();
@@ -32,10 +36,10 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Check the correctness of the given name:
+     * Checks the correctness of the given name:
      * the variable name must be only a letter (characther from 'a' to 'z')
-     * @param key
-     * @return passed key, at post in lower case
+     * @param key is the variable name
+     * @return the key passed as argument, in lower case
      * @throws IllegalArgumentException 
      */
     private String checkVarName(String key) throws IllegalArgumentException{        
@@ -46,7 +50,7 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Save a number in a variable assigning a name to it
+     * Combines a value to variable, starting from the variable and the value
      * @param name - variable name
      * @param value - number to save
      * @throws IllegalArgumentException
@@ -57,7 +61,7 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Return the value of a variable previously saved thanks its name
+     * Returns the value of a variable previously saved, starting from its name
      * @param name - variable name
      * @return value stored
      * @throws NoSuchElementException if variable is not found
@@ -73,7 +77,7 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Remove a stored variable
+     * Removes a stored variable
      * @param name - variable name
      * @throws NoSuchElementException
      * @throws IllegalArgumentException 
@@ -117,12 +121,14 @@ public class VariablesStorage implements Archivable {
         variables.put(key, toSub.subtract(value));
     }
     
-    // reference: https://stackoverflow.com/questions/37171820/populating-a-tableview-with-a-hashmap-that-will-update-when-hashmap-changes
+    
     /**
      * Sets an observer to a TableView and its columns to see saved variables
-     * @param table
-     * @param varNameColumn
-     * @param varValueColumn
+     * @param table is the table in witch show the variable and the value
+     * @param varNameColumn is the column associated to the variables
+     * @param varValueColumn is the column associated to the value
+     * 
+     * @see https://stackoverflow.com/questions/37171820/populating-a-tableview-with-a-hashmap-that-will-update-when-hashmap-changes
      */
     public void setObserver(TableView<String> table, TableColumn<String, String> varNameColumn, TableColumn<String, Complex> varValueColumn) {
         ObservableList<String> keys = FXCollections.observableArrayList();
@@ -146,7 +152,7 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Store current state of saved variables to permet its restore
+     * Stores current state of saved variables to allow its restore
      */
     @Override
     public void saveState() {        
@@ -158,7 +164,7 @@ public class VariablesStorage implements Archivable {
     }
     
     /**
-     * Restore last saved state of variables
+     * Restores the last saved state of variables
      */
     @Override
     public void restoreState() {

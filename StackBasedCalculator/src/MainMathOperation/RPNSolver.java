@@ -7,9 +7,9 @@ import javafx.scene.control.ListView;
 /**
  * Implementation of an Reverse Polish Notation Solver for Complex numbers
  *
- * Use a stack to memorize numbers used in operations
+ * Uses a stack to memorize numbers used in operations
  *
- * This class follow Singleton
+ * This class follows Singleton
  *
  * @author fsonnessa
  */
@@ -23,12 +23,12 @@ public class RPNSolver {
     }
 
     /**
-     * This method return the instance of RPNSolver Singleton class
+     * This method returns the instance of RPNSolver Singleton class
      *
      * @return RPNSolver instance
      */
     public static RPNSolver getInstance() {
-        // Create the object only if not exists
+        // Create the object only if doesn't exists
         if (instance == null) {
             instance = new RPNSolver();
         }
@@ -36,8 +36,8 @@ public class RPNSolver {
     }
 
     /**
-     * Adds the first two elements of the stack and save the result on top. top =
-     * top + (top-1)
+     * Adds the first two elements of the stack and saves the result on top 
+     * (top = top + (top-1))
      *
      * @throws NoSuchElementException
      */
@@ -57,7 +57,7 @@ public class RPNSolver {
      * Subtracts the first two elements of the stack and save the result on top.
      * This operation has fixed order of operands: the second element is the
      * left operant while the first element (top element) is the right operand
-     * top = (top-1) - top
+     * (top = (top-1) - top)
      *
      * @throws NoSuchElementException
      */
@@ -74,8 +74,8 @@ public class RPNSolver {
     }
 
     /**
-     * Multiply the first two elements of the stack and save the result on top.
-     * top = top * (top-1)
+     * Multiply the first two elements of the stack and save the result on top 
+     * (top = top * (top-1))
      *
      * @throws NoSuchElementException
      */
@@ -95,7 +95,7 @@ public class RPNSolver {
      * Divides the first two elements of the stack and save the result on top.
      * This operation has fixed order of operands: the second element is the
      * left operant while the first element (top element) is the right operand
-     * top = (top-1) / top
+     * (top = (top-1) / top)
      *
      * @throws NoSuchElementException
      */
@@ -116,7 +116,7 @@ public class RPNSolver {
     }
 
     /**
-     * Make the root of on top element top = sqrt(top)
+     * Makes the root of on top element (top = sqrt(top))
      *
      * @throws NoSuchElementException
      */
@@ -131,7 +131,7 @@ public class RPNSolver {
     }
 
     /**
-     * Invert the sign of on top number top = top * -1
+     * Inverts the sign of on top number (top = top * -1)
      *
      * @throws NoSuchElementException
      */
@@ -146,7 +146,7 @@ public class RPNSolver {
     }
 
     /**
-     * Return last ANSwer
+     * Returns last ANSwer
      *
      * @return
      */
@@ -155,7 +155,7 @@ public class RPNSolver {
     }
 
     /**
-     * Push a number in the stack
+     * Pushes a number in the stack
      *
      * @param num
      */
@@ -169,35 +169,35 @@ public class RPNSolver {
     
     
     /**
-     * Invoke clear() method of the stack
+     * Invokes clear() stack method
      */
     public void clear() {
         stack.clear();
     }
 
     /**
-     * Invoke drop() method of the stack
+     * Invokes drop() stack method
      */
     public void drop() {
         stack.drop();
     }
 
     /**
-     * Invoke dup() method of the stack
+     * Invokes dup() stack method
      */
     public void dup() {
         stack.dup();
     }
 
     /**
-     * Invoke swap() method of the stack
+     * Invokes swap() stack method
      */
     public void swap() {
         stack.swap();
     }
 
     /**
-     * Invoke over() method of the stack
+     * Invokes over() stack method
      */
     public void over() {
         stack.over();
@@ -213,8 +213,9 @@ public class RPNSolver {
     }
     
     /**
-     * Get the stack's size.
-     * @return the size of the stack
+     * Gets the stack's size.
+     * 
+     * @return the stack size
      */
     public int getStackSize(){
         return stack.size();

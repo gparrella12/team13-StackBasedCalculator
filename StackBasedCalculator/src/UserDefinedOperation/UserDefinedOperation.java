@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The class provide an implementation of a user-defined operation.
+ * The class provides an implementation of a user-defined operation.
  * <p>
- * A user-defined operation should contain supported operation and also previus
- * user-defined operation.
+ * A user-defined operation should contains supported operations 
+ * and also previous user-defined operations.
  *
  * @author gparrella
  */
@@ -83,7 +83,7 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
-     * Compare two user-defined operation.
+     * Compare two user-defined operations.
      *
      * @param obj other user-defined operation
      * @return <code> true </code> if the two user-defined operation have the

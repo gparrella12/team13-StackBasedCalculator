@@ -89,7 +89,7 @@ public class Stack<E> {
     }
 
     /**
-     * Remove the last element of the stack, if there are almost one element. If
+     * Remove the last element of the stack, if there is at least one element. If
      * the stack is empty, the operation has no effect.
      */
     public void drop() {
@@ -99,8 +99,8 @@ public class Stack<E> {
     }
 
     /**
-     * Duplicate the last element into the stack, if there are almost one
-     * element. If the stack is empty, the operation has no effect.
+     * Duplicate the last element into the stack, if there is at least one element.
+     * If the stack is empty, the operation has no effect.
      */
     public void dup() {
         if (!this.isEmpty()) {

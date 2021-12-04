@@ -5,7 +5,7 @@ import org.apache.commons.math3.complex.Complex;
 import javafx.scene.control.ListView;
 
 /**
- * Implementation of an Reverse Polish Notation Solver for Complex numbers
+ * Implementation of a Reverse Polish Notation Solver for Complex numbers
  *
  * Uses a stack to memorize numbers used in operations
  *

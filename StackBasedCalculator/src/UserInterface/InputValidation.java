@@ -18,7 +18,7 @@ public class InputValidation {
     private String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
 
     /**
-     * The function checks if the operation entered by physical keyboard is
+     * Checks if the operation entered by physical keyboard is
      * supported by the Calculator.
      *
      * @param operation is the operation entered by the User.
@@ -42,6 +42,27 @@ public class InputValidation {
         return null;
 
     }
+    
+      
+     /**
+     * Checks if the operation entered by physical keyboard is
+     * supported by the Calculator.
+     *
+     * @param str is the User input.
+     * @return the operation as <code>String</code> or <code>null</code> if the
+     * input is not supported.
+     */
+    public String checkVariable(String str) {
+        // Matches ONLY "<x", ">x", "+x", "-x"
+        Pattern patternF = Pattern.compile("[-|+|<|>][a-z]");
+        Matcher matcherF = patternF.matcher(str);
+
+        if (patternF.matcher(str).matches() && matcherF.find()) {
+            return str;
+        }
+        return null;
+    }
+    
 
     /**
      * Given a complex number as a <code>String</code>, returns it as a
@@ -122,22 +143,4 @@ public class InputValidation {
 
     }
 
-    /**
-     * The function checks if the operation entered by physical keyboard is
-     * supported by the Calculator.
-     *
-     * @param str is the User input.
-     * @return the operation as <code>String</code> or <code>null</code> if the
-     * input is not supported.
-     */
-    public String checkVariable(String str) {
-        // Matches ONLY "<x", ">x", "+x", "-x"
-        Pattern patternF = Pattern.compile("[-|+|<|>][a-z]");
-        Matcher matcherF = patternF.matcher(str);
-
-        if (patternF.matcher(str).matches() && matcherF.find()) {
-            return str;
-        }
-        return null;
-    }
 }

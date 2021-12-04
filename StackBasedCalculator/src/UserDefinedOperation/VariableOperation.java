@@ -5,11 +5,10 @@ import VariablesManager.VariablesStorage;
 import java.util.List;
 
 /**
- * This class implement a Variable Operation supported by the calculator. The
- * stack's operation are executed using an instance of RPNSolver class in order
- * to execute the operation in the calculator, while the variable operation are
+ * This class implements a Variable Operation supported by the calculator. The
+ * stack's operations are executed using an instance of RPNSolver class in order
+ * to execute the operations in the calculator, while the variable operations are
  * executed using an instance of variable manager in the calculator.
- *
  * @author gparrella
  * @see VariablesManager.VariablesStorage
  */
@@ -18,7 +17,7 @@ public class VariableOperation extends SupportedOperation {
     private final VariablesStorage variableManager;
     private String variableName;
     private final RPNSolver rpn;
-    /* The following constant can be used in the constructor to avoid manually insert of operation */
+    /* The following constants can be used in the constructor to avoid manually insert of operation */
     /**
      * Constant for saving operator, ">".
      */
@@ -61,7 +60,7 @@ public class VariableOperation extends SupportedOperation {
     /**
      * Create a VariableOperation
      *
-     * @param variableManager is the manager of variable in the calculator
+     * @param variableManager is the manager of the variable in the calculator
      *
      * @param rpn is the rpn solver that manages the stack in the calculator
      * @param operationName is the name of the operation, it can be

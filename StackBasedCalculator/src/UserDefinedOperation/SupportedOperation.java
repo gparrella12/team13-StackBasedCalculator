@@ -3,7 +3,7 @@ package UserDefinedOperation;
 import java.util.Objects;
 
 /**
- * This is an abstract class for the operation that are already supported in the
+ * This is an abstract class for the operations that are already supported in the
  * calculator.
  *
  * @author gparrella
@@ -21,7 +21,7 @@ public abstract class SupportedOperation implements Operation {
         this.name = name;
     }
     /**
-     * Get the operation name.
+     * Get the operation's name.
      *
      * @return
      */
@@ -42,7 +42,7 @@ public abstract class SupportedOperation implements Operation {
     }
 
     /**
-     * Compare two supported operation.
+     * Compare two supported operations.
      *
      * @param obj the supported operation that we want to compare with
      * <code>this</code>

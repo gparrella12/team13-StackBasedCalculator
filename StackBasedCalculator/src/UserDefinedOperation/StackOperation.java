@@ -5,15 +5,15 @@ import java.util.List;
 import org.apache.commons.math3.complex.Complex;
 
 /**
- * This class implement a Stack Operation supported by the calculator. The
- * stack's operation are executed using an instance of RPNSolver class in order
+ * This class implements a Stack Operation supported by the calculator. The
+ * stack's operations are executed using an instance of RPNSolver class in order
  * to execute the operation in the calculator.
  *
  * @author gparrella
  */
 public class StackOperation extends SupportedOperation {
 
-    /* The following constant can be used in the constructor to avoid manually insert of operation */
+    /* The following constants can be used in the constructor to avoid manually insert of operation */
     /**
      * Public constant for clear operation.
      */
@@ -58,7 +58,7 @@ public class StackOperation extends SupportedOperation {
      */
     public StackOperation(String name, RPNSolver rpn) {
         super(name);
-        this.chechOperation(name);
+        this.checkOperation(name);
         this.rpn = rpn;
     }
 
@@ -76,7 +76,7 @@ public class StackOperation extends SupportedOperation {
      */
     public StackOperation(String name, RPNSolver rpn, Complex number) {
         super(name);
-        this.chechOperation(name);
+        this.checkOperation(name);
         if (name.equals(PUSH) && number == null) {
             throw new NumberFormatException("Null pointer for complex operand");
         }
@@ -127,7 +127,7 @@ public class StackOperation extends SupportedOperation {
         }
     }
 
-    private void chechOperation(String name) {
+    private void checkOperation(String name) {
         if (!operationList.contains(name)) {
             throw new UnsupportedOperationException("Operation " + name + " not supported as stack operation");
         }

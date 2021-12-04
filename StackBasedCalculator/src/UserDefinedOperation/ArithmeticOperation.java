@@ -4,8 +4,8 @@ import MainMathOperation.RPNSolver;
 import java.util.List;
 
 /**
- * The class provide an implementation of Arithmetic Operation supported by the calculator. The arithmetic
- * operation are executed using an instance of RPNSolver class in order to
+ * The class provides an implementation of Arithmetic Operation supported by the calculator. The arithmetic
+ * operations are executed using an instance of RPNSolver class in order to
  * execute the operation in the calculator.
  *
  * @author gparrella
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ArithmeticOperation extends SupportedOperation {
 
-    /* The following constant can be used in the constructor to avoid manually insert of operation */
+    /* The following constants can be used in the constructor to avoid manually insert of operation */
     /**
      * Public constant for sum operation.
      */

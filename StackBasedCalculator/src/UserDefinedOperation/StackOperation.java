@@ -15,17 +15,17 @@ public class StackOperation extends SupportedOperation {
 
     /* The following constant can be used in the constructor to avoid manually insert of operation */
     /**
-     *
+     * Public constant for clear operation.
      */
     public static final String CLEAR = "clear";
 
     /**
-     * Public constant for clear operation.
+     * Public constant for drop operation.
      */
     public static final String DROP = "drop";
 
     /**
-     * Public constant for drop operation.
+     * Public constant for dup operation.
      */
     public static final String DUP = "dup";
 
@@ -133,14 +133,13 @@ public class StackOperation extends SupportedOperation {
         }
     }
 
+    /**
+     * Returns a string that represent this operation
+     *
+     * @return a string that represent this operation
+     */
     @Override
     public String toString() {
-        if (!super.getName().equals("push")) {
-            return super.toString();
-        } else if (number != null) {
-            return super.getName() + ": " + number.getReal() + " " + number.getImaginary() + "j";
-        }
-        return super.getName();
+        return super.toString() + ((super.getName().equals("push") && this.number != null) ? ": " + number.getReal() + " " + number.getImaginary() + "j" : " ");
     }
-
 }

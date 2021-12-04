@@ -53,7 +53,7 @@ public class VariableOperationTest {
                     assertEquals("Error in add method call - Invalid size", 1, rpn.getStackSize());
                 }
                 case SUBTRACT -> {
-                    assertEquals("Error in subtract method call", variableStorage.getVariableValue("a"), new Complex(0, 10));
+                    assertEquals("Error in subtract method call", variableStorage.getVariableValue("a"), new Complex(0, -10));
                     assertEquals("Error in subtract method call - Invalid size", 1, rpn.getStackSize());
                 }
             }

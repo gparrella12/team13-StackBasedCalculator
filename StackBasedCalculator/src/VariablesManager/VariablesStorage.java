@@ -67,7 +67,7 @@ public class VariablesStorage implements Archivable {
         String key = checkVarName(name);        
         Complex result = variables.get(key);        
         if (result == null){
-            throw new NoSuchElementException("Variable not foud");
+            throw new NoSuchElementException("Variable not found");
         }
         return result;
     }
@@ -81,7 +81,7 @@ public class VariablesStorage implements Archivable {
     public void removeVariable(String name) throws NoSuchElementException, IllegalArgumentException{
         String key = checkVarName(name);             
         if (variables.remove(key) == null){
-            throw new NoSuchElementException("Variable not foud");
+            throw new NoSuchElementException("Variable not found");
         }
     }
     
@@ -98,10 +98,11 @@ public class VariablesStorage implements Archivable {
      * @param value to sum
      * @throws NoSuchElementException
      */
-    public void addToVariable(String name, Complex value) throws NoSuchElementException{
+    public void addToVariable(String name, Complex value){
         String key = checkVarName(name);
         Complex toAdd = getVariableValue(key);
-        variables.put(key, toAdd.add(value));          
+        variables.put(key, toAdd.add(value)); 
+
     }
     
     /**

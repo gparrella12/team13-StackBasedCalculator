@@ -117,7 +117,7 @@ public class Stack<E> {
      */
     public void swap() {
         if (this.size() == 1) {
-            throw new NoSuchElementException("There isn't enough element");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         } else if (this.size() >= 2) {
             E last = list.get(list.size() - 1);
             E secondLast = list.get(list.size() - 2);
@@ -134,7 +134,7 @@ public class Stack<E> {
      */
     public void over() {
         if (this.size() == 1) {
-            throw new NoSuchElementException("There isn't enough element");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         } else if (this.size() >= 2) {
             E secondLast = list.get(list.size() - 2);
             this.push(secondLast);

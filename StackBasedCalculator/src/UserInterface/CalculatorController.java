@@ -416,7 +416,7 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to return to the calculator's view
+     * Allows the User to go back to the calculator's view (the first view)
      *
      * @return
      */

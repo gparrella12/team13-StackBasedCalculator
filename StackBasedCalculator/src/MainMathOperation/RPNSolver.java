@@ -3,7 +3,6 @@ package MainMathOperation;
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
 import javafx.scene.control.ListView;
-import org.apache.commons.math3.exception.MathParseException;
 
 /**
  * Implementation of an Reverse Polish Notation Solver for Complex numbers
@@ -45,7 +44,7 @@ public class RPNSolver {
     public void sum() throws NoSuchElementException {
 
         if (stack.size() < 2) {
-            throw new NoSuchElementException("Need almost two elements in the stack");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         }
 
         Complex num1 = stack.pop();
@@ -65,7 +64,7 @@ public class RPNSolver {
     public void subtraction() throws NoSuchElementException {
 
         if (stack.size() < 2) {
-            throw new NoSuchElementException("Need almost two elements in the stack");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         }
 
         Complex num1 = stack.pop();
@@ -83,7 +82,7 @@ public class RPNSolver {
     public void product() throws NoSuchElementException {
 
         if (stack.size() < 2) {
-            throw new NoSuchElementException("Need almost two elements in the stack");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         }
 
         Complex num1 = stack.pop();
@@ -103,11 +102,11 @@ public class RPNSolver {
     public void division() throws NoSuchElementException {
 
         if (stack.size() < 2) {
-            throw new NoSuchElementException("Need almost two elements in the stack");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         }
 
         if (stack.top().equals(new Complex(0))) {
-            throw new ArithmeticException();
+            throw new ArithmeticException("MATH ERROR");
         }
 
         Complex num1 = stack.pop();
@@ -123,7 +122,7 @@ public class RPNSolver {
      */
     public void sqrt() throws NoSuchElementException {
         if (stack.size() < 1) {
-            throw new NoSuchElementException("Need almost one elements in the stack");
+            throw new NoSuchElementException("The stack is empty");
         }
 
         Complex num = stack.pop();
@@ -138,7 +137,7 @@ public class RPNSolver {
      */
     public void invertSign() throws NoSuchElementException {
         if (stack.size() < 1) {
-            throw new NoSuchElementException("Need almost one elements in the stack");
+            throw new NoSuchElementException("The stack is empty");
         }
 
         Complex num = stack.pop();

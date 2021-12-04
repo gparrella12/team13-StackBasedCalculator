@@ -429,8 +429,9 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to insert a new operation (not custom)during the
-     * definition of a custom operation
+     * Allows the User to insert a supported operation in the list that
+     * gather all the operations inserted by the user in the phase of 
+     * definition of a custom operation (the list in the bottom-right corner)
      *
      * @return
      */
@@ -478,9 +479,10 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to insert a new operation (custom) during the definition
-     * of a custom operation
-     *
+     * Allows the User to insert a user defined operation in the list that
+     * gather all the operations inserted by the user in the phase of 
+     * definition of a custom operation (the list in the bottom-right corner)
+     *(in this way he creates a nested user defined operation)
      * @return
      */
     @FXML

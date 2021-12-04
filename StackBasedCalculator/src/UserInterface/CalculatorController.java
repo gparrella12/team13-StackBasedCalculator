@@ -301,12 +301,9 @@ public class CalculatorController {
                         return;
                 }
             }
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | ArithmeticException e) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "\nImpossible to continue.\nInsufficient number of operands.");
-            return;
-        } catch (ArithmeticException e) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "\nMATH ERROR.");
+                    "\nImpossible to continue.\n" + e.getMessage());
             return;
         }
 
@@ -318,31 +315,32 @@ public class CalculatorController {
                 String variable = supportedVariable.substring(1);
                 switch (varOperation) {
                     // >x: takes the top element from the stack
-                    // and saves it into the variable "xAxis".
+                    // and saves it into the variable "x".
                     case ">":
                         variableStorage.save(variable, rpn.getAns());
                         rpn.drop();
                         return;
-                    // <x: pushes the value of the variable "xAxis" onto the stack.
+                    // <x: pushes the value of the variable "x" onto the stack.
                     case "<":
                         Complex num = variableStorage.getVariableValue(variable);
                         rpn.addNum(num);
                         return;
                     // +x: takes the top element from the stack and adds it
-                    // to the value of the variable "xAxis"
+                    // to the value of the variable "x"
                     case "+":
                         variableStorage.addToVariable(variable, rpn.getAns());
                         return;
                     // -x: takes the top element from the stack and subtracts it
-                    // from the value of the variable "xAxis"
+                    // from the value of the variable "x"
                     case "-":
                         variableStorage.subFromVariable(variable, rpn.getAns());
                         return;
                 }
             }
-        } catch (NoSuchElementException e) {
+        }
+        catch (NoSuchElementException e) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "Impossible to continue.\nInsufficient number of operands.");
+                    "Impossible to continue.\n" + e.getMessage());
             return;
         }
 

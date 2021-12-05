@@ -38,6 +38,8 @@ The Sprint Retrospective is available [here](https://docs.google.com/document/d/
 
 ## Third Sprint
 
+The Third Sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1AjNkdsQb6IhvwqhNPyY-9PWMRXdOj_UO/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
+
 You will find our Third Sprint presentation on Sun. December 12.
 
 You will find the Sprint Review on Sun. December 12.

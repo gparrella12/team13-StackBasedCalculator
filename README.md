@@ -29,12 +29,11 @@ In particular, at the end of this Sprint, the calculator should allow to save th
 
 The second sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1UWp_Y9NHINfGEQZpec92-oT1uPaIZZuh/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You will find our second Sprint presentation on Sun. December 5.
-
 The Sprint Review is available [here](https://docs.google.com/document/d/10ioFJa7Sr5AbBR-5ko4DmjhayVZ2SujA/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 The Sprint Retrospective is available [here](https://docs.google.com/document/d/1ulzRUwaPfQsllOkhzwue3z69rQky84r8/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
+Second Sprint presentation is available [here](https://docs.google.com/presentation/d/1fP_ttTAXd6CGnZ4DWCtCNf0W3xONDnKI/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 ## Third Sprint
 

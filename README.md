@@ -31,10 +31,18 @@ The second sprint backlog is available [here](https://docs.google.com/spreadshee
 
 You will find our second Sprint presentation on Sun. December 5.
 
-You will find the Sprint Review  on Sun. December 5.
+The Sprint Review is available [here](https://docs.google.com/document/d/10ioFJa7Sr5AbBR-5ko4DmjhayVZ2SujA/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You will find the Sprint Retrospective on Sun. December 5.
+The Sprint Retrospective is available [here](https://docs.google.com/document/d/1ulzRUwaPfQsllOkhzwue3z69rQky84r8/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
+
+## Third Sprint
+
+You will find our Third Sprint presentation on Sun. December 12.
+
+You will find the Sprint Review on Sun. December 12.
+
+You will find the Sprint Retrospective on Sun. December 12.
 
 ## Authors
 Speranza Ranieri: [@httpsperanza](https://github.com/httpsperanza)

@@ -39,7 +39,7 @@ public class CalculatorController {
     @FXML
     private TextField inputNumber, inputName;
     @FXML
-    private Button btnClearEntry, btnPush, btnSave, btnRestore, btnFinalCreate, btnDelete;
+    private Button btnClearEntry, btnPush, btnFinalCreate, btnDelete;
     @FXML
     private Text textWarning, textWarningSoft;
     @FXML
@@ -100,10 +100,6 @@ public class CalculatorController {
         variableStorage = new VariablesStorage();
         columnValue.setCellFactory(new ColumnCellFactory());
         variableStorage.setObserver(tableVariables, columnVariable, columnValue);
-
-        //disable buttons that will be developed in the next Sprint
-        btnSave.setDisable(true);
-        btnRestore.setDisable(true);
 
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).
@@ -189,6 +185,21 @@ public class CalculatorController {
             stage.setY(mouseEvent.getScreenY() - yAxis);
         });
 
+        MenuItem deleteMenu = new MenuItem("Delete");
+        ContextMenu contextMenu = new ContextMenu(deleteMenu);
+        definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
+
+        deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION, "Confirmation Dialog", "Look, a Confirmation Dialog", "Do you confirm that you want to cancel this operation?");
+                if (result.get() == ButtonType.OK) {
+                   //delete the operation
+                } else {
+                   return;
+                }
+            }
+        });
     }
 
     /**
@@ -337,8 +348,7 @@ public class CalculatorController {
                         return;
                 }
             }
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                     "Impossible to continue.\n" + e.getMessage());
             return;
@@ -427,9 +437,9 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to insert a supported operation in the list that
-     * gather all the operations inserted by the user in the phase of 
-     * definition of a custom operation (the list in the bottom-right corner)
+     * Allows the User to insert a supported operation in the list that gather
+     * all the operations inserted by the user in the phase of definition of a
+     * custom operation (the list in the bottom-right corner)
      *
      * @return
      */
@@ -458,8 +468,7 @@ public class CalculatorController {
             else {
                 Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    InputValidation i = new InputValidation();
-                    String variableName = i.checkVariable(op.getName() + result.get());
+                    String variableName = check.checkVariable(op.getName() + result.get());
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
                         return;
@@ -478,9 +487,10 @@ public class CalculatorController {
 
     /**
      * Allows the User to insert a user defined operation in the list that
-     * gather all the operations inserted by the user in the phase of 
-     * definition of a custom operation (the list in the bottom-right corner)
-     *(in this way he creates a nested user defined operation)
+     * gather all the operations inserted by the user in the phase of definition
+     * of a custom operation (the list in the bottom-right corner) (in this way
+     * he creates a nested user defined operation)
+     *
      * @return
      */
     @FXML
@@ -511,12 +521,12 @@ public class CalculatorController {
      *
      * @return
      */
-    private void createAlert(AlertType type, String title, String header, String content) {
+    private Optional<ButtonType> createAlert(AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.showAndWait();
+        return alert.showAndWait();
 
     }
 
@@ -548,7 +558,13 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onSavePress(ActionEvent event) {
+    private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
+        //there aren't variables to save
+        if (columnValue.getColumns().size() == 0) {
+            return;
+        }
+        variableStorage.saveState();
+        createAlert(AlertType.INFORMATION, "Save Variable State", "Confirmation Message", "Variables State saved properly");
     }
 
     /**
@@ -558,5 +574,11 @@ public class CalculatorController {
      */
     @FXML
     private void onRestorePress(ActionEvent event) {
+        try {
+            variableStorage.restoreState();
+        } catch (NoSuchElementException e) {
+            createAlert(AlertType.ERROR, "Save Variable State", "Error Message", "There isn't a state to restore");
+        }
     }
+
 }

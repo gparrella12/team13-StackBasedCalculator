@@ -1,5 +1,6 @@
 package UserInterface;
 
+import UserInterface.CellFactory.ContextMenuListCell;
 import UserInterface.CellFactory.NumberColumnFactory;
 import UserInterface.CellFactory.OperationCellFactory;
 import MainMathOperation.RPNSolver;
@@ -42,7 +43,7 @@ public class CalculatorController {
     @FXML
     private TextField inputNumber, inputName;
     @FXML
-    private Button btnClearEntry, btnPush, btnSave, btnRestore, btnFinalCreate, btnDelete;
+    private Button btnClearEntry, btnPush, btnFinalCreate, btnDelete;
     @FXML
     private Text textWarning, textWarningSoft;
     @FXML
@@ -107,12 +108,8 @@ public class CalculatorController {
         columnValue.setCellFactory(new NumberColumnFactory());
         variableStorage.setObserver(tableVariables, columnVariable, columnValue);
 
-        //populate the list of supported operations
+        //populate tables
         populate();
-
-        //disable buttons that will be developed in the next Sprint
-        btnSave.setDisable(true);
-        btnRestore.setDisable(true);
 
         // Set bindings for warning
         BooleanBinding oneElements = Bindings.size(stackList.getItems()).
@@ -198,6 +195,21 @@ public class CalculatorController {
             stage.setY(mouseEvent.getScreenY() - yAxis);
         });
 
+        MenuItem deleteMenu = new MenuItem("Delete");
+        ContextMenu contextMenu = new ContextMenu(deleteMenu);
+        definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
+
+        deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION, "Confirmation Dialog", "Look, a Confirmation Dialog", "Do you confirm that you want to cancel this operation?");
+                if (result.get() == ButtonType.OK) {
+                    //delete the operation
+                } else {
+                    return;
+                }
+            }
+        });
     }
 
     /**
@@ -219,7 +231,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onOperationPress(ActionEvent event) {
+    private void onOperationPress(ActionEvent event
+    ) {
         String operation = ((Button) event.getSource()).getText();
         textAreaCalculator.setText(textAreaCalculator.getText() + operation);
     }
@@ -231,7 +244,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void deleteLast(ActionEvent event) {
+    private void deleteLast(ActionEvent event
+    ) {
         if (textAreaCalculator.getText().length() > 0) {
             textAreaCalculator.setText(textAreaCalculator.getText().substring(0, textAreaCalculator.getText().length() - 1));
         }
@@ -247,7 +261,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void push(ActionEvent event) {
+    private void push(ActionEvent event
+    ) {
         //define of used variables
         String input = textAreaCalculator.getText();
         String operation = check.checkOperation(input);
@@ -291,7 +306,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onCreatePress(ActionEvent event) {
+    private void onCreatePress(ActionEvent event
+    ) {
         operationsPane.setVisible(true);
         operationsPane.setDisable(false);
         calculatorPane.setVisible(false);
@@ -304,7 +320,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onFinalCreatePress(ActionEvent event) {
+    private void onFinalCreatePress(ActionEvent event
+    ) {
         String name = inputName.getText();
         String operandsNumber = inputNumber.getText();
 
@@ -346,7 +363,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onDeletePress(ActionEvent event) {
+    private void onDeletePress(ActionEvent event
+    ) {
         if (finalObservable.size() > 0) {
             finalObservable.remove(finalObservable.size() - 1);
         }
@@ -358,7 +376,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onBackPress(ActionEvent event) {
+    private void onBackPress(ActionEvent event
+    ) {
         calculatorPane.setVisible(true);
         calculatorPane.setDisable(false);
         operationsPane.setVisible(false);
@@ -373,7 +392,8 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onInsertSupportedPress(ActionEvent event) {
+    private void onInsertSupportedPress(ActionEvent event
+    ) {
 
         if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
             SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
@@ -397,8 +417,7 @@ public class CalculatorController {
             else {
                 Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    InputValidation i = new InputValidation();
-                    String variableName = i.checkVariable(op.getName() + result.get());
+                    String variableName = check.checkVariable(op.getName() + result.get());
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
                         return;
@@ -424,14 +443,15 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onInsertDefinedPress(ActionEvent event) {
+    private void onInsertDefinedPress(ActionEvent event
+    ) {
         if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
             finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
             userDefinedList.getSelectionModel().clearSelection();
         }
     }
-
     //UTILS METHOD
+
     /**
      * Util method to create a text input dialog
      *
@@ -450,12 +470,12 @@ public class CalculatorController {
      *
      * @return
      */
-    private void createAlert(AlertType type, String title, String header, String content) {
+    private Optional<ButtonType> createAlert(AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.showAndWait();
+        return alert.showAndWait();
 
     }
 
@@ -493,7 +513,7 @@ public class CalculatorController {
     @FXML
     private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
         //there aren't variables to save
-        if (columnValue.getColumns().isEmpty()) {
+        if (columnValue.getColumns().size() == 0) {
             return;
         }
         variableStorage.saveState();

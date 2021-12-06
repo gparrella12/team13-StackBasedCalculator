@@ -117,6 +117,7 @@ public class VariableOperation extends SupportedOperation {
     public void setVariableName(String variableName) {
         this.variableName = variableName;
     }
+    
 
     /**
      * Return a string that represent this operation.

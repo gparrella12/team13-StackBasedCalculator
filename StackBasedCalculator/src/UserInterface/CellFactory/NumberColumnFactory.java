@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package UserInterface;
+package UserInterface.CellFactory;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -24,10 +20,10 @@ import org.apache.commons.math3.util.Precision;
  * A complex number of <code>Complex</code> class is used.
  *
  * @see org.apache.commons.math3.complex.Complex
- * 
+ *
  * @author Speranza
  */
-public class ColumnCellFactory implements Callback<TableColumn<String, Complex>, TableCell<String, Complex>> {
+public class NumberColumnFactory implements Callback<TableColumn<String, Complex>, TableCell<String, Complex>> {
 
     @Override
     public TableCell<String, Complex> call(TableColumn<String, Complex> param) {
@@ -40,8 +36,8 @@ public class ColumnCellFactory implements Callback<TableColumn<String, Complex>,
                     // If the cell is empty or number is null, then the visualized text is empy
                     setText(null);
                 } else {
-                    Double image = Precision.round(number.getImaginary(), 3);
-                    Double real = Precision.round(number.getReal(), 3);
+                    Double image = Precision.round(number.getImaginary(), 8);
+                    Double real = Precision.round(number.getReal(), 8);
                     String realDisplay = "", imageDisplay = "";
                     if (image != 0.000) {
                         imageDisplay = image + "j";

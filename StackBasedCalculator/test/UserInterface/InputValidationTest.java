@@ -17,12 +17,12 @@ import org.junit.Test;
 public class InputValidationTest {
 
     /**
-     * Test of testParser method, of class InputValidation.
+     * Test of testParseComplex method, of class InputValidation.
      *
      * @author fsonnessa
      */
     @Test
-    public void testParser() {
+    public void testParseComplex() {
         InputValidation i = new InputValidation();
         RPNSolver rpn = RPNSolver.getInstance();
         System.out.println("\naddNum");
@@ -42,7 +42,7 @@ public class InputValidationTest {
 
             if (testResult.equals("fail")) {
                 try {
-                    rpn.addNum(i.parser(input, "j"));
+                    rpn.addNum(i.parseComplex(input, "j"));
                 } catch (NumberFormatException ex) {
                     System.out.println(" >> Fail for " + input);
                     exceptionFlag = true;
@@ -52,7 +52,7 @@ public class InputValidationTest {
                 }
                 exceptionFlag = false;
             } else {
-                rpn.addNum(i.parser(input, "j"));
+                rpn.addNum(i.parseComplex(input, "j"));
                 Complex tmp = rpn.getAns();
                 assertEquals("Wrong parsing detect : in< " + input + " > out< " + testResult + " >] ", tmp.toString(), testResult);
                 rpn.drop();

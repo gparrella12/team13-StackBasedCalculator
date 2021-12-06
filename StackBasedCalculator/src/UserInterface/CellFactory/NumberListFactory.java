@@ -1,5 +1,9 @@
-package UserInterface;
+package UserInterface.CellFactory;
 
+/**
+ *
+ * @author gparrella
+ */
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
@@ -22,7 +26,7 @@ import org.apache.commons.math3.util.Precision;
  * @see org.apache.commons.math3.complex.Complex
  * @author gparrella
  */
-public class NumberCellFactory implements Callback<ListView<Complex>, ListCell<Complex>> {
+public class NumberListFactory implements Callback<ListView<Complex>, ListCell<Complex>> {
 
     @Override
     public ListCell<Complex> call(ListView<Complex> param) {

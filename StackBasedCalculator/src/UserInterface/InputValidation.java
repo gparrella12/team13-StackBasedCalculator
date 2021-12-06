@@ -74,7 +74,7 @@ public class InputValidation {
      * @return <code>Complex</code> or <code>null</code> if the string passed
      * doesn't represent a complex number. number
      */
-    public Complex parser(String str, String imaginaryCharacter) {
+    public Complex parseComplex(String str, String imaginaryCharacter) {
         double real = 0, imaginary = 0;
         String numberNoWhiteSpace = str.replaceAll("\\s", "");
 

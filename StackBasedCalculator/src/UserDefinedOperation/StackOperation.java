@@ -127,6 +127,11 @@ public class StackOperation extends SupportedOperation {
         }
     }
 
+    public void setNumber(Complex number) {
+        this.number = number;
+    }
+    
+
     private void checkOperation(String name) {
         if (!operationList.contains(name)) {
             throw new UnsupportedOperationException("Operation " + name + " not supported as stack operation");

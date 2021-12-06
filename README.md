@@ -37,6 +37,9 @@ Second Sprint presentation is available [here](https://docs.google.com/presentat
 
 ## Third Sprint
 
+In this third Sprint, our goal is to increase the functionality of the calculator developed in the previous Sprint, allowing the user to execute the custom operations already defined, store the state of variables and restore it.
+In particular, at the end of this Sprint, the calculator should allow to invoke a user defined operation and to execute all the operations in order, in addiction the calculator should allow to save a copy of all the 26 variables on a "variable stack" and restore for all variables the last values that were saved on the "variable stack" (removing them from that stack). Finally, the "save" operation can be performed several times, preserving several sets of variable values.
+
 The Third Sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1AjNkdsQb6IhvwqhNPyY-9PWMRXdOj_UO/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 You will find our Third Sprint presentation on Sun. December 12.

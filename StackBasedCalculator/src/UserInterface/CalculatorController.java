@@ -194,11 +194,15 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - xAxis);
             stage.setY(mouseEvent.getScreenY() - yAxis);
         });
-
+        
+        //menu items to allow the execution and the delete of a user defined operation
         MenuItem deleteMenu = new MenuItem("Delete");
-        ContextMenu contextMenu = new ContextMenu(deleteMenu);
-        definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
+        MenuItem executeMenu = new MenuItem("Execute");
 
+        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu);
+        definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
+        
+        //actions executed when the user selects the "Delete" option from the menu
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -210,6 +214,17 @@ public class CalculatorController {
                 }
             }
         });
+        
+        //actions executed when the user selects the "Execute" option from the menu
+        executeMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                return;
+            }
+        });
+        
+        
+        
     }
 
     /**

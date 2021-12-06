@@ -223,12 +223,12 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSavePress" prefWidth="65.0" styleClass="highlight" text="Save" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#onSavePress" prefWidth="65.0" styleClass="highlight" text="Save" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnRestore" mnemonicParsing="false" onAction="#onRestorePress" prefWidth="65.0" styleClass="highlight" text="Restore" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#onRestorePress" prefWidth="65.0" styleClass="highlight" text="Restore" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>

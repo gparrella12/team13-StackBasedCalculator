@@ -542,7 +542,7 @@ public class CalculatorController {
         try {
             variableStorage.restoreState();
         } catch (NoSuchElementException e) {
-            createAlert(AlertType.ERROR, "Save Variable State", "Error Message", "There isn't a state to restore");
+            createAlert(AlertType.ERROR, "Restore Variable State", "Error Message", "There isn't a state to restore");
             return;
         }
         createAlert(AlertType.INFORMATION, "Restore Variable State", "Confirmation Message", "Variables State restored properly");

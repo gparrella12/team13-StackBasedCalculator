@@ -179,6 +179,10 @@ public class VariablesStorage implements Archivable {
         return backup.checkLastSave();
     }
     
+    public int getSize(){
+    return variables.size();    
+    }
+    
     @Override
     public String toString(){
         return variables.toString();

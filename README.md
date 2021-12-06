@@ -63,9 +63,9 @@ It's necessary to clone the repository in your favourite IDE and run the **Main.
 
 **In order to run the calculator**:
 
--Right Click on the project; 
+-Right Click on the project and select "Properties"; 
 
--Select "Packaging" thath is child of "Build";
+-Select "Packaging" that is child of "Build";
 
 -Here deselect "Build Jar after Compiling".
 
@@ -73,7 +73,7 @@ It's necessary to clone the repository in your favourite IDE and run the **Main.
 
 **In order to run the test**:
 
--Right Click on the project; 
+-Right Click on the project and select "Properties"; ; 
 
 -Select "Libraries";
 

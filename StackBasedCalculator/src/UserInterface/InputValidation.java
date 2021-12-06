@@ -94,21 +94,18 @@ public class InputValidation {
         // Ex: 5+j (5+1j)
         Pattern patternD = Pattern.compile("([-|+]?[0-9]+\\.?[0-9]*)([-|+]+[0-9]*\\.*[0-9]*)[j$]+");
 
-        // Matches ONLY imaginary number when 1j is written as j.
-        // Ex: +j (+1j)   
-        Pattern patternE = Pattern.compile("([-|+]?[0-9]*\\.*[0-9]*)[j$]");
 
         Matcher matcherA = patternA.matcher(numberNoWhiteSpace);
         Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
         Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
         Matcher matcherD = patternD.matcher(numberNoWhiteSpace);
-        Matcher matcherE = patternE.matcher(numberNoWhiteSpace);
+       // Matcher matcherE = patternE.matcher(numberNoWhiteSpace);
 
         boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
                 || patternB.matcher(numberNoWhiteSpace).matches()
                 || patternC.matcher(numberNoWhiteSpace).matches()
-                || patternD.matcher(numberNoWhiteSpace).matches()
-                || patternE.matcher(numberNoWhiteSpace).matches();
+                || patternD.matcher(numberNoWhiteSpace).matches();
+         
 
         if (flag) {
             if (matcherA.find()) {
@@ -127,14 +124,7 @@ public class InputValidation {
                 } else {
                     imaginary = 1.0;
                 }
-            } else if (matcherE.find()) {
-                real = 0.0;
-                if (matcherE.group(1).toString().equals("-")) {
-                    imaginary = -1.0;
-                } else {
-                    imaginary = 1.0;
-                }
-            }
+            } 
             return new Complex(real, imaginary);
 
         }

@@ -89,7 +89,7 @@ public class Stack<E> {
     }
 
     /**
-     * Remove the last element of the stack, if there are almost one element. If
+     * Remove the last element of the stack, if there is at least one element. If
      * the stack is empty, the operation has no effect.
      */
     public void drop() {
@@ -99,8 +99,8 @@ public class Stack<E> {
     }
 
     /**
-     * Duplicate the last element into the stack, if there are almost one
-     * element. If the stack is empty, the operation has no effect.
+     * Duplicate the last element into the stack, if there is at least one element.
+     * If the stack is empty, the operation has no effect.
      */
     public void dup() {
         if (!this.isEmpty()) {
@@ -117,7 +117,7 @@ public class Stack<E> {
      */
     public void swap() {
         if (this.size() == 1) {
-            throw new NoSuchElementException("There isn't enough element");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         } else if (this.size() >= 2) {
             E last = list.get(list.size() - 1);
             E secondLast = list.get(list.size() - 2);
@@ -134,7 +134,7 @@ public class Stack<E> {
      */
     public void over() {
         if (this.size() == 1) {
-            throw new NoSuchElementException("There isn't enough element");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         } else if (this.size() >= 2) {
             E secondLast = list.get(list.size() - 2);
             this.push(secondLast);

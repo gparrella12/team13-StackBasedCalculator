@@ -33,7 +33,7 @@ The Sprint Review is available [here](https://docs.google.com/document/d/10ioFJa
 
 The Sprint Retrospective is available [here](https://docs.google.com/document/d/1ulzRUwaPfQsllOkhzwue3z69rQky84r8/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-Second Sprint presentation is available [here](https://docs.google.com/presentation/d/1fP_ttTAXd6CGnZ4DWCtCNf0W3xONDnKI/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
+Second Sprint presentation is available [here](https://docs.google.com/presentation/d/1K0Gz9KDLAcdGS-pGAIEeJsrIj6Rsejn7/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 ## Third Sprint
 

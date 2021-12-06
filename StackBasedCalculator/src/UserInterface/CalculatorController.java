@@ -512,10 +512,6 @@ public class CalculatorController {
      */
     @FXML
     private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
-        //there aren't variables to save
-        if (columnValue.getColumns().size() == 0) {
-            return;
-        }
         variableStorage.saveState();
         createAlert(AlertType.INFORMATION, "Save Variable State", "Confirmation Message", "Variables State saved properly");
     }
@@ -532,6 +528,7 @@ public class CalculatorController {
         } catch (NoSuchElementException e) {
             createAlert(AlertType.ERROR, "Save Variable State", "Error Message", "There isn't a state to restore");
         }
+         createAlert(AlertType.INFORMATION, "Restore Variable State", "Confirmation Message", "Variables State restored properly");
     }
 
 }

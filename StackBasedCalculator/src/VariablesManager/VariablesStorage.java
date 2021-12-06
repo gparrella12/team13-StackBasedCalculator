@@ -51,8 +51,8 @@ public class VariablesStorage implements Archivable {
     
     /**
      * Combines a value to variable, starting from the variable and the value
-     * @param name - variable name
-     * @param value - number to save
+     * @param name variable name
+     * @param value number to save
      * @throws IllegalArgumentException
      */
     public void save(String name, Complex value) throws IllegalArgumentException{        
@@ -62,7 +62,7 @@ public class VariablesStorage implements Archivable {
     
     /**
      * Returns the value of a variable previously saved, starting from its name
-     * @param name - variable name
+     * @param name variable name
      * @return value stored
      * @throws NoSuchElementException if variable is not found
      * @throws IllegalArgumentException
@@ -78,7 +78,7 @@ public class VariablesStorage implements Archivable {
     
     /**
      * Removes a stored variable
-     * @param name - variable name
+     * @param name variable name
      * @throws NoSuchElementException
      * @throws IllegalArgumentException 
      */
@@ -98,7 +98,7 @@ public class VariablesStorage implements Archivable {
     
     /**
      * Sum passed <code>value</code> to a stored variable value
-     * @param name - variable name
+     * @param name variable name
      * @param value to sum
      * @throws NoSuchElementException
      */
@@ -111,7 +111,7 @@ public class VariablesStorage implements Archivable {
     
     /**
      * Subtracts stored variable value to a passed <code>value</code>
-     * @param name - variable name
+     * @param name variable name
      * @param value to subtract
      * @throws NoSuchElementException
      */

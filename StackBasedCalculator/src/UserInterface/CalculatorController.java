@@ -194,14 +194,14 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - xAxis);
             stage.setY(mouseEvent.getScreenY() - yAxis);
         });
-        
+
         //menu items to allow the execution and the delete of a user defined operation
         MenuItem deleteMenu = new MenuItem("Delete");
         MenuItem executeMenu = new MenuItem("Execute");
 
         ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu);
         definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
-        
+
         //actions executed when the user selects the "Delete" option from the menu
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -214,7 +214,7 @@ public class CalculatorController {
                 }
             }
         });
-        
+
         //actions executed when the user selects the "Execute" option from the menu
         executeMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -222,9 +222,7 @@ public class CalculatorController {
                 return;
             }
         });
-        
-        
-        
+
     }
 
     /**
@@ -527,6 +525,9 @@ public class CalculatorController {
      */
     @FXML
     private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
+        if (variableStorage.getSize() == 0) {
+            return;
+        }
         variableStorage.saveState();
         createAlert(AlertType.INFORMATION, "Save Variable State", "Confirmation Message", "Variables State saved properly");
     }
@@ -542,8 +543,9 @@ public class CalculatorController {
             variableStorage.restoreState();
         } catch (NoSuchElementException e) {
             createAlert(AlertType.ERROR, "Save Variable State", "Error Message", "There isn't a state to restore");
+            return;
         }
-         createAlert(AlertType.INFORMATION, "Restore Variable State", "Confirmation Message", "Variables State restored properly");
+        createAlert(AlertType.INFORMATION, "Restore Variable State", "Confirmation Message", "Variables State restored properly");
     }
 
 }

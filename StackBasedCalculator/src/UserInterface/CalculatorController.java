@@ -1,5 +1,6 @@
 package UserInterface;
 
+import ArchiveModule.Archive;
 import UserInterface.CellFactory.ContextMenuListCell;
 import UserInterface.CellFactory.NumberColumnFactory;
 import UserInterface.CellFactory.OperationCellFactory;
@@ -66,6 +67,7 @@ public class CalculatorController {
     private InputValidation check;
     private RPNSolver rpn;
     private VariablesStorage variableStorage;
+    private Archive variablesArchive;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
@@ -107,6 +109,9 @@ public class CalculatorController {
         variableStorage = new VariablesStorage();
         columnValue.setCellFactory(new NumberColumnFactory());
         variableStorage.setObserver(tableVariables, columnVariable, columnValue);
+        
+        //set archive for VariableStorage
+        variablesArchive = new Archive(variableStorage);
 
         //populate tables
         populate();
@@ -519,7 +524,7 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to save the state of current variables.
+     * Allows the User to saveState the state of current variables.
      *
      * @return
      */
@@ -528,19 +533,19 @@ public class CalculatorController {
         if (variableStorage.getSize() == 0) {
             return;
         }
-        variableStorage.saveState();
+        variablesArchive.saveState();
         createAlert(AlertType.INFORMATION, "Save Variable State", "Confirmation Message", "Variables State saved properly");
     }
 
     /**
-     * Allows the User to restore the state of variables.
+     * Allows the User to restoreState the state of variables.
      *
      * @return
      */
     @FXML
     private void onRestorePress(ActionEvent event) {
         try {
-            variableStorage.restoreState();
+            variablesArchive.restoreState();
         } catch (NoSuchElementException e) {
             createAlert(AlertType.ERROR, "Restore Variable State", "Error Message", "There isn't a state to restore");
             return;

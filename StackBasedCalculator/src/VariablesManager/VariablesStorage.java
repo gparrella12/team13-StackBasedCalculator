@@ -1,8 +1,7 @@
 package VariablesManager;
 
-import VariablesManager.ArchiveModule.Archivable;
-import VariablesManager.ArchiveModule.Archive;
-import VariablesManager.ArchiveModule.ArchivedItem;
+import ArchiveModule.Archivable;
+import ArchiveModule.ArchiveItem;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -23,7 +22,6 @@ import org.apache.commons.math3.complex.Complex;
  */
 public class VariablesStorage implements Archivable {
     private ObservableMap<String, Complex> variables;
-    private final Archive<HashMap<String, Complex>> backup;
     
     /**
      * Creates a VariablesStorage object containing all the variables 
@@ -32,7 +30,6 @@ public class VariablesStorage implements Archivable {
      */
     public VariablesStorage(){
         variables = FXCollections.observableHashMap();
-        backup = new Archive<>();
     }
     
     /**
@@ -155,28 +152,24 @@ public class VariablesStorage implements Archivable {
      * Stores current state of saved variables to allow its restore
      */
     @Override
-    public void saveState() {        
-       HashMap<String, Complex> toStore = new HashMap<>();
+    public ArchiveItem toSave() {        
+       HashMap<String, Complex> toSave = new HashMap<>();
        for (Map.Entry<String, Complex> entry : variables.entrySet()){
-            toStore.put(entry.getKey(), entry.getValue());
+            toSave.put(entry.getKey(), entry.getValue());
         }        
-        backup.save(toStore);
+        return new ArchiveItem(toSave);
     }
     
     /**
      * Restores the last saved state of variables
      */
     @Override
-    public void restoreState() {
-        HashMap<String, Complex> toRestore = backup.restore();
+    public void toRestore(ArchiveItem state) {
+        HashMap<String, Complex> toRestore = (HashMap<String, Complex>) state.getElement();
         variables.clear();
         for(Map.Entry<String, Complex> entry : toRestore.entrySet()){
             variables.put(entry.getKey(), entry.getValue());
         }
-    }
-    
-    public ArchivedItem chekLastSavedState(){
-        return backup.checkLastSave();
     }
     
     public int getSize(){

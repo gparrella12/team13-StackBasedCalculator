@@ -4,7 +4,7 @@
  */
 package ArchiveModule;
 
-import MainMathOperation.Stack;
+import java.util.Stack;
 
 /**
  *
@@ -38,6 +38,6 @@ public class Archive {
     }
 
     public ArchiveItem checkLastSave() {
-        return stack.top();
+        return stack.peek();
     }
 }

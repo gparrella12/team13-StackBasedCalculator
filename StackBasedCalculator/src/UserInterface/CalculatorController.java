@@ -211,11 +211,16 @@ public class CalculatorController {
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION, "Confirmation Dialog", "Look, a Confirmation Dialog", "Do you confirm that you want to cancel this operation?");
+                
+                Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION,
+                        "Confirmation Dialog", "Look, a Confirmation Dialog",
+                        "Do you confirm that you want to cancel this operation?");
                 if (result.get() == ButtonType.OK) {
-                    //delete the operation
                     try {
-                        
+                        //delete code
+                        createAlert(AlertType.INFORMATION, "Information Dialog",
+                                "Information Message",
+                                "Operation deleted correctly.");
                     } catch (Exception ex) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                     "\nImpossible to delete.\n" + ex.getMessage());
@@ -271,7 +276,8 @@ public class CalculatorController {
     private void deleteLast(ActionEvent event
     ) {
         if (textAreaCalculator.getText().length() > 0) {
-            textAreaCalculator.setText(textAreaCalculator.getText().substring(0, textAreaCalculator.getText().length() - 1));
+            textAreaCalculator.setText(textAreaCalculator.getText()
+                    .substring(0, textAreaCalculator.getText().length() - 1));
         }
     }
 
@@ -349,15 +355,18 @@ public class CalculatorController {
         String name = inputName.getText();
         String operandsNumber = inputNumber.getText();
 
-        if (name.contains("$") || name.contains("£") || name.contains("#") || name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operation name can’t contain special characters ($, £,#,!,?,%,&)");
+        if (name.contains("$") || name.contains("£") || name.contains("#") ||
+                name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "The operation name can’t contain special characters ($, £,#,!,?,%,&)");
             return;
         }
 
         try {
             Integer.parseInt(operandsNumber);
         } catch (Exception e) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operands number must be an integer!");
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "The operands number must be an integer!");
             return;
         }
 
@@ -369,7 +378,8 @@ public class CalculatorController {
         UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
 
         if (UserDefinedOperations.contains(u)) {
-            createAlert(AlertType.ERROR, "Error", "Look, an Error!", "An operation with this name already exists, please change it.");
+            createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "An operation with this name already exists, please change it.");
             return;
         }
         UserDefinedOperations.add(u);
@@ -424,11 +434,13 @@ public class CalculatorController {
 
             //selected th push operation
             if (op.getName().equalsIgnoreCase("push")) {
-                Optional<String> result = createTextInputDialog("Push Operation", "Please, insert a complex number", "insert here:");
+                Optional<String> result = createTextInputDialog("Push Operation",
+                        "Please, insert a complex number", "insert here:");
                 if (result.isPresent()) {
                     Complex num = check.parseComplex(result.get(), "j");
                     if (num == null) {
-                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid complex number inserted:\n" + result.get());
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                                "Invalid complex number inserted:\n" + result.get());
                         return;
                     }
                     finalObservable.add(new StackOperation("push", rpn, num));
@@ -439,14 +451,17 @@ public class CalculatorController {
                 finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
             } //selected an user defined operation
             else {
-                Optional<String> result = createTextInputDialog("Variable Operation", "Please, insert a variable name (a-z)", "insert here:");
+                Optional<String> result = createTextInputDialog("Variable Operation",
+                        "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
                     String variableName = check.checkVariable(op.getName() + result.get());
                     if (variableName == null) {
-                        createAlert(AlertType.ERROR, "Error", "Look, an Error!", "Invalid variable name:\n" + result.get());
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                                "Invalid variable name:\n" + result.get());
                         return;
                     }
-                    finalObservable.add(new VariableOperation(variableStorage, variableName.substring(1, variableName.length()), rpn, op.getName()));
+                    finalObservable.add(new VariableOperation(variableStorage,
+                            variableName.substring(1, variableName.length()), rpn, op.getName()));
                 }
 
             }
@@ -540,7 +555,8 @@ public class CalculatorController {
             return;
         }
         variablesArchive.saveState();
-        createAlert(AlertType.INFORMATION, "Save Variable State", "Confirmation Message", "Variables State saved properly");
+        createAlert(AlertType.INFORMATION, "Save Variable State",
+                "Information Message", "Variables State saved properly");
     }
 
     /**
@@ -553,10 +569,12 @@ public class CalculatorController {
         try {
             variablesArchive.restoreState();
         } catch (NoSuchElementException e) {
-            createAlert(AlertType.ERROR, "Restore Variable State", "Error Message", "There isn't a state to restore");
+            createAlert(AlertType.ERROR, "Restore Variable State",
+                    "Error Message", "There isn't a state to restore");
             return;
         }
-        createAlert(AlertType.INFORMATION, "Restore Variable State", "Confirmation Message", "Variables State restored properly");
+        createAlert(AlertType.INFORMATION, "Restore Variable State",
+                "Information Message", "Variables State restored properly");
     }
 
 }

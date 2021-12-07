@@ -8,8 +8,8 @@ import java.util.Objects;
 /**
  * The class provides an implementation of a user-defined operation.
  * <p>
- * A user-defined operation should contains supported operations 
- * and also previous user-defined operations.
+ * A user-defined operation should contains supported operations and also
+ * previous user-defined operations.
  *
  * @author gparrella
  */
@@ -42,7 +42,8 @@ public class UserDefinedOperation implements Operation {
      * @param name is the operation's name
      * @param requiredOperands is the number of operands required to this
      * operation
-     * @param operationList the operation that compose this user defined operation
+     * @param operationList the operation that compose this user defined
+     * operation
      */
     public UserDefinedOperation(String name, int requiredOperands, List<Operation> operationList) {
         this.name = name;
@@ -151,6 +152,37 @@ public class UserDefinedOperation implements Operation {
     public void updateList(Operation... operations) {
         this.operationList.clear();
         this.operationList.addAll(Arrays.asList(operations));
+    }
+
+    /**
+     * Check if an operation is included in this User-Defined Operation. If
+     * there are more nested user-defined operation in this operation, then the
+     * function return true if the operation passed as parameter is included in
+     * this or in at least one nested user-defined operation in this.
+     *
+     * @param operation the operation to check
+     * @return <code>true</code> if the operation passed as parameter is
+     * included in this User-Defined operations, <code>false</code> otherwise.
+     */
+    public boolean contains(Operation operation) {
+        // Check if operation op is included in this operation
+        for (Operation op : this.operationList) {
+            // If op is in this operationList, then return true
+            if (operation.equals(op)) {
+                return true;
+            } else if (op instanceof UserDefinedOperation) {
+                /* If op is an UserDefinedOperation, check if operation is included in its operationList:
+                -If operation is contained in op's operationList, then return true
+                -Otherwise, the search continue
+                 */
+                UserDefinedOperation nested = ((UserDefinedOperation) op);
+                boolean goOut = nested.contains(operation);
+                if (goOut) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

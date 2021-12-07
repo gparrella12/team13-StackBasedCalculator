@@ -384,10 +384,6 @@ public class CalculatorController {
             return;
         }
 
-        // if (name.contains("$")) {
-        // createAlert(AlertType.ERROR, "Error", "Look, an Error!", "The operands number must be an integer!");
-        //return;
-        // }
         int operatorsNumber = Integer.parseInt(inputNumber.getText());
         UserDefinedOperation u = new UserDefinedOperation(name, operatorsNumber, finalObservable.stream().collect(Collectors.toList()));
 

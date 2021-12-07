@@ -13,6 +13,6 @@ public interface Archivable {
     /**
      * Implements the way to how restore the element of interest
      */
-    public void toRestore(ArchiveItem item);
+    public void toRestore(ArchiveItem state);
     
 }

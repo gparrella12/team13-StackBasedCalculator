@@ -214,6 +214,12 @@ public class CalculatorController {
                 Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION, "Confirmation Dialog", "Look, a Confirmation Dialog", "Do you confirm that you want to cancel this operation?");
                 if (result.get() == ButtonType.OK) {
                     //delete the operation
+                    try {
+                        
+                    } catch (Exception ex) {
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "\nImpossible to delete.\n" + ex.getMessage());
+                    }
                 } else {
                     return;
                 }

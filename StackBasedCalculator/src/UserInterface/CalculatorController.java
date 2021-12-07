@@ -4,11 +4,11 @@ import Operations.Operation;
 import Operations.UserDefinedOperation;
 import Operations.SupportedOperation;
 import ArchiveModule.Archive;
-import UserInterface.CellFactory.ContextMenuListCell;
-import UserInterface.CellFactory.NumberColumnFactory;
-import UserInterface.CellFactory.OperationCellFactory;
-import MainMathOperation.RPNSolver;
-import UserInterface.CellFactory.NumberListFactory;
+import Operations.OperationsEnum;
+import Stack.ObservableStack;
+import UserDefinedOperation.StackOperations.*;
+import UserDefinedOperation.VariablesOperations.*;
+import UserInterface.CellFactory.*;
 import VariablesManager.VariablesStorage;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,14 +67,16 @@ public class CalculatorController {
     //definition of utils variables
     private double xAxis, yAxis;
     private InputValidation check;
-    private RPNSolver rpn;
     private VariablesStorage variableStorage;
     private Archive variablesArchive;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
     //Hash Table containing operations to call
-    private HashMap<String, Operation> supportedOperation;
+    private HashMap<OperationsEnum, Operation> supportedOperation;
+    //attributes for create a new operation
+    private SimpleFactoryCommand commandCreator;
+    private ObservableStack<Complex> stack;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -84,9 +86,10 @@ public class CalculatorController {
      */
     public void init(Stage stage) {
         Scene scene = stage.getScene();
+        // Stack used for visualization
+        stack = new ObservableStack<>();
 
         check = new InputValidation();
-        rpn = RPNSolver.getInstance();
 
         //create observable lists and set them to the respective lists (components).
         finalObservable = FXCollections.observableArrayList();
@@ -102,7 +105,7 @@ public class CalculatorController {
 
         // Set list cell for complex number visualization
         stackList.setCellFactory(new NumberListFactory());
-        rpn.setList(stackList);
+        stack.setObserver(stackList);
 
         //Initialize the support operation HashMap
         this.supportedOperation = new HashMap();
@@ -115,6 +118,7 @@ public class CalculatorController {
         //set archive for VariableStorage
         variablesArchive = new Archive(variableStorage);
 
+        commandCreator = new SimpleFactoryCommand(this.stack, this.variableStorage);
         //populate tables
         populate();
 
@@ -206,7 +210,7 @@ public class CalculatorController {
                 if (result.get() == ButtonType.OK) {
                     //pick the user defined operation to delete
                     UserDefinedOperation userDefineToDelete = definedOperationsList.getSelectionModel().getSelectedItem();
-                     //if it is never used in others user defined operations, then delete it
+                    //if it is never used in others user defined operations, then delete it
                     if (deleteUserDefinedOperation(userDefineToDelete)) {
                         UserDefinedOperations.remove(userDefineToDelete);
                         createAlert(AlertType.INFORMATION, "Information Dialog",
@@ -234,7 +238,7 @@ public class CalculatorController {
                 int numOperands = userDefineToExecute.getRequiredOperands();
                 //if the stack contains less then the operands required
                 //an error message appears and the execution fails
-                if (numOperands > rpn.getStackSize()) {
+                if (numOperands > stack.size()) {
                     createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                             "\nImpossible to execute.\nInsufficient number of operands.");
                 } else {
@@ -313,7 +317,7 @@ public class CalculatorController {
     private void push(ActionEvent event) {
         //define of used variables
         String input = textAreaCalculator.getText();
-        String operation = check.checkOperation(input);
+        OperationsEnum operation = check.checkOperation(input);
         String supportedVariable = check.checkVariable(input);
 
         textAreaCalculator.clear();
@@ -323,8 +327,9 @@ public class CalculatorController {
         try {
             //Input is recognized as Complex number, then perform a push onto the stack
             if (number != null) {
-                ((StackOperation) supportedOperation.get("push")).setNumber(check.parseComplex(input, "j"));
-                toExecute = supportedOperation.get("push");
+                this.commandCreator.setOperation(OperationsEnum.PUSH);
+                this.commandCreator.setNumber(number);
+                toExecute = this.commandCreator.pickCommand();
             } else if (operation != null) {
                 //Input is recognized as an Arithmetical or Stack operation, then select it
                 toExecute = supportedOperation.get(operation);
@@ -332,8 +337,9 @@ public class CalculatorController {
                 // Input is recognized as variable operation, then set the variable and execute it
                 String varOperation = supportedVariable.substring(0, 1);
                 String variable = supportedVariable.substring(1);
-                ((VariableOperation) this.supportedOperation.get(varOperation + "var")).setVariableName(variable);
-                toExecute = this.supportedOperation.get(varOperation + "var");
+                this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation+"var"));
+                this.commandCreator.setVariableName(variable);
+                toExecute = this.commandCreator.pickCommand();
             }
             //Execute the operation
             toExecute.execute();
@@ -344,7 +350,7 @@ public class CalculatorController {
                     "\nImpossible to continue.\n" + e.getMessage());
         } catch (NullPointerException ex) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "\nInvalid input inserted:\n" + input);
+                    "\nInvalid input inserted:\n" + input+ ex.getMessage());
         }
     }
 
@@ -452,27 +458,33 @@ public class CalculatorController {
                                 "Invalid complex number inserted:\n" + result.get());
                         return;
                     }
-                    finalObservable.add(new StackOperation("push", rpn, num));
+                    finalObservable.add(new PushOperation(stack, num));
                 }
 
             } //selected a stack or an arithmetic operation
-            else if (op instanceof StackOperation || op instanceof ArithmeticOperation) {
-                finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
-            } //selected an user defined operation
-            else {
+             //selected an user defined operation
+            /*****************************************************************
+             * ************************** NOTA: QUESTI IF POTREBBERO ESSERE LIMITATI
+             * **************************       CON LA CLASSE VARIABLEOPERATION
+             */
+            else if(op instanceof LoadOperation || op instanceof SaveOperation || op instanceof SumVarOperation || op instanceof SubVarOperation) {
                 Optional<String> result = createTextInputDialog("Variable Operation",
                         "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    String variableName = check.checkVariable(op.getName() + result.get());
+                    String variableName = check.checkVariable(op.getName().substring(0, 1) + result.get());
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                                 "Invalid variable name:\n" + result.get());
                         return;
                     }
-                    finalObservable.add(new VariableOperation(variableStorage,
-                            variableName.substring(1, variableName.length()), rpn, op.getName()));
+                    this.commandCreator.setOperation(OperationsEnum.valueOfString(op.getName()));
+                    this.commandCreator.setVariableName(variableName.substring(1, 2));
+                    finalObservable.add(this.commandCreator.pickCommand());
+                    
                 }
 
+            }else{
+                finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
             }
             //finalList autoscroll enable
             finalList.scrollTo(finalList.getItems().size());
@@ -566,22 +578,11 @@ public class CalculatorController {
      * @return
      */
     private void populate() {
-        String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
-        String[] stackOperations = {"dup", "over", "clear", "drop", "swap", "push"};
-        String[] variableOperations = {"+", "-", ">", "<"};
-        for (String op : arithmeticOperation) {
-            SupportedOperation toAdd = new ArithmeticOperation(op, rpn);
-            operationsObservable.add(toAdd);
-            this.supportedOperation.put(op, toAdd);
-        }
-        for (String op : stackOperations) {
-            SupportedOperation toAdd = new StackOperation(op, rpn);
-            operationsObservable.add(toAdd);
-            this.supportedOperation.put(op, toAdd);
-        }
-        for (String op : variableOperations) {
-            operationsObservable.add(new VariableOperation(variableStorage, rpn, op));
-            this.supportedOperation.put(op + "var", new VariableOperation(variableStorage, rpn, op));
+        for (OperationsEnum op : OperationsEnum.values()) {
+            this.commandCreator.setOperation(op);
+            SupportedOperation operation = this.commandCreator.pickCommand();
+            operationsObservable.add(operation);
+            supportedOperation.put(op, operation);
         }
     }
 

@@ -26,4 +26,11 @@ public class SaveOperation extends SupportedOperation {
         this.variableManager.save(this.variableName, super.top());
         super.drop();
     }
+
+    @Override
+    public String toString() {
+        return super.getName().substring(0, 1) + variableName;
+    }
+    
+    
 }

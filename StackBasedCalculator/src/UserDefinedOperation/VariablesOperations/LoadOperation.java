@@ -26,4 +26,11 @@ public class LoadOperation extends SupportedOperation {
         super.push(this.variableManager.getVariableValue(this.variableName));
     }
 
+    @Override
+    public String toString() {
+        return super.getName().substring(0, 1) + variableName;
+    }
+    
+    
+
 }

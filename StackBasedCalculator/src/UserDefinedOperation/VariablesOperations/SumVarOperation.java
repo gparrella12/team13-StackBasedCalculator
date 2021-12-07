@@ -27,7 +27,11 @@ public class SumVarOperation extends SupportedOperation {
      */
     @Override
     public void execute() {
-        super.push(this.variableManager.getVariableValue(this.variableName));
+        this.variableManager.addToVariable(this.variableName, super.top());
     }
 
+    @Override
+    public String toString() {
+        return super.getName().substring(0, 1) + variableName;
+    }
 }

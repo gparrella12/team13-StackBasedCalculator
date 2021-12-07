@@ -45,7 +45,7 @@ public class VariablesStorage implements Archivable {
     private String checkVarName(String key) throws IllegalArgumentException {
         key = key.toLowerCase();
         if (!Character.isLetter(key.charAt(0)) || key.length() > 1) {
-            throw new IllegalArgumentException("Character not allowed");
+            throw new IllegalArgumentException("Character not allowed: " + key);
         }
         return key;
     }

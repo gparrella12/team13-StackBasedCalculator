@@ -1,5 +1,6 @@
 package UserInterface;
 
+import Operations.OperationsEnum;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.math3.complex.Complex;
@@ -25,17 +26,13 @@ public class InputValidation {
      * @return the operation as <code>String</code> or <code>null</code> if the
      * input is not supported by the Calculator.
      */
-    public String checkOperation(String operation) {
-
-        for (String s : stackOperations) {
-            if (s.equals(operation)) {
-                return s;
-            }
-        }
-
-        for (String s : mathOperations) {
-            if (s.equals(operation)) {
-                return s;
+    public OperationsEnum checkOperation(String toParse) {
+        /*****************PER IL MOMENTO METTO COSì, TANTO C'è IL PARSER DI ERNESTO
+         *****************REVISIONARE!!!
+         */
+        for(OperationsEnum op : OperationsEnum.values()){
+            if(toParse.equals(op.toString())){
+                return op;
             }
         }
 

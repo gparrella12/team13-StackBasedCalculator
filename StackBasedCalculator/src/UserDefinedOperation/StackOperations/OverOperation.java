@@ -1,4 +1,4 @@
-package UserDefinedOperation.BasicOperations;
+package UserDefinedOperation.StackOperations;
 
 import UserDefinedOperation.OperationsEnum;
 import UserDefinedOperation.SupportedOperation;

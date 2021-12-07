@@ -24,5 +24,4 @@ public class SaveOperation extends SupportedOperation {
         this.variableManager.save(this.variableName, super.top());
         super.drop();
     }
-
 }

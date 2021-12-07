@@ -235,7 +235,12 @@ public class CalculatorController {
         executeMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                return;
+               try {
+                definedOperationsList.getSelectionModel().getSelectedItem().execute();
+               } catch (NoSuchElementException ex) {
+                   createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                    "\nImpossible to execute.\nInsufficient number of operands.");
+               }
             }
         });
 

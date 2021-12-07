@@ -534,7 +534,7 @@ public class CalculatorController {
     private void onRestorePress(ActionEvent event) {
         try {
             variablesArchive.restoreState();
-        } catch (NoSuchElementException e) {
+        } catch (EmptyStackException e) {
             createAlert(AlertType.ERROR, "Restore Variable State",
                     "Error Message", "There isn't a state to restore");
             return;

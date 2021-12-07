@@ -238,16 +238,18 @@ public class CalculatorController {
         executeMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-
-                int numOperands = definedOperationsList.getSelectionModel().getSelectedItem().getRequiredOperands();
+                //user defined operation selected by the user
+                UserDefinedOperation userDefineToExecute = definedOperationsList.getSelectionModel().getSelectedItem();
+                // number of operands expected
+                int numOperands = userDefineToExecute.getRequiredOperands();
                 //if the stack contains less then the operands required
-                //an error message appear and the execution fails
+                //an error message appears and the execution fails
                 if (numOperands > rpn.getStackSize()) {
                     createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                             "\nImpossible to execute.\nInsufficient number of operands.");
                 } else {
                     //the stack contains the number of operands required
-                    definedOperationsList.getSelectionModel().getSelectedItem().execute();
+                    userDefineToExecute.execute();
                 }
 
             }

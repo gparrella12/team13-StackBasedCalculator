@@ -144,6 +144,38 @@ public class UserDefinedOperationTest {
     }
 
     /**
+     * Test of contains method, of class UserDefinedOperation.
+     */
+    @Test
+    public void testContains() {
+        System.out.println("Test contains");
+        UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2, supported.get("dup"), supported.get("*"), supported.get("swap"), supported.get("dup"), supported.get("*"), supported.get("+"), supported.get("sqrt"));
+        // Test with SupportedOperation
+        assertEquals("Operation not included: ", true, hypotenuse.contains(supported.get("dup")));
+        assertEquals("Operation not included: ", true, hypotenuse.contains(supported.get("+")));
+        assertEquals("Operation not included: ", true, hypotenuse.contains(supported.get("*")));
+        assertEquals("Operation not included: ", true, hypotenuse.contains(supported.get("sqrt")));
+        assertEquals("Operation included: ", false, hypotenuse.contains(supported.get("+-")));
+        assertEquals("Operation included: ", false, hypotenuse.contains(supported.get("drop")));
+        // Test with VariableOperation
+        UserDefinedOperation sumWithVar = new UserDefinedOperation("sumWithVar", 2, supported.get("+"), new VariableOperation(variableManager, "a", rpn, ">"), new StackOperation("push", rpn, new Complex(1, 0)));
+        assertEquals("Operation not included: ", true, sumWithVar.contains(new VariableOperation(variableManager, "a", rpn, ">")));
+        assertEquals("Operation not included: ", true, sumWithVar.contains(new StackOperation("push", rpn, new Complex(1, 0))));
+        System.out.println("\t" + "Test with SupportedOperation -> OK");
+        // Test with nested User-Defined Operation
+        UserDefinedOperation squareModule = new UserDefinedOperation("squareModule", 2, hypotenuse, supported.get("dup"), supported.get("*"));
+        assertEquals(true, squareModule.contains(hypotenuse));
+        System.out.println("\t" + "Test with Nested UserDefinedOperation -> OK");
+        // Double nested check
+        UserDefinedOperation squareNegativeModule = new UserDefinedOperation("squareNegativeModule", 1, squareModule, supported.get("+-"));
+        assertEquals("Operation not included: ",true,squareNegativeModule.contains(squareModule));
+        assertEquals("Operation not included: ",true,squareNegativeModule.contains(hypotenuse));
+        assertEquals("Operation not included: ", true, squareNegativeModule.contains(supported.get("sqrt")));
+        assertEquals("Operation not included: ", true, squareNegativeModule.contains(supported.get("+-")));
+        System.out.println("\t" + "Test with Double-Nested UserDefinedOperation -> OK");
+    }
+
+    /**
      * Test of exportOperation method, of class UserDefinedOperation.
      */
     @Test(expected = UnsupportedOperationException.class)

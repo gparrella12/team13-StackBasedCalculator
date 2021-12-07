@@ -71,7 +71,7 @@ public class CalculatorController {
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
-    //Hash Table with operation to call
+    //Hash Table containing operations to call
     private HashMap<String, Operation> supportedOperation;
 
     /**
@@ -185,21 +185,6 @@ public class CalculatorController {
             }
         });
 
-        //close the Calculator
-        btnClose.setOnMouseClicked(mouseEvent -> stage.close());
-        //minimize the Calculator
-        btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
-
-        //allows the user to move around, on the screen, the calculator
-        titlePane.setOnMousePressed(mouseEvent -> {
-            xAxis = mouseEvent.getSceneX();
-            yAxis = mouseEvent.getSceneY();
-        });
-        titlePane.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - xAxis);
-            stage.setY(mouseEvent.getScreenY() - yAxis);
-        });
-
         //menu items to allow the execution and the delete of a user defined operation
         MenuItem deleteMenu = new MenuItem("Delete");
         MenuItem executeMenu = new MenuItem("Execute");
@@ -211,24 +196,27 @@ public class CalculatorController {
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-
+                //alert for confirm the deletion
                 Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION,
                         "Confirmation Dialog", "Look, a Confirmation Dialog",
                         "Do you confirm that you want to cancel this operation?");
+                //if the user confirms the deletion
                 if (result.get() == ButtonType.OK) {
+                    //pick the user defined operation to delete
                     UserDefinedOperation userDefineToDelete = definedOperationsList.getSelectionModel().getSelectedItem();
+                     //if it is never used in others user defined operations, then delete it
                     if (deleteUserDefinedOperation(userDefineToDelete)) {
                         UserDefinedOperations.remove(userDefineToDelete);
                         createAlert(AlertType.INFORMATION, "Information Dialog",
                                 "Information Message",
                                 "Operation deleted correctly.");
 
-                    } else {
+                    } else {//otherwise don't delete it
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                                 "\nImpossible to delete.\nThis operation is contained inside others operations");
                     }
 
-                } else {
+                } else { //if the user doesn't confirms the deletion simply do nothing
                     return;
                 }
             }
@@ -255,6 +243,21 @@ public class CalculatorController {
             }
         });
 
+        //close the Calculator
+        btnClose.setOnMouseClicked(mouseEvent -> stage.close());
+        //minimize the Calculator
+        btnMinimize.setOnMouseClicked(mouseEvent -> stage.setIconified(true));
+
+        //allows the user to move around, on the screen, the calculator
+        titlePane.setOnMousePressed(mouseEvent -> {
+            xAxis = mouseEvent.getSceneX();
+            yAxis = mouseEvent.getSceneY();
+        });
+        titlePane.setOnMouseDragged(mouseEvent -> {
+            stage.setX(mouseEvent.getScreenX() - xAxis);
+            stage.setY(mouseEvent.getScreenY() - yAxis);
+        });
+
     }
 
     /**
@@ -276,8 +279,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onOperationPress(ActionEvent event
-    ) {
+    private void onOperationPress(ActionEvent event) {
         String operation = ((Button) event.getSource()).getText();
         textAreaCalculator.setText(textAreaCalculator.getText() + operation);
     }
@@ -289,8 +291,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void deleteLast(ActionEvent event
-    ) {
+    private void deleteLast(ActionEvent event) {
         if (textAreaCalculator.getText().length() > 0) {
             textAreaCalculator.setText(textAreaCalculator.getText()
                     .substring(0, textAreaCalculator.getText().length() - 1));
@@ -307,8 +308,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void push(ActionEvent event
-    ) {
+    private void push(ActionEvent event) {
         //define of used variables
         String input = textAreaCalculator.getText();
         String operation = check.checkOperation(input);
@@ -352,8 +352,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onCreatePress(ActionEvent event
-    ) {
+    private void onCreatePress(ActionEvent event) {
         operationsPane.setVisible(true);
         operationsPane.setDisable(false);
         calculatorPane.setVisible(false);
@@ -366,8 +365,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onFinalCreatePress(ActionEvent event
-    ) {
+    private void onFinalCreatePress(ActionEvent event) {
         String name = inputName.getText();
         String operandsNumber = inputNumber.getText();
 
@@ -413,8 +411,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onDeletePress(ActionEvent event
-    ) {
+    private void onDeletePress(ActionEvent event) {
         if (finalObservable.size() > 0) {
             finalObservable.remove(finalObservable.size() - 1);
         }
@@ -426,8 +423,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onBackPress(ActionEvent event
-    ) {
+    private void onBackPress(ActionEvent event) {
         calculatorPane.setVisible(true);
         calculatorPane.setDisable(false);
         operationsPane.setVisible(false);
@@ -442,8 +438,7 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onInsertSupportedPress(ActionEvent event
-    ) {
+    private void onInsertSupportedPress(ActionEvent event) {
 
         if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
             SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
@@ -498,15 +493,47 @@ public class CalculatorController {
      * @return
      */
     @FXML
-    private void onInsertDefinedPress(ActionEvent event
-    ) {
+    private void onInsertDefinedPress(ActionEvent event) {
         if (userDefinedList.getSelectionModel().isSelected(userDefinedList.getSelectionModel().getSelectedIndex())) {
             finalObservable.add(userDefinedList.getSelectionModel().getSelectedItem());
             userDefinedList.getSelectionModel().clearSelection();
         }
     }
-    //UTILS METHOD
 
+    /**
+     * Allows the User to saveState the state of current variables.
+     *
+     * @return
+     */
+    @FXML
+    private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
+        if (variableStorage.getSize() == 0) {
+            return;
+        }
+        variablesArchive.saveState();
+        createAlert(AlertType.INFORMATION, "Save Variable State",
+                "Information Message", "Variables State saved properly");
+    }
+
+    /**
+     * Allows the User to restoreState the state of variables.
+     *
+     * @return
+     */
+    @FXML
+    private void onRestorePress(ActionEvent event) {
+        try {
+            variablesArchive.restoreState();
+        } catch (NoSuchElementException e) {
+            createAlert(AlertType.ERROR, "Restore Variable State",
+                    "Error Message", "There isn't a state to restore");
+            return;
+        }
+        createAlert(AlertType.INFORMATION, "Restore Variable State",
+                "Information Message", "Variables State restored properly");
+    }
+
+    //UTILS METHOD
     /**
      * Util method to create a text input dialog
      *
@@ -561,46 +588,17 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to saveState the state of current variables.
+     * Util method to check if a user defined operation is contained inside at
+     * least another user defined operation
      *
      * @return
      */
-    @FXML
-    private void onSavePress(ActionEvent event) throws CloneNotSupportedException, Exception {
-        if (variableStorage.getSize() == 0) {
-            return;
-        }
-        variablesArchive.saveState();
-        createAlert(AlertType.INFORMATION, "Save Variable State",
-                "Information Message", "Variables State saved properly");
-    }
-
-    /**
-     * Allows the User to restoreState the state of variables.
-     *
-     * @return
-     */
-    @FXML
-    private void onRestorePress(ActionEvent event) {
-        try {
-            variablesArchive.restoreState();
-        } catch (NoSuchElementException e) {
-            createAlert(AlertType.ERROR, "Restore Variable State",
-                    "Error Message", "There isn't a state to restore");
-            return;
-        }
-        createAlert(AlertType.INFORMATION, "Restore Variable State",
-                "Information Message", "Variables State restored properly");
-    }
-
     private boolean deleteUserDefinedOperation(UserDefinedOperation toDelete) {
-
         for (UserDefinedOperation u : UserDefinedOperations) {
             if (u.contains(toDelete)) {
                 return false;
             }
         }
-
         return true;
     }
 }

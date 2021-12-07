@@ -1,7 +1,8 @@
 package UserDefinedOperation.BasicOperations;
 
-import UserDefinedOperation.OperationsEnum;
-import UserDefinedOperation.SupportedOperation;
+import Stack.ObservableStack;
+import Operations.OperationsEnum;
+import Operations.SupportedOperation;
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
 
@@ -11,8 +12,8 @@ import org.apache.commons.math3.complex.Complex;
  */
 public class InvertSignOperation extends SupportedOperation{
 
-    public InvertSignOperation() {
-        super(OperationsEnum.INVSIGN);
+    public InvertSignOperation(ObservableStack<Complex> stack) {
+        super(OperationsEnum.INVSIGN, stack);
     }
 
     /**

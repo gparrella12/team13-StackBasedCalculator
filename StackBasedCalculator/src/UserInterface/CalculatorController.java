@@ -1,11 +1,13 @@
 package UserInterface;
 
+import Operations.Operation;
+import Operations.UserDefinedOperation;
+import Operations.SupportedOperation;
 import ArchiveModule.Archive;
 import UserInterface.CellFactory.ContextMenuListCell;
 import UserInterface.CellFactory.NumberColumnFactory;
 import UserInterface.CellFactory.OperationCellFactory;
 import MainMathOperation.RPNSolver;
-import UserDefinedOperation.*;
 import UserInterface.CellFactory.NumberListFactory;
 import VariablesManager.VariablesStorage;
 import java.util.*;

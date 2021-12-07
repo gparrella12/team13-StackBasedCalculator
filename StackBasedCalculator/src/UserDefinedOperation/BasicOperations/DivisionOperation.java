@@ -1,7 +1,8 @@
 package UserDefinedOperation.BasicOperations;
 
-import UserDefinedOperation.OperationsEnum;
-import UserDefinedOperation.SupportedOperation;
+import Stack.ObservableStack;
+import Operations.OperationsEnum;
+import Operations.SupportedOperation;
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
 
@@ -11,9 +12,9 @@ import org.apache.commons.math3.complex.Complex;
  */
 public class DivisionOperation extends SupportedOperation {
 
-    public DivisionOperation() {
-        super(OperationsEnum.DIVISION);
-    }
+    public DivisionOperation(ObservableStack<Complex> stack) {
+        super(OperationsEnum.DIVISION, stack);
+    }   
 
     /**
      * Divides the first two elements of the super and save the result on top.

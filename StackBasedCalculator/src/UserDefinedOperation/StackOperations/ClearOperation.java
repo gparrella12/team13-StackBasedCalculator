@@ -11,21 +11,20 @@ import org.apache.commons.math3.complex.Complex;
 
 /**
  *
- * @author Speranza
+ * @author fsonnessa
  */
-public class SwapOperation extends SupportedOperation {
+public class ClearOperation extends SupportedOperation{
 
-    public SwapOperation(ObservableStack<Complex> stack) {
-        super(OperationsEnum.SWAP,stack);
+    public ClearOperation(ObservableStack<Complex> stack) {
+        super(OperationsEnum.CLEAR, stack);
     }
-
+    
     /**
-     *  Swaps the last two elements into the stack.
-     * 
+     * Clear all the elements of the stack
      */
     @Override
     public void execute() {
-        super.swap();
+        super.clear();
     }
-
+    
 }

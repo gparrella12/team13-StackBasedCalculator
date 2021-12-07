@@ -1,7 +1,9 @@
 package UserDefinedOperation.StackOperations;
 
-import UserDefinedOperation.OperationsEnum;
-import UserDefinedOperation.SupportedOperation;
+import Stack.ObservableStack;
+import Operations.OperationsEnum;
+import Operations.SupportedOperation;
+import org.apache.commons.math3.complex.Complex;
 
 /**
  *
@@ -9,8 +11,8 @@ import UserDefinedOperation.SupportedOperation;
  */
 public class OverOperation extends SupportedOperation {
 
-    public OverOperation() {
-        super(OperationsEnum.OVER);
+    public OverOperation(ObservableStack<Complex> stack) {
+        super(OperationsEnum.OVER, stack);
     }
 
     /**

@@ -1,6 +1,6 @@
-package UserDefinedOperation;
+package Operations;
 
-import MainMathOperation.Stack;
+import Stack.ObservableStack;
 import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
 
@@ -13,16 +13,16 @@ import org.apache.commons.math3.complex.Complex;
 public abstract class SupportedOperation implements Operation {
 
     private OperationsEnum name;
-    private Stack<Complex> stack;
+    private ObservableStack<Complex> stack;
 
     /**
      * Create a support operation with a name.
      *
      * @param name
      */
-    public SupportedOperation(OperationsEnum name) {
+    public SupportedOperation(OperationsEnum name, ObservableStack<Complex> stack) {
         this.name = name;
-        this.stack = new Stack();
+        this.stack = stack;
     }
 
     /**

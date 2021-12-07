@@ -1,8 +1,10 @@
 package UserDefinedOperation.VariablesOperations;
 
-import UserDefinedOperation.OperationsEnum;
-import UserDefinedOperation.SupportedOperation;
+import Stack.ObservableStack;
+import Operations.OperationsEnum;
+import Operations.SupportedOperation;
 import VariablesManager.VariablesStorage;
+import org.apache.commons.math3.complex.Complex;
 
 /**
  *
@@ -13,8 +15,8 @@ public class SubVarOperation extends SupportedOperation {
     private final VariablesStorage variableManager;
     private final String variableName;
 
-    public SubVarOperation(VariablesStorage variableManager, String variableName) {
-        super(OperationsEnum.SUB_VAR);
+    public SubVarOperation(ObservableStack<Complex> stack,VariablesStorage variableManager, String variableName) {
+        super(OperationsEnum.SUB_VAR, stack);
         this.variableManager = variableManager;
         this.variableName = variableName;
     }

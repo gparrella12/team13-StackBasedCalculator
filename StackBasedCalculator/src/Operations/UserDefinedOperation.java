@@ -1,4 +1,4 @@
-package UserDefinedOperation;
+package Operations;
 
 import java.util.ArrayList;
 import java.util.Arrays;

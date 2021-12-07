@@ -1,6 +1,6 @@
 package UserInterface.CellFactory;
 
-import UserDefinedOperation.SupportedOperation;
+import Operations.SupportedOperation;
 import UserDefinedOperation.VariableOperation;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -14,7 +14,7 @@ import javafx.util.Callback;
  * shown.
  *
  * @author gparrella
- * @see UserDefinedOperation.SupportedOperation
+ * @see Operations.SupportedOperation
  */
 public class OperationCellFactory implements Callback<ListView<SupportedOperation>, ListCell<SupportedOperation>> {
 

@@ -1,4 +1,4 @@
-package UserDefinedOperation;
+package Operations;
 
 /**
  * This interface qualifies as Operation the objects of each class that implements it.

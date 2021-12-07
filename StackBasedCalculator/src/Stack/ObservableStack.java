@@ -1,4 +1,4 @@
-package MainMathOperation;
+package Stack;
 
 import java.util.NoSuchElementException;
 import javafx.collections.FXCollections;
@@ -11,7 +11,7 @@ import javafx.scene.control.ListView;
  * @author gparrella
  * @param <E> is the type of the stack's elements.
  */
-public class Stack<E> {
+public class ObservableStack<E> {
 
     /**
      * This is the list that contains the stack's elements.
@@ -21,7 +21,7 @@ public class Stack<E> {
     /**
      * Create a new empty ObservableStack.
      */
-    public Stack() {
+    public ObservableStack() {
         this.list = FXCollections.observableArrayList();
     }
 

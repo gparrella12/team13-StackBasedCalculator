@@ -216,15 +216,18 @@ public class CalculatorController {
                         "Confirmation Dialog", "Look, a Confirmation Dialog",
                         "Do you confirm that you want to cancel this operation?");
                 if (result.get() == ButtonType.OK) {
-                    try {
-                        //delete code
+                    UserDefinedOperation userDefineToDelete = definedOperationsList.getSelectionModel().getSelectedItem();
+                    if (deleteUserDefinedOperation(userDefineToDelete)) {
+                        UserDefinedOperations.remove(userDefineToDelete);
                         createAlert(AlertType.INFORMATION, "Information Dialog",
                                 "Information Message",
                                 "Operation deleted correctly.");
-                    } catch (Exception ex) {
+
+                    } else {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                                "\nImpossible to delete.\n" + ex.getMessage());
+                                "\nImpossible to delete.\nThis operation is contained inside others operations");
                     }
+
                 } else {
                     return;
                 }
@@ -235,7 +238,7 @@ public class CalculatorController {
         executeMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                
+
                 int numOperands = definedOperationsList.getSelectionModel().getSelectedItem().getRequiredOperands();
                 //if the stack contains less then the operands required
                 //an error message appear and the execution fails
@@ -588,4 +591,14 @@ public class CalculatorController {
                 "Information Message", "Variables State restored properly");
     }
 
+    private boolean deleteUserDefinedOperation(UserDefinedOperation toDelete) {
+
+        for (UserDefinedOperation u : UserDefinedOperations) {
+            if (u.contains(toDelete)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

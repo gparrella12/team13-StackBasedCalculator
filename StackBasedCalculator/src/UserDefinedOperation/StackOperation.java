@@ -55,12 +55,12 @@ public class StackOperation extends SupportedOperation {
      * @param rpn the rpn istance that execute this operation
      * @throws UnsupportedOperationException if the name of operation is not
      * valid
-     */
+     
     public StackOperation(String name, RPNSolver rpn) {
         super(name);
         this.checkOperation(name);
         this.rpn = rpn;
-    }
+    }*/
 
     /**
      * Create a StackOperation given its name, an rpn instance to execute it and
@@ -73,7 +73,7 @@ public class StackOperation extends SupportedOperation {
      * @throws UnsupportedOperationException if the name of operation is not
      * valid
      * @throws NumberFormatException if <code>number</code> is <code>null</code>
-     */
+     
     public StackOperation(String name, RPNSolver rpn, Complex number) {
         super(name);
         this.checkOperation(name);
@@ -82,6 +82,10 @@ public class StackOperation extends SupportedOperation {
         }
         this.rpn = rpn;
         this.number = number;
+    }*/
+    public StackOperation(RPNSolver rpn, OperationsEnum name) {    
+        super(name);
+        this.rpn = rpn;
     }
 
     /**

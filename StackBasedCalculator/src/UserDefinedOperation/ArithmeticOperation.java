@@ -54,10 +54,14 @@ public class ArithmeticOperation extends SupportedOperation {
      * @param rpn is the rpn used to execute the operation
      * @param name is the operation name.
      * @throws UnsupportedOperationException if the name of operation is not valid
-     */
+     
     public ArithmeticOperation(String name, RPNSolver rpn) {
         super(name);
         this.checkOperation(name);
+        this.rpn = rpn;
+    }*/
+    public ArithmeticOperation(RPNSolver rpn, OperationsEnum name) {    
+        super(name);
         this.rpn = rpn;
     }
 

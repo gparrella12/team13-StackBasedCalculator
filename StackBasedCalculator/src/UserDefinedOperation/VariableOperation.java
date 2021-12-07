@@ -49,29 +49,11 @@ public class VariableOperation extends SupportedOperation {
      * @param operationName is the name of the operation, it can be *
      * "-","+","<",">"
      */
-    public VariableOperation(VariablesStorage variableManager, String variableName, RPNSolver rpn, String operationName) {
-        super(operationName);
-        this.checkOperation(operationName);
+    public VariableOperation(VariablesStorage variableManager, String variableName, RPNSolver rpn, OperationsEnum name) {
+        super(name);
         this.variableManager = variableManager;
         this.variableName = variableName;
         this.rpn = rpn;
-    }
-
-    /**
-     * Create a VariableOperation
-     *
-     * @param variableManager is the manager of the variable in the calculator
-     *
-     * @param rpn is the rpn solver that manages the stack in the calculator
-     * @param operationName is the name of the operation, it can be
-     * "-","+","<",">"
-     */
-    public VariableOperation(VariablesStorage variableManager, RPNSolver rpn, String operationName) {
-        super(operationName);
-        this.checkOperation(operationName);
-        this.variableManager = variableManager;
-        this.rpn = rpn;
-        this.variableName = null;
     }
 
     /**

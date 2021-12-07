@@ -109,7 +109,7 @@ public class CalculatorController {
         variableStorage = new VariablesStorage();
         columnValue.setCellFactory(new NumberColumnFactory());
         variableStorage.setObserver(tableVariables, columnVariable, columnValue);
-        
+
         //set archive for VariableStorage
         variablesArchive = new Archive(variableStorage);
 
@@ -211,7 +211,7 @@ public class CalculatorController {
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                
+
                 Optional<ButtonType> result = createAlert(AlertType.CONFIRMATION,
                         "Confirmation Dialog", "Look, a Confirmation Dialog",
                         "Do you confirm that you want to cancel this operation?");
@@ -223,7 +223,7 @@ public class CalculatorController {
                                 "Operation deleted correctly.");
                     } catch (Exception ex) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "\nImpossible to delete.\n" + ex.getMessage());
+                                "\nImpossible to delete.\n" + ex.getMessage());
                     }
                 } else {
                     return;
@@ -235,12 +235,18 @@ public class CalculatorController {
         executeMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-               try {
-                definedOperationsList.getSelectionModel().getSelectedItem().execute();
-               } catch (NoSuchElementException ex) {
-                   createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "\nImpossible to execute.\nInsufficient number of operands.");
-               }
+                
+                int numOperands = definedOperationsList.getSelectionModel().getSelectedItem().getRequiredOperands();
+                //if the stack contains less then the operands required
+                //an error message appear and the execution fails
+                if (numOperands > rpn.getStackSize()) {
+                    createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                            "\nImpossible to execute.\nInsufficient number of operands.");
+                } else {
+                    //the stack contains the number of operands required
+                    definedOperationsList.getSelectionModel().getSelectedItem().execute();
+                }
+
             }
         });
 
@@ -360,8 +366,8 @@ public class CalculatorController {
         String name = inputName.getText();
         String operandsNumber = inputNumber.getText();
 
-        if (name.contains("$") || name.contains("£") || name.contains("#") ||
-                name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
+        if (name.contains("$") || name.contains("£") || name.contains("#")
+                || name.contains("!") || name.contains("?") || name.contains("%") || name.contains("&")) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                     "The operation name can’t contain special characters ($, £,#,!,?,%,&)");
             return;

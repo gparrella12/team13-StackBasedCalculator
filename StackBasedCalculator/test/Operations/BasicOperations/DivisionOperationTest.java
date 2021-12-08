@@ -1,6 +1,7 @@
-package UserDefinedOperation.BasicOperations;
+package Operations.BasicOperations;
 
 import Stack.ObservableStack;
+import java.util.NoSuchElementException;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import static org.junit.Assert.*;
 public class DivisionOperationTest {
     
     private ObservableStack<Complex> stack;
+    private DivisionOperation instance;
     
     public DivisionOperationTest() {
     }
@@ -20,6 +22,7 @@ public class DivisionOperationTest {
     @Before
     public void setUp() {
         stack = new ObservableStack<>();
+        instance = new DivisionOperation(stack);
     }
 
     /**
@@ -28,8 +31,6 @@ public class DivisionOperationTest {
     @Test
     public void testExecute() {
         System.out.println("Division execute");
-        
-        DivisionOperation instance = new DivisionOperation(stack);
         
         stack.push(new Complex(5, 1));
         stack.push(new Complex(5, 1));
@@ -47,6 +48,24 @@ public class DivisionOperationTest {
         instance.execute();
         result = new Complex(1, 0.2);
         assertEquals("Wrong result : 5+1j / 5 ", stack.top(), result);
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void testDivisionExcetpio() {
+        System.out.println("\nTest division without numbers");
+        stack.clear();
+        instance.execute();
+    }
+    
+    @Test(expected = ArithmeticException.class)
+    public void testDivisionByZero() {
+        System.out.println("division by 0");
+        stack.clear();
+        stack.push(new Complex(5, 1));
+        stack.push(new Complex(0));
+        instance.execute();
+        Complex result = new Complex(Double.NaN, Double.NaN);
+        assertEquals("Wrong result : 5+1j / 0 ", stack.top(), result);
     }
     
 }

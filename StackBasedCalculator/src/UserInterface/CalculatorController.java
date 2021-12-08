@@ -27,6 +27,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.complex.ComplexFormat;
+import UserInterface.Parser.ParserFactory;
 
 /**
  * Implementation of the Calculator User Interface Controller
@@ -66,7 +68,6 @@ public class CalculatorController {
 
     //definition of utils variables
     private double xAxis, yAxis;
-    private InputValidation check;
     private VariablesStorage variableStorage;
     private Archive variablesArchive;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
@@ -76,6 +77,7 @@ public class CalculatorController {
     private SimpleFactoryCommand commandCreator;
     //Stack with operand 
     private ObservableStack<Complex> stack;
+    private ParserFactory parser;
 
     /**
      * Initializes the User Interface. It's executed as soon as the program
@@ -87,9 +89,7 @@ public class CalculatorController {
         Scene scene = stage.getScene();
         // Stack used for visualization
         stack = new ObservableStack<>();
-
-        check = new InputValidation();
-
+        parser = new ParserFactory();
         //create observable lists and set them to the respective lists (components).
         finalObservable = FXCollections.observableArrayList();
         finalList.setItems(finalObservable);
@@ -317,15 +317,27 @@ public class CalculatorController {
      */
     @FXML
     private void push(ActionEvent event) {
+
         //define of used variables
         String input = textAreaCalculator.getText();
-        OperationsEnum operation = check.checkOperation(input);
-        String supportedVariable = check.checkVariable(input);
-
         textAreaCalculator.clear();
-
+        OperationsEnum operation;
+        String supportedVariable = parser.getParser("VARIABLE").check(input);
         Operation toExecute = null;
-        Complex number = check.parseComplex(input, "j");
+        Complex number;
+
+        try {
+            operation = OperationsEnum.valueOfString(parser.getParser("OPERATION").check(input));
+        } catch (UnsupportedOperationException e) {
+            operation = null;
+        }
+
+        try {
+            number = new ComplexFormat().parse(parser.getParser("COMPLEXNUMBER").check(input));
+        } catch (NullPointerException e) {
+            number = null;
+        }
+
         try {
             //Input is recognized as Complex number, then perform a push onto the stack
             if (number != null) {
@@ -455,7 +467,12 @@ public class CalculatorController {
                 Optional<String> result = createTextInputDialog("Push Operation",
                         "Please, insert a complex number", "insert here:");
                 if (result.isPresent()) {
-                    Complex num = check.parseComplex(result.get(), "j");
+                    Complex num;
+                    try {
+                        num = new ComplexFormat().parse(parser.getParser("COMPLEXNUMBER").check(result.get()));
+                    } catch (NullPointerException e) {
+                        num = null;
+                    }
                     if (num == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                                 "Invalid complex number inserted:\n" + result.get());
@@ -476,7 +493,8 @@ public class CalculatorController {
                 Optional<String> result = createTextInputDialog("Variable Operation",
                         "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    String variableName = check.checkVariable(op.getName().substring(0, 1) + result.get());
+                    String variableName = parser.getParser("VARIABLE").check(op.getName().substring(0, 1) + result.get());
+
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                                 "Invalid variable name:\n" + result.get());

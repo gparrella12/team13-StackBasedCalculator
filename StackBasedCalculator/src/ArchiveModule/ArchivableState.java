@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
  * @author fsonnessa
  * @param <T>
  */
-public class ArchiveItem<T> {
+public class ArchivableState<T> {
     private final T element;
     private final LocalDateTime archivingDate;
     
-    public ArchiveItem(T element){
+    public ArchivableState(T element){
         this.element = element;
         this.archivingDate = LocalDateTime.now();
     }

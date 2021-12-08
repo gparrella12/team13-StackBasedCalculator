@@ -1,8 +1,7 @@
 package Operations.VariablesOperations;
 
 import ArchiveModule.Archive;
-import ArchiveModule.ArchiveItem;
-import Stack.ObservableStack;
+import ArchiveModule.ArchivableState;
 import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
@@ -37,7 +36,7 @@ public class SaveStateOperationTest {
         Complex c = new Complex(3.14, 3.14);
         vs.save("a", c);
         
-        ArchiveItem e = vs.toSave();        
+        ArchivableState e = vs.getCurrentState();        
         instance.execute();
         
         assertEquals(e.getElement(), archive.checkLastSave().getElement());        

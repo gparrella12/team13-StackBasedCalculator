@@ -552,7 +552,7 @@ public class CalculatorController {
     }
 
     /**
-     * Allows the User to restoreState the state of variables.
+     * Allows the User to setCurrentState the state of variables.
      *
      * @return
      */

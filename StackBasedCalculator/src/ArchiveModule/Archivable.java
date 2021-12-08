@@ -6,13 +6,13 @@ package ArchiveModule;
  */
 public interface Archivable {
     /**
-     * Implements the way to how store the element of interest
+     * Implements how to extract the current state of a class
      */
-    public ArchiveItem toSave();
+    public ArchivableState getCurrentState();
     
     /**
-     * Implements the way to how restore the element of interest
+     * Implements how to set the current state of a class
      */
-    public void toRestore(ArchiveItem state);
+    public void setCurrentState(ArchivableState state);
     
 }

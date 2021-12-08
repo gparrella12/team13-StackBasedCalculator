@@ -8,7 +8,7 @@ import java.util.Stack;
  */
 public class Archive {
 
-    private Stack<ArchiveItem> stack;
+    private Stack<ArchivableState> stack;
     private Archivable instance;
 
     public Archive() {
@@ -26,14 +26,22 @@ public class Archive {
     }
 
     public void saveState() {
-        stack.push(this.instance.toSave());
+        try {
+            stack.push(this.instance.getCurrentState());
+        } catch (NullPointerException ex) {
+            throw new NullPointerException(ex.getMessage() + "\nTip: Set the instance of class that you want save before");
+        }
     }
 
     public void restoreState() {
-        this.instance.toRestore(stack.pop());
+        try {
+            this.instance.setCurrentState(stack.pop());
+        } catch (NullPointerException ex) {
+            throw new NullPointerException(ex.getMessage() + "\nTip: Set the instance of class that you want restore before");
+        }
     }
 
-    public ArchiveItem checkLastSave() {
+    public ArchivableState checkLastSave() {
         return stack.peek();
     }
 }

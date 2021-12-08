@@ -1,7 +1,7 @@
 package VariablesManager;
 
 import ArchiveModule.Archivable;
-import ArchiveModule.ArchiveItem;
+import ArchiveModule.ArchivableState;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -159,22 +159,24 @@ public class VariablesStorage implements Archivable {
     }
 
     /**
-     * Stores current state of saved variables to allow its restore
+     * Return current state of saved variables to allow its restore
+     * @return curent state as an ArchivableState
      */
     @Override
-    public ArchiveItem toSave() {
+    public ArchivableState getCurrentState() {
         HashMap<String, Complex> toSave = new HashMap<>();
         for (Map.Entry<String, Complex> entry : variables.entrySet()) {
             toSave.put(entry.getKey(), entry.getValue());
         }
-        return new ArchiveItem(toSave);
+        return new ArchivableState(toSave);
     }
 
     /**
-     * Restores the last saved state of variables
+     * Set current state of variables with the passed one
+     * @param state state to set
      */
     @Override
-    public void toRestore(ArchiveItem state) {
+    public void setCurrentState(ArchivableState state) {
         HashMap<String, Complex> toRestore = (HashMap<String, Complex>) state.getElement();
         variables.clear();
         for (Map.Entry<String, Complex> entry : toRestore.entrySet()) {

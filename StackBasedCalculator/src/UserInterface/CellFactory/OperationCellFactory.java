@@ -1,7 +1,7 @@
 package UserInterface.CellFactory;
 
 import Operations.SupportedOperation;
-import UserDefinedOperation.VariablesOperations.*;
+import Operations.VariablesOperations.*;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;

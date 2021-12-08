@@ -3,9 +3,9 @@ package UserInterface;
 import ArchiveModule.Archive;
 import Operations.*;
 import Stack.ObservableStack;
-import UserDefinedOperation.BasicOperations.*;
-import UserDefinedOperation.StackOperations.*;
-import UserDefinedOperation.VariablesOperations.*;
+import Operations.BasicOperations.*;
+import Operations.StackOperations.*;
+import Operations.VariablesOperations.*;
 import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 

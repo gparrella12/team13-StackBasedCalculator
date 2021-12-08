@@ -1,11 +1,100 @@
 package Operations;
 
 /**
- *
+ * This is an enumeration for all supported operation in the calculator.
  * @author gparrella
  */
 public enum OperationsEnum {
-    SUM("+"), SUBTRACTION("-"), DIVISION("/"), PRODUCT("*"), SQRT("sqrt"), INVSIGN("+-"), DROP("drop"), CLEAR("clear"), DUP("dup"), SWAP("swap"), OVER("over"),PUSH("push"), LOAD("<var"), SAVE(">var"), SUM_VAR("+var"), SUB_VAR("-var");
+
+    /**
+     * Sum operation (+).
+     */
+    SUM("+"),
+
+    /**
+     * Subtraction operation (-).
+     */
+    SUBTRACTION("-"),
+
+    /**
+     * Division operation (/).
+     */
+    DIVISION("/"),
+
+    /**
+     * Product operation (*).
+     */
+    PRODUCT("*"),
+
+    /**
+     * Square root operation (sqrt).
+     */
+    SQRT("sqrt"),
+
+    /**
+     * Invert Sign operation (+-).
+     */
+    INVSIGN("+-"),
+
+    /**
+     * Drop operation (drop).
+     */
+    DROP("drop"),
+
+    /**
+     * Clear operation (clear).
+     */
+    CLEAR("clear"),
+
+    /**
+     * Dup operation (dup).
+     */
+    DUP("dup"),
+
+    /**
+     * Swap operation (swap).
+     */
+    SWAP("swap"),
+
+    /**
+     * Over operation (over).
+     */
+    OVER("over"),
+
+    /**
+     * Push operation (push).
+     */
+    PUSH("push"),
+
+    /**
+     * Save operation ("<").
+     */
+    LOAD("<var"),
+
+    /**
+     * Load operation (">").
+     */
+    SAVE(">var"),
+
+    /**
+     * Add variable operation ("+x").
+     */
+    SUM_VAR("+var"),
+
+    /**
+     * Subtract variable operation ("-x").
+     */
+    SUB_VAR("-var"),
+
+    /**
+     * Save variable state operation ("save").
+     */
+    SAVE_STATE("save"),
+
+    /**
+     * Restore variable state operation ("restore").
+     */
+    RESTORE_STATE("restore");
     
     private String value;
 
@@ -13,16 +102,26 @@ public enum OperationsEnum {
         this.value = value;
     }
 
+    /**
+     * Return a string that represent this operation.
+     * @return a string that represent this operation.
+     */
+    @Override
     public String toString() {
         return this.value;
     }
     
-    public static OperationsEnum valueOfString(String str){
+    /**
+     * Return a OperationsEnum object given the operation name as string.
+     * @param operationName is the name of the operation
+     * @return the correct OperationsEnum object
+     */
+    public static OperationsEnum valueOfString(String operationName){
         for(OperationsEnum op : OperationsEnum.values()){
-            if(op.toString().equals(str))
+            if(op.toString().equals(operationName))
                 return op;
         }
-        throw new UnsupportedOperationException("Operation "+str + " not supported");
+        throw new UnsupportedOperationException("Operation "+operationName + " not supported");
     }
 
 }

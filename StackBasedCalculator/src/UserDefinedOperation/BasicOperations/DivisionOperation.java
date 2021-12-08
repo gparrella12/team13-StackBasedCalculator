@@ -27,7 +27,7 @@ public class DivisionOperation extends SupportedOperation {
     @Override
     public void execute() {
         if (super.size() < 2) {
-            throw new NoSuchElementException("There are less then two elements in the super");
+            throw new NoSuchElementException("There are less then two elements in the stack");
         }
 
         if (super.top().equals(new Complex(0))) {

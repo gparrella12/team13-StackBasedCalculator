@@ -24,7 +24,7 @@ public class SqrtOperation extends SupportedOperation {
     @Override
     public void execute() {
         if (super.size() < 1) {
-            throw new NoSuchElementException("The super is empty");
+            throw new NoSuchElementException("The stack is empty");
         }
         Complex num = super.pop();
         super.push(num.sqrt());

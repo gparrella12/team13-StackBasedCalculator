@@ -72,10 +72,9 @@ public class CalculatorController {
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<SupportedOperation> operationsObservable;
-    //Hash Table containing operations to call
-    private HashMap<OperationsEnum, Operation> supportedOperation;
-    //attributes for create a new operation
+    //Attributes for create a new operation
     private SimpleFactoryCommand commandCreator;
+    //Stack with operand 
     private ObservableStack<Complex> stack;
 
     /**
@@ -107,9 +106,6 @@ public class CalculatorController {
         stackList.setCellFactory(new NumberListFactory());
         stack.setObserver(stackList);
 
-        //Initialize the support operation HashMap
-        this.supportedOperation = new HashMap();
-
         //set table cell columns for variables visualization
         variableStorage = new VariablesStorage();
         columnValue.setCellFactory(new NumberColumnFactory());
@@ -117,8 +113,9 @@ public class CalculatorController {
 
         //set archive for VariableStorage
         variablesArchive = new Archive(variableStorage);
-
+        //Create the command factory
         commandCreator = new SimpleFactoryCommand(this.stack, this.variableStorage);
+        commandCreator.setArchive(variablesArchive);
         //populate tables
         populate();
 
@@ -243,7 +240,12 @@ public class CalculatorController {
                             "\nImpossible to execute.\nInsufficient number of operands.");
                 } else {
                     //the stack contains the number of operands required
-                    userDefineToExecute.execute();
+                    try {
+                        userDefineToExecute.execute();
+                    } catch (Exception ex) {
+                        createAlert(AlertType.ERROR, "Error", "Look, an Error!",
+                                "\nError during execution - Invalid operation definition\n");
+                    }
                 }
 
             }
@@ -332,12 +334,13 @@ public class CalculatorController {
                 toExecute = this.commandCreator.pickCommand();
             } else if (operation != null) {
                 //Input is recognized as an Arithmetical or Stack operation, then select it
-                toExecute = supportedOperation.get(operation);
+                this.commandCreator.setOperation(operation);
+                toExecute = this.commandCreator.pickCommand();
             } else if (supportedVariable != null) {
                 // Input is recognized as variable operation, then set the variable and execute it
                 String varOperation = supportedVariable.substring(0, 1);
                 String variable = supportedVariable.substring(1);
-                this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation+"var"));
+                this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation + "var"));
                 this.commandCreator.setVariableName(variable);
                 toExecute = this.commandCreator.pickCommand();
             }
@@ -350,7 +353,7 @@ public class CalculatorController {
                     "\nImpossible to continue.\n" + e.getMessage());
         } catch (NullPointerException ex) {
             createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                    "\nInvalid input inserted:\n" + input+ ex.getMessage());
+                    "\nInvalid input inserted:\n" + input);
         }
     }
 
@@ -462,12 +465,14 @@ public class CalculatorController {
                 }
 
             } //selected a stack or an arithmetic operation
-             //selected an user defined operation
-            /*****************************************************************
-             * ************************** NOTA: QUESTI IF POTREBBERO ESSERE LIMITATI
-             * **************************       CON LA CLASSE VARIABLEOPERATION
+            //selected an user defined operation
+            /**
+             * ***************************************************************
+             * ************************** NOTA: QUESTI IF POTREBBERO ESSERE
+             * LIMITATI ************************** CON LA CLASSE
+             * VARIABLEOPERATION
              */
-            else if(op instanceof LoadOperation || op instanceof SaveOperation || op instanceof SumVarOperation || op instanceof SubVarOperation) {
+            else if (op instanceof LoadOperation || op instanceof SaveOperation || op instanceof SumVarOperation || op instanceof SubVarOperation) {
                 Optional<String> result = createTextInputDialog("Variable Operation",
                         "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
@@ -480,10 +485,10 @@ public class CalculatorController {
                     this.commandCreator.setOperation(OperationsEnum.valueOfString(op.getName()));
                     this.commandCreator.setVariableName(variableName.substring(1, 2));
                     finalObservable.add(this.commandCreator.pickCommand());
-                    
+
                 }
 
-            }else{
+            } else {
                 finalObservable.add(operationsList.getSelectionModel().getSelectedItem());
             }
             //finalList autoscroll enable
@@ -520,7 +525,8 @@ public class CalculatorController {
         if (variableStorage.getSize() == 0) {
             return;
         }
-        variablesArchive.saveState();
+        this.commandCreator.setOperation(OperationsEnum.SAVE_STATE);
+        this.commandCreator.pickCommand().execute();
         createAlert(AlertType.INFORMATION, "Save Variable State",
                 "Information Message", "Variables State saved properly");
     }
@@ -533,7 +539,8 @@ public class CalculatorController {
     @FXML
     private void onRestorePress(ActionEvent event) {
         try {
-            variablesArchive.restoreState();
+            this.commandCreator.setOperation(OperationsEnum.RESTORE_STATE);
+            this.commandCreator.pickCommand().execute();
         } catch (EmptyStackException e) {
             createAlert(AlertType.ERROR, "Restore Variable State",
                     "Error Message", "There isn't a state to restore");
@@ -582,7 +589,6 @@ public class CalculatorController {
             this.commandCreator.setOperation(op);
             SupportedOperation operation = this.commandCreator.pickCommand();
             operationsObservable.add(operation);
-            supportedOperation.put(op, operation);
         }
     }
 

@@ -1,6 +1,6 @@
 package MainMathOperation;
 
-import MainMathOperation.Stack;
+import Stack.ObservableStack;
 import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,16 +11,16 @@ import static org.junit.Assert.*;
  *
  * @author gparrella
  */
-public class StackTest {
+public class ObservableStackTest {
 
-    private Stack<Integer> stack;
+    private ObservableStack<Integer> stack;
 
-    public StackTest() {
+    public ObservableStackTest() {
     }
 
     @Before
     public void setUp() {
-        stack = new Stack<>();
+        stack = new ObservableStack<>();
     }
 
     /**

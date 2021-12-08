@@ -1,13 +1,12 @@
 package UserInterface;
 
-import MainMathOperation.RPNSolver;
+import Stack.ObservableStack;
 import java.io.InputStreamReader;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.exception.MathParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -15,6 +14,13 @@ import org.junit.Test;
  * @author Ernesto
  */
 public class InputValidationTest {
+    
+    private ObservableStack<Complex> stack;
+    
+    @Before
+    public void setUp(){
+        stack = new ObservableStack<>();
+    }
 
     /**
      * Test of testParseComplex method, of class InputValidation.
@@ -24,10 +30,9 @@ public class InputValidationTest {
     @Test
     public void testParseComplex() {
         InputValidation i = new InputValidation();
-        RPNSolver rpn = RPNSolver.getInstance();
         System.out.println("\naddNum");
 
-        Scanner sc = new Scanner(new InputStreamReader((InputValidation.class.getResourceAsStream("TestCasesParser.csv"))));
+        Scanner sc = new Scanner(new InputStreamReader(InputValidation.class.getResourceAsStream("TestCasesParser.csv")));
         sc.nextLine();
         sc.useDelimiter(";");
 
@@ -42,7 +47,7 @@ public class InputValidationTest {
 
             if (testResult.equals("fail")) {
                 try {
-                    rpn.addNum(i.parseComplex(input, "j"));
+                    stack.push(i.parseComplex(input, "j"));
                 } catch (NumberFormatException ex) {
                     System.out.println(" >> Fail for " + input);
                     exceptionFlag = true;
@@ -52,10 +57,10 @@ public class InputValidationTest {
                 }
                 exceptionFlag = false;
             } else {
-                rpn.addNum(i.parseComplex(input, "j"));
-                Complex tmp = rpn.getAns();
+                stack.push(i.parseComplex(input, "j"));
+                Complex tmp = stack.top();
                 assertEquals("Wrong parsing detect : in< " + input + " > out< " + testResult + " >] ", tmp.toString(), testResult);
-                rpn.drop();
+                stack.pop();
                 System.out.println(" >> OK");
             }
 

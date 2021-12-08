@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
-package UserDefinedOperation.VariablesOperations;
+package Operations.VariablesOperations;
 
 import Stack.ObservableStack;
+import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,8 +16,9 @@ import org.junit.Before;
  * @author Speranza
  */
 public class SumVarOperationTest {
-    
+
     private ObservableStack<Complex> stack;
+    VariablesStorage variableStorage;
 
     public SumVarOperationTest() {
     }
@@ -24,6 +26,7 @@ public class SumVarOperationTest {
     @Before
     public void setUp() {
         stack = new ObservableStack<>();
+        variableStorage = new VariablesStorage();
     }
 
     /**
@@ -31,6 +34,18 @@ public class SumVarOperationTest {
      */
     @Test
     public void testExecute() {
+        
+        Complex c = new Complex(1, 1);
+        variableStorage.save("x", c);
+        stack.push(c);
+
+        SumVarOperation instance = new SumVarOperation(stack, variableStorage, "x");
+        
+        instance.execute();
+
+        assertEquals("Error in add method call", variableStorage.getVariableValue("x"), new Complex(2, 2));
+
+        assertEquals("Error in add method call - Invalid size", 1, stack.size());
 
     }
 }

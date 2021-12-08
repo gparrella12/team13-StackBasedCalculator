@@ -6,6 +6,7 @@ package ArchiveModuile;
 
 import ArchiveModule.Archive;
 import VariablesManager.VariablesStorage;
+import java.util.EmptyStackException;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,57 +29,6 @@ public class ArchiveTest {
         vs = new VariablesStorage();
         arc = new Archive(vs);
     }
-
-//    /**
-//     * Test of setInstance method, of class Archive.
-//     */
-//    @Test
-//    public void testSetInstance() {
-//        System.out.println("setInstance");
-//        Archivable instance_2 = null;
-//        Archive instance = new Archive();
-//        instance.setInstance(instance_2);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of saveState method, of class Archive.
-//     */
-//    @Test
-//    public void testSave() {
-//        System.out.println("saveState");
-//        Archive instance = new Archive();
-//        instance.saveState();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of restoreState method, of class Archive.
-//     */
-//    @Test
-//    public void testRestore() {
-//        System.out.println("restoreState");
-//        Archive instance = new Archive();
-//        instance.restoreState();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of checkLastSave method, of class Archive.
-//     */
-//    @Test
-//    public void testCheckLastSave() {
-//        System.out.println("checkLastSave");
-//        Archive instance = new Archive();
-//        ArchiveItem expResult = null;
-//        ArchiveItem result = instance.checkLastSave();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
 
     /**
      * Test of toSave method, of class VariablesStorage.
@@ -118,5 +68,11 @@ public class ArchiveTest {
         
         arc.restoreState();
         assertEquals(vs.toString(), initialState);       
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testRestoreStateException(){
+        System.out.println("restoreState without state to restore");
+        arc.restoreState();
     }
 }

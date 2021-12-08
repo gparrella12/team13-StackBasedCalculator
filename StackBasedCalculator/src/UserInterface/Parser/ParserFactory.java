@@ -1,23 +1,24 @@
 package UserInterface.Parser;
 
 /**
- *
+ *This class is a factory, in the Factory Method Pattern, to generate
+ * parser of concrete class based on given information.
  * @author Ernesto
  */
 public class ParserFactory {
 
-    public Parser getParser(String parserType) {
+    public Parser getParser(ParserEnum parserType) {
         if (parserType == null) {
             return null;
         }
-        if (parserType.equalsIgnoreCase("COMPLEXNUMBER")) {
-            return new ComplexNumber();
+        if (parserType==ParserEnum.COMPLEXNUMBER) {
+            return new ComplexNumberParser();
 
-        } else if (parserType.equalsIgnoreCase("OPERATION")) {
-            return new Operation();
+        } else if (parserType==ParserEnum.OPERATION) {
+            return new OperationParser();
 
-        } else if (parserType.equalsIgnoreCase("VARIABLE")) {
-            return new Variable();
+        } else if (parserType==ParserEnum.VARIABLE) {
+            return new VariableParser();
         }
 
         return null;

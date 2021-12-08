@@ -9,6 +9,7 @@ import Stack.ObservableStack;
 import Operations.StackOperations.*;
 import Operations.VariablesOperations.*;
 import UserInterface.CellFactory.*;
+import UserInterface.Parser.ParserEnum;
 import VariablesManager.VariablesStorage;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -322,18 +323,19 @@ public class CalculatorController {
         String input = textAreaCalculator.getText();
         textAreaCalculator.clear();
         OperationsEnum operation;
-        String supportedVariable = parser.getParser("VARIABLE").check(input);
+      
+        String supportedVariable = parser.getParser(ParserEnum.VARIABLE).check(input);
         Operation toExecute = null;
         Complex number;
 
         try {
-            operation = OperationsEnum.valueOfString(parser.getParser("OPERATION").check(input));
+            operation = OperationsEnum.valueOfString(parser.getParser(ParserEnum.OPERATION).check(input));
         } catch (UnsupportedOperationException e) {
             operation = null;
         }
 
         try {
-            number = new ComplexFormat().parse(parser.getParser("COMPLEXNUMBER").check(input));
+            number = new ComplexFormat().parse(parser.getParser(ParserEnum.COMPLEXNUMBER).check(input));
         } catch (NullPointerException e) {
             number = null;
         }
@@ -469,7 +471,7 @@ public class CalculatorController {
                 if (result.isPresent()) {
                     Complex num;
                     try {
-                        num = new ComplexFormat().parse(parser.getParser("COMPLEXNUMBER").check(result.get()));
+                        num = new ComplexFormat().parse(parser.getParser(ParserEnum.COMPLEXNUMBER).check(result.get()));
                     } catch (NullPointerException e) {
                         num = null;
                     }
@@ -493,7 +495,7 @@ public class CalculatorController {
                 Optional<String> result = createTextInputDialog("Variable Operation",
                         "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    String variableName = parser.getParser("VARIABLE").check(op.getName().substring(0, 1) + result.get());
+                    String variableName = parser.getParser(ParserEnum.VARIABLE).check(op.getName().substring(0, 1) + result.get());
 
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",

@@ -6,11 +6,18 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexFormat;
 
 /**
- *
+ *This is parser for the Complex Number
  * @author Ernesto
  */
-public class ComplexNumber implements Parser {
-
+public class ComplexNumberParser implements Parser {
+    
+  /**
+     * Return a String object corresponding to the complex number
+     *
+     * @param s is the input string
+     * @return the complex number
+     */
+    
     @Override
     public String check(String s) {
         double real = 0, imaginary = 0;

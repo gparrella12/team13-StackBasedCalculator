@@ -1,9 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
-package UserDefinedOperation.BasicOperations;
+package Operations.BasicOperations;
 
+import Stack.ObservableStack;
+import java.util.NoSuchElementException;
+import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,23 +13,37 @@ import static org.junit.Assert.*;
  */
 public class SqrtOperationTest {
     
+    private ObservableStack<Complex> stack;
+    private SqrtOperation instance;
+    
     public SqrtOperationTest() {
     }
     
     @Before
     public void setUp() {
+        stack = new ObservableStack<>();
+        instance = new SqrtOperation(stack);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testSqrtExcetpio() {
+        System.out.println("\nTest sqrt without number");
+        stack.clear();
+        instance.execute();;
     }
 
     /**
-     * Test of execute method, of class SqrtOpetaion.
+     * Test of sqrt method, of class RPNSolver.
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
-        SqrtOperation instance = null;
-        instance.execute();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSqrt() {
+        System.out.println("\nsqrt");
+
+        stack.clear();
+        stack.push(new Complex(-4, 0));
+        instance.execute();;
+        Complex result = new Complex(0, 2);
+        assertEquals("Wrong result : sqrt(-4) ", stack.top(), result);
     }
     
 }

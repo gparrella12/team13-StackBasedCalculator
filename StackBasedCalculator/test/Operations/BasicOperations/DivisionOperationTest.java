@@ -29,7 +29,7 @@ public class DivisionOperationTest {
      * Test of execute method, of class DivisionOperation.
      */
     @Test
-    public void testExecute() {
+    public void testDivision() {
         System.out.println("Division execute");
         
         stack.push(new Complex(5, 1));
@@ -51,7 +51,7 @@ public class DivisionOperationTest {
     }
     
     @Test(expected = NoSuchElementException.class)
-    public void testDivisionExcetpio() {
+    public void testDivisionExcetpion() {
         System.out.println("\nTest division without numbers");
         stack.clear();
         instance.execute();

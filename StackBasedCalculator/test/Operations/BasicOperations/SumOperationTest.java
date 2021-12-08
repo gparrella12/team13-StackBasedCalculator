@@ -1,9 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
-package UserDefinedOperation.BasicOperations;
+package Operations.BasicOperations;
 
+import Stack.ObservableStack;
+import java.util.NoSuchElementException;
+import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,23 +13,35 @@ import static org.junit.Assert.*;
  */
 public class SumOperationTest {
     
+    private ObservableStack<Complex> stack;
+    private SumOperation instance;
+    
     public SumOperationTest() {
     }
     
     @Before
     public void setUp() {
+        stack = new ObservableStack<>();
+        instance = new SumOperation(stack);
     }
 
-    /**
-     * Test of execute method, of class SumOperation.
-     */
-    @Test
-    public void testExecute() {
-        System.out.println("execute");
-        SumOperation instance = null;
+    @Test(expected = NoSuchElementException.class)
+    public void testSumExcetpion() {
+        System.out.println("\nTest sum without numbers");
+        stack.clear();
         instance.execute();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testSum() {
+        System.out.println("\nsum");
+        stack.clear();
+        stack.push(new Complex(5, 1));
+        stack.push(new Complex(5, 0));
+        instance.execute();
+
+        Complex result = new Complex(10, 1);
+        assertEquals("Wrong result : 5+1j + 5 ", stack.top(), result);
     }
     
 }

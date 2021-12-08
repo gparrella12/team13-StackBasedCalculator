@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Operations.VariablesOperations;
 
+import ArchiveModule.Archive;
+import ArchiveModule.ArchiveItem;
 import Stack.ObservableStack;
+import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,14 +15,18 @@ import static org.junit.Assert.*;
  */
 public class SaveStateOperationTest {
     
-    private ObservableStack<Complex> stack;
+    private Archive archive;
+    private VariablesStorage vs;
+    private SaveStateOperation instance;
     
     public SaveStateOperationTest() {
     }
     
     @Before
     public void setUp() {
-        stack = new ObservableStack<>();
+        vs = new VariablesStorage();
+        archive = new Archive(vs);
+        instance = new SaveStateOperation(archive, vs);
     }
 
     /**
@@ -31,25 +34,12 @@ public class SaveStateOperationTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        SaveStateOperation instance = null;
+        Complex c = new Complex(3.14, 3.14);
+        vs.save("a", c);
+        
+        ArchiveItem e = vs.toSave();        
         instance.execute();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(e.getElement(), archive.checkLastSave().getElement());        
     }
-
-    /**
-     * Test of toString method, of class SaveStateOperation.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        SaveStateOperation instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

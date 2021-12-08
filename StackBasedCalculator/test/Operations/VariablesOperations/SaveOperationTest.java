@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Operations.VariablesOperations;
 
 import Stack.ObservableStack;
+import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,8 +12,10 @@ import org.junit.Before;
  * @author Speranza
  */
 public class SaveOperationTest {
-    
+
     private ObservableStack<Complex> stack;
+    private VariablesStorage vs;
+    private SaveOperation instance;
 
     public SaveOperationTest() {
     }
@@ -24,6 +23,7 @@ public class SaveOperationTest {
     @Before
     public void setUp() {
         stack = new ObservableStack<>();
+        vs = new VariablesStorage();
     }
 
     /**
@@ -31,6 +31,13 @@ public class SaveOperationTest {
      */
     @Test
     public void testExecute() {
+        instance = new SaveOperation(stack, vs, "a");
+        Complex c = new Complex(3.14, 3.14);
+        stack.push(c);
+        instance.execute();
+
+        assertEquals("Error in save method call", c, vs.getVariableValue("a"));
+        assertEquals("Error in save method call - Invalid size", 0, stack.size());
 
     }
 }

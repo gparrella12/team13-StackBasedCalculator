@@ -1,6 +1,9 @@
 package Operations.VariablesOperations;
 
+import ArchiveModule.Archive;
+import ArchiveModule.ArchiveItem;
 import Stack.ObservableStack;
+import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +15,18 @@ import static org.junit.Assert.*;
  */
 public class RestoreStateOperationTest {
     
-    private ObservableStack<Complex> stack;
+    private Archive archive;
+    private VariablesStorage vs;
+    private RestoreStateOperation instance;
     
     public RestoreStateOperationTest() {
     }
     
     @Before
     public void setUp() {
-        stack = new ObservableStack<>();
+        vs = new VariablesStorage();
+        archive = new Archive(vs);
+        instance = new RestoreStateOperation(archive, vs);
     }
 
     /**
@@ -27,25 +34,17 @@ public class RestoreStateOperationTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        RestoreStateOperation instance = null;
+        Complex c = new Complex(3.14, 3.14);
+        vs.save("a", c);
+        
+        ArchiveItem initialState = vs.toSave();
+        archive.saveState();
+        
+        vs.save("b", new Complex(1,0));
+        
         instance.execute();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class RestoreStateOperation.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        RestoreStateOperation instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(vs.toSave().getElement(), initialState.getElement());  
     }
     
 }

@@ -96,7 +96,7 @@ public enum OperationsEnum {
      */
     RESTORE_STATE("restore");
     
-    private String value;
+    private final String value;
 
     private OperationsEnum(String value) {
         this.value = value;
@@ -122,6 +122,11 @@ public enum OperationsEnum {
                 return op;
         }
         throw new UnsupportedOperationException("Operation "+operationName + " not supported");
+    }
+    
+    public static OperationsEnum[] userInvokable(){
+        OperationsEnum [] arr ={SUM,SUBTRACTION,PRODUCT,DIVISION,INVSIGN,SQRT,DROP,CLEAR,DUP,SWAP,OVER};
+        return arr;
     }
 
 }

@@ -11,14 +11,16 @@ public class ParserFactory {
         if (parserType == null) {
             return null;
         }
-        if (parserType==ParserEnum.COMPLEXNUMBER) {
-            return new ComplexNumberParser();
-
-        } else if (parserType==ParserEnum.OPERATION) {
-            return new OperationParser();
-
-        } else if (parserType==ParserEnum.VARIABLE) {
-            return new VariableParser();
+        switch (parserType) {
+            case COMPLEXNUMBER -> {
+                return new ComplexNumberParser();
+            }
+            case OPERATION -> {
+                return new OperationParser();
+            }
+            case VARIABLE -> {
+                return new VariableParser();
+            }
         }
 
         return null;

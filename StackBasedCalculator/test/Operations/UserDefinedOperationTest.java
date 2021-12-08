@@ -1,6 +1,8 @@
-package UserDefinedOperation;
+package Operations;
 
-import MainMathOperation.RPNSolver;
+
+import Stack.ObservableStack;
+import UserInterface.SimpleFactoryCommand;
 import VariablesManager.VariablesStorage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,27 +22,25 @@ public class UserDefinedOperationTest {
 
     private final HashMap<String, UserDefinedOperation> myOperations2;
     private final HashMap<String, SupportedOperation> supported;
-    private final RPNSolver rpn = RPNSolver.getInstance();
-    private final String[] arithmeticOperation = {"+", "-", "*", "/", "sqrt", "+-"};
-    private final String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
     private VariablesStorage variableManager;
     private List<Complex> myOperands;
+    private ObservableStack<Complex> stack;
+    private SimpleFactoryCommand commandCreator;
 
     public UserDefinedOperationTest() {
         // Initialize the structures
         this.variableManager = new VariablesStorage();
         this.myOperands = new ArrayList<>();
         this.variableManager = new VariablesStorage();
+        this.stack = new ObservableStack<>();
+        this.commandCreator = new SimpleFactoryCommand(stack,variableManager);
         // Set some operands
         myOperands = List.of(new Complex(2, 3), new Complex(-4, 7), new Complex(0, 0.66), new Complex(45, 6), new Complex(-66, -0.235), new Complex(2, -3), new Complex(-2, 3), new Complex(0, -3));
         //Inizialize supported operation - Arithmetic
         supported = new HashMap<>();
-        for (String op : arithmeticOperation) {
-            supported.put(op, new ArithmeticOperation(op, rpn));
-        }
-        //Inizialize supported operation - Stack
-        for (String op : stackOperations) {
-            supported.put(op, new StackOperation(op, rpn));
+        for(OperationsEnum op : OperationsEnum.values()){
+            this.commandCreator.setOperation(op);
+            supported.put(op.toString(), this.commandCreator.pickCommand());
         }
         // Initialize some operations that require 2 operands
         myOperations2 = new HashMap<>();
@@ -58,22 +58,22 @@ public class UserDefinedOperationTest {
         System.out.println("Execute - User Defined Operation");
         for (Operation op : myOperations2.values()) {
             for (int i = 0; i < 5; i++) {
-                rpn.clear();
+                stack.clear();
                 Random generator = new Random(113131646);
                 Complex op1 = myOperands.get(generator.nextInt(myOperands.size()));
                 Complex op2 = myOperands.get(generator.nextInt(myOperands.size()));
-                rpn.addNum(op1);
-                rpn.addNum(op2);
+                stack.push(op1);
+                stack.push(op2);
                 op.execute();
                 switch (op.toString()) {
                     case "hypotenuse" -> {
                         Complex result = new Complex(Precision.round(this.hypotenuse(op1, op2).getReal(), 10), Precision.round(this.hypotenuse(op1, op2).getImaginary(), 10));
-                        Complex myResult = new Complex(Precision.round(rpn.getAns().getReal(), 10), Precision.round(rpn.getAns().getImaginary(), 10));
+                        Complex myResult = new Complex(Precision.round(stack.top().getReal(), 10), Precision.round(stack.top().getImaginary(), 10));
                         assertEquals("Invalid result ", result, myResult);
                     }
                     case "squareModule" -> {
                         Complex result = new Complex(Precision.round(this.squareModule(op1, op2).getReal(), 10), Precision.round(this.squareModule(op1, op2).getImaginary(), 10));
-                        Complex myResult = new Complex(Precision.round(rpn.getAns().getReal(), 10), Precision.round(rpn.getAns().getImaginary(), 10));
+                        Complex myResult = new Complex(Precision.round(stack.top().getReal(), 10), Precision.round(stack.top().getImaginary(), 10));
                         assertEquals("Invalid result ", result, myResult);
                     }
                     default -> {
@@ -133,12 +133,12 @@ public class UserDefinedOperationTest {
         UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2, supported.get("dup"), supported.get("*"), supported.get("swap"), supported.get("dup"), supported.get("*"), supported.get("+"), supported.get("sqrt"));
         // Remove sqrt at the end of the list 
         hypotenuse.updateList(supported.get("dup"), supported.get("*"), supported.get("swap"), supported.get("dup"), supported.get("*"), supported.get("+"));
-        rpn.addNum(new Complex(3, 0));
-        rpn.addNum(new Complex(4, 0));
+        stack.push(new Complex(3, 0));
+        stack.push(new Complex(4, 0));
         // Verify if now there are the correct result
         hypotenuse.execute();
         Complex result = new Complex(Precision.round(this.squareModule(new Complex(3, 0), new Complex(4, 0)).getReal(), 10), Precision.round(this.squareModule(new Complex(3, 0), new Complex(4, 0)).getImaginary(), 10));
-        Complex myResult = new Complex(Precision.round(rpn.getAns().getReal(), 10), Precision.round(rpn.getAns().getImaginary(), 10));
+        Complex myResult = new Complex(Precision.round(stack.top().getReal(), 10), Precision.round(stack.top().getImaginary(), 10));
         assertEquals("Invalid result - List not updated", result, myResult);
         System.out.println("UpdateList -> OK");
     }
@@ -157,11 +157,6 @@ public class UserDefinedOperationTest {
         assertEquals("Operation not included: ", true, hypotenuse.contains(supported.get("sqrt")));
         assertEquals("Operation included: ", false, hypotenuse.contains(supported.get("+-")));
         assertEquals("Operation included: ", false, hypotenuse.contains(supported.get("drop")));
-        // Test with VariableOperation
-        UserDefinedOperation sumWithVar = new UserDefinedOperation("sumWithVar", 2, supported.get("+"), new VariableOperation(variableManager, "a", rpn, ">"), new StackOperation("push", rpn, new Complex(1, 0)));
-        assertEquals("Operation not included: ", true, sumWithVar.contains(new VariableOperation(variableManager, "a", rpn, ">")));
-        assertEquals("Operation not included: ", true, sumWithVar.contains(new StackOperation("push", rpn, new Complex(1, 0))));
-        System.out.println("\t" + "Test with SupportedOperation -> OK");
         // Test with nested User-Defined Operation
         UserDefinedOperation squareModule = new UserDefinedOperation("squareModule", 2, hypotenuse, supported.get("dup"), supported.get("*"));
         assertEquals(true, squareModule.contains(hypotenuse));

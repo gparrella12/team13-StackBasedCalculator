@@ -8,10 +8,6 @@ import Operations.OperationsEnum;
  * @author Ernesto
  */
 public class OperationParser implements Parser {
-
-    private String[] stackOperations = {"dup", "over", "clear", "drop", "swap"};
-    private String[] mathOperations = {"+", "-", "*", "/", "sqrt", "+-"};
-
     /**
      * Return a String object corresponding to the operation
      *
@@ -22,7 +18,7 @@ public class OperationParser implements Parser {
     public String check(String operation) {
 
         String parsedOperation;
-        try {
+        /* try {
             parsedOperation = String.valueOf(OperationsEnum.valueOfString(operation));
         } catch (UnsupportedOperationException ex) {
             parsedOperation = null;
@@ -31,8 +27,13 @@ public class OperationParser implements Parser {
         if (parsedOperation!= null && !parsedOperation.equals(String.valueOf(OperationsEnum.PUSH)))
         return parsedOperation;
         
+        return null;*/
+        for (OperationsEnum op : OperationsEnum.userInvokable()) {
+            if (op.toString().equals(operation)) {
+                return operation;
+            }
+        }
         return null;
-
     }
 
 }

@@ -12,8 +12,8 @@ import org.apache.commons.math3.complex.Complex;
  */
 public abstract class SupportedOperation implements Operation {
 
-    private OperationsEnum name;
-    private ObservableStack<Complex> stack;
+    private final OperationsEnum name;
+    private final ObservableStack<Complex> stack;
 
     /**
      * Create a support operation with a name.

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Operations.VariablesOperations;
 
 import Stack.ObservableStack;
@@ -18,6 +14,8 @@ import org.junit.Before;
 public class LoadOperationTest {
 
     private ObservableStack<Complex> stack;
+    private VariablesStorage vs;
+    private LoadOperation instance;
 
     public LoadOperationTest() {
     }
@@ -25,6 +23,7 @@ public class LoadOperationTest {
     @Before
     public void setUp() {
         stack = new ObservableStack<>();
+        vs = new VariablesStorage();
     }
 
     /**
@@ -32,6 +31,15 @@ public class LoadOperationTest {
      */
     @Test
     public void testExecute() {
+        Complex c = new Complex(3.14, 3.14);
+
+        vs.save("a", c);
+        instance = new LoadOperation(stack, vs, "a");
+
+        instance.execute();
+
+        assertEquals("Error in load method call", new Complex(3.14, 3.14), stack.top());
+        assertEquals("Error in load method call - Invalid size", 1, stack.size());
 
     }
 }

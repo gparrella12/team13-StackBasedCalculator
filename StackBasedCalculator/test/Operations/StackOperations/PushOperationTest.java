@@ -43,6 +43,13 @@ public class PushOperationTest {
         assertEquals("Error in push call", num, stack.top());
         stack.clear();
 
-        fail("Push is correctly executed with incorrect operands");
+        // Test push method with invalid element
+        instance = new PushOperation(stack, Complex.NaN);
+        try {
+            instance.execute();
+        } catch (NumberFormatException ex) {
+            System.out.println("\t Push with incorrect operand -> OK");
+            return;
+        }
     }
 }

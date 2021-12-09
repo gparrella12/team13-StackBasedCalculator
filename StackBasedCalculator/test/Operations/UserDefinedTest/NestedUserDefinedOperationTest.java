@@ -204,23 +204,19 @@ public class NestedUserDefinedOperationTest {
 
         UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2,
                 supportedOp.get("dup"), supportedOp.get("*"), supportedOp.get("swap"),
-                supportedOp.get("dup"), supportedOp.get("*"), add2operands, supportedOp.get("sqrt"));
+                supportedOp.get("dup"), supportedOp.get("*"), add2operands, supportedOp.get("sqrt"), supportedOp.get("swap"));
         newOperations.put("hypotenuse", hypotenuse);
 
         // nested user defined operation with an invalid operation inside
         UserDefinedOperation divisionByZero = new UserDefinedOperation("divisionByZero", 3,
                 hypotenuse, supportedOp.get("/"));
         newOperations.put("divisionByZero", divisionByZero);
-
         Operation op = newOperations.get("divisionByZero");
-
         op.execute();
 
     }
 
-    
     /*      Private methods used to verify the operation's result      */
-    
     private Complex sum2operands(Complex c1, Complex c2) {
 
         Complex myOp1 = new Complex(c1.getReal(), c1.getImaginary());

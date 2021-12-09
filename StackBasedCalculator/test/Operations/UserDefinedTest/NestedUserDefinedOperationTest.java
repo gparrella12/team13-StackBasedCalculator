@@ -50,32 +50,7 @@ public class NestedUserDefinedOperationTest {
             supportedOp.put(op.toString(), this.commandCreator.pickCommand());
         }
 
-        //initializes the operations
         newOperations = new HashMap<>();
-
-        //starting operation
-        UserDefinedOperation add2operands = new UserDefinedOperation("add2operands", 2,
-                supportedOp.get("sum"));
-
-        newOperations.put("add2operands", add2operands);
-
-        //first nested operation
-        UserDefinedOperation add4operands = new UserDefinedOperation("sum4operands", 4,
-                add2operands, add2operands, add2operands);
-
-        newOperations.put("add4operands", add4operands);
-
-        //second nested operation
-        UserDefinedOperation add6operands = new UserDefinedOperation("add6operands", 6,
-                add4operands, add2operands, add2operands);
-
-        newOperations.put("add6operands", add6operands);
-
-        //wrong operation
-        UserDefinedOperation wrongOperation = new UserDefinedOperation("add3operands", 3,
-                supportedOp.get("sum"), supportedOp.get("NotExists"));
-
-        newOperations.put("wrongOperation", wrongOperation);
 
     }
 
@@ -87,6 +62,21 @@ public class NestedUserDefinedOperationTest {
     public void testExecute() {
 
         System.out.println("Execute - Nested User Defined Operations");
+
+        //starting operation
+        UserDefinedOperation add2operands = new UserDefinedOperation("add2operands", 2,
+                supportedOp.get("+"));
+        newOperations.put("add2operands", add2operands);
+
+        //first nested operation
+        UserDefinedOperation add4operands = new UserDefinedOperation("add4operands", 4,
+                add2operands, add2operands, add2operands);
+        newOperations.put("add4operands", add4operands);
+
+        //second nested operation
+        UserDefinedOperation add6operands = new UserDefinedOperation("add6operands", 6,
+                add4operands, add2operands, add2operands);
+        newOperations.put("add6operands", add6operands);
 
         for (Operation op : newOperations.values()) {
             for (int i = 0; i < NUM_TESTS; i++) {
@@ -154,6 +144,80 @@ public class NestedUserDefinedOperationTest {
         }
     }
 
+    /**
+     * Test of execute method, of class UserDefinedOperation for nested
+     * operations when it's used an invalid operation.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testExecuteInvalidOperations() {
+
+        System.out.println("Execute - invalid operations");
+
+        stack.clear();
+
+        Random generator = new Random();
+
+        stack.push(new Complex(generator.nextDouble(), generator.nextDouble()));
+        stack.push(new Complex(generator.nextDouble(), generator.nextDouble()));
+        stack.push(new Complex(generator.nextDouble(), generator.nextDouble()));
+
+        // base user defined operation
+        UserDefinedOperation add2operands = new UserDefinedOperation("add2operands", 2,
+                supportedOp.get("+"));
+        newOperations.put("add2operands", add2operands);
+
+        // nested user defined operation with an invalid operation inside
+        UserDefinedOperation wrongOperation = new UserDefinedOperation("add3operands", 3,
+                add2operands, supportedOp.get("NotExists"));
+        newOperations.put("wrongOperation", wrongOperation);
+
+        //user defined operation with an invalid nested operation
+        UserDefinedOperation wrongOperation2 = new UserDefinedOperation("notGood", 1,
+                wrongOperation);
+        newOperations.put("notGood", wrongOperation2);
+
+        Operation op = newOperations.get("wrongOperation");
+
+        op.execute();
+
+    }
+
+    /**
+     * Test of execute method, of class UserDefinedOperation for nested
+     * operations when it's performed the division by zero.
+     */
+    @Test(expected = ArithmeticException.class)
+    public void testExecuteInvalidOperands() {
+
+        System.out.println("Execute - invalid operands");
+
+        stack.clear();
+
+        stack.push(new Complex(0));
+        stack.push(new Complex(-4, 7));
+        stack.push(new Complex(2, 3));
+
+        // base user defined operation
+        UserDefinedOperation add2operands = new UserDefinedOperation("add2operands", 2,
+                supportedOp.get("+"));
+        newOperations.put("add2operands", add2operands);
+
+        UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2,
+                supportedOp.get("dup"), supportedOp.get("*"), supportedOp.get("swap"),
+                supportedOp.get("dup"), supportedOp.get("*"), add2operands, supportedOp.get("sqrt"));
+        newOperations.put("hypotenuse", hypotenuse);
+
+        // nested user defined operation with an invalid operation inside
+        UserDefinedOperation divisionByZero = new UserDefinedOperation("divisionByZero", 3,
+                hypotenuse, supportedOp.get("/"));
+        newOperations.put("divisionByZero", divisionByZero);
+
+        Operation op = newOperations.get("divisionByZero");
+
+        op.execute();
+
+    }
+
     
     /*      Private methods used to verify the operation's result      */
     
@@ -181,7 +245,7 @@ public class NestedUserDefinedOperationTest {
         Complex myOp1 = new Complex(c1.getReal(), c1.getImaginary());
         Complex myOp2 = new Complex(c2.getReal(), c2.getImaginary());
         Complex myOp3 = new Complex(c3.getReal(), c3.getImaginary());
-        Complex myOp4 = new Complex(c5.getReal(), c4.getImaginary());
+        Complex myOp4 = new Complex(c4.getReal(), c4.getImaginary());
         Complex myOp5 = new Complex(c5.getReal(), c5.getImaginary());
         Complex myOp6 = new Complex(c6.getReal(), c6.getImaginary());
 

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Operations.StackOperations;
 
 import Stack.ObservableStack;
@@ -11,13 +7,17 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- *
+ * Test class to check the correct execution of the "Push" operation.
+ * 
  * @author Speranza
  */
 public class PushOperationTest {
 
     private ObservableStack<Complex> stack;
 
+    /**
+     * Constructor.
+     */
     public PushOperationTest() {
     }
 

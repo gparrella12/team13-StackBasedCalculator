@@ -8,7 +8,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- *
+ * Test class to check the correct execution of the "-var" operation.
+ * 
  * @author Speranza
  */
 public class SubVarOperationTest {
@@ -16,6 +17,9 @@ public class SubVarOperationTest {
     private ObservableStack<Complex> stack;
     private VariablesStorage variableStorage;
     
+    /**
+     * Constructor.
+     */
     public SubVarOperationTest() {
     }
 

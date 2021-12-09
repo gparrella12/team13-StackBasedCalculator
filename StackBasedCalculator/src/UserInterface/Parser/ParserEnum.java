@@ -28,10 +28,10 @@ public enum ParserEnum {
     }
 
     /**
-     * Return a OperationsEnum object given the operation name as string.
+     * Returns a ParserEnum object given the parserName name as string.
      *
-     * @param operationName is the name of the operation
-     * @return the correct OperationsEnum object
+     * @param parserName is the name of the operation
+     * @return the correct ParserEnum object
      */
     public static ParserEnum valueOfString(String parserName) {
         for (ParserEnum p : ParserEnum.values()) {
@@ -43,9 +43,9 @@ public enum ParserEnum {
     }
 
     /**
-     * Return a string that represent this operation.
+     * Returns a string that represents this operation.
      *
-     * @return a string that represent this operation.
+     * @return a string that represents this operation.
      */
     @Override
     public String toString() {

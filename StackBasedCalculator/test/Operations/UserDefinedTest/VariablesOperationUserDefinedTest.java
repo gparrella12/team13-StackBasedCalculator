@@ -80,7 +80,7 @@ public class VariablesOperationUserDefinedTest {
             instr.add(this.commandCreator.pickCommand());
         }
 
-        return List.copyOf(instr);
+        return instr;
     }
 
     /**

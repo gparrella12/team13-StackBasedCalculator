@@ -7,9 +7,11 @@ import Stack.ObservableStack;
 import UserInterface.SimpleFactoryCommand;
 import VariablesManager.VariablesStorage;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import org.apache.commons.math3.complex.Complex;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
 /**
@@ -21,7 +23,7 @@ public class StackAndArithmeticOperationUserDefined {
 
     //Declare the util objects
     private final HashMap<String, Operation> supported;
-    private VariablesStorage variableManager;  
+    private VariablesStorage variableManager;
     private ObservableStack<Complex> stack;
     private SimpleFactoryCommand commandCreator;
     private final HashMap<String, UserDefinedOperation> myOperations;
@@ -29,7 +31,7 @@ public class StackAndArithmeticOperationUserDefined {
 
     public StackAndArithmeticOperationUserDefined() {
         //Initialize the util objects
-        this.variableManager = new VariablesStorage();        
+        this.variableManager = new VariablesStorage();
         this.variableManager = new VariablesStorage();
         this.stack = new ObservableStack<>();
         this.commandCreator = new SimpleFactoryCommand(stack, variableManager);
@@ -85,6 +87,7 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", true, stack.isEmpty());
         }
+
     }
 
     /**
@@ -100,6 +103,7 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", 1 + i, stack.size());
         }
+
     }
 
     /**
@@ -174,7 +178,7 @@ public class StackAndArithmeticOperationUserDefined {
     /**
      * Test of a sum operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testSum() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -187,12 +191,21 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+        //test with an incorrect number of operands
+        for (int i = 0; i < numberOfTest; i++) {
+            Random generator = new Random();
+            Complex c1 = new Complex(generator.nextDouble(), generator.nextDouble());
+            Operation op = myOperations.get("+");
+            op.execute();
+            stack.pop();
+        }
+
     }
 
     /**
      * Test of a subtraction operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testSubtraction() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -205,12 +218,21 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+
+        //test with an incorrect number of operands
+        for (int i = 0; i < numberOfTest; i++) {
+            Random generator = new Random();
+            Complex c1 = new Complex(generator.nextDouble(), generator.nextDouble());
+            Operation op = myOperations.get("-");
+            op.execute();
+            stack.pop();
+        }
     }
 
     /**
      * Test of a multiplication operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testMultiplication() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -223,13 +245,21 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+        //test with an incorrect number of operands
+        for (int i = 0; i < numberOfTest; i++) {
+            Random generator = new Random();
+            Complex c1 = new Complex(generator.nextDouble(), generator.nextDouble());
+            Operation op = myOperations.get("*");
+            op.execute();
+            stack.pop();
+        }
 
     }
 
     /**
      * Test of a division operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testDivision() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -242,12 +272,20 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+        //test with an incorrect number of operands
+        for (int i = 0; i < numberOfTest; i++) {
+            Random generator = new Random();
+            Complex c1 = new Complex(generator.nextDouble(), generator.nextDouble());
+            Operation op = myOperations.get("/");
+            op.execute();
+            stack.pop();
+        }
     }
 
     /**
      * Test of a square root operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testSquareRoot() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -258,13 +296,16 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+        stack.clear();
+        Operation op = myOperations.get("sqrt");
+        op.execute();
 
     }
 
     /**
      * Test of an invert sign operation inserted in a user defined operation
      */
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testInvertSign() {
         for (int i = 0; i < numberOfTest; i++) {
             Random generator = new Random();
@@ -275,6 +316,9 @@ public class StackAndArithmeticOperationUserDefined {
             op.execute();
             assertEquals("Invalid operation!", c3, stack.top());
         }
+        stack.clear();
+        Operation op = myOperations.get("+-");
+        op.execute();
 
     }
 

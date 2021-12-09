@@ -6,9 +6,7 @@ import Operations.UserDefinedOperation;
 import Stack.ObservableStack;
 import UserInterface.SimpleFactoryCommand;
 import VariablesManager.VariablesStorage;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import org.apache.commons.math3.complex.Complex;
 import static org.junit.Assert.assertEquals;
@@ -23,8 +21,7 @@ public class StackAndArithmeticOperationUserDefined {
 
     //Declare the util objects
     private final HashMap<String, Operation> supported;
-    private VariablesStorage variableManager;
-    private List<Complex> myOperands;
+    private VariablesStorage variableManager;  
     private ObservableStack<Complex> stack;
     private SimpleFactoryCommand commandCreator;
     private final HashMap<String, UserDefinedOperation> myOperations;
@@ -32,8 +29,7 @@ public class StackAndArithmeticOperationUserDefined {
 
     public StackAndArithmeticOperationUserDefined() {
         //Initialize the util objects
-        this.variableManager = new VariablesStorage();
-        this.myOperands = new ArrayList<>();
+        this.variableManager = new VariablesStorage();        
         this.variableManager = new VariablesStorage();
         this.stack = new ObservableStack<>();
         this.commandCreator = new SimpleFactoryCommand(stack, variableManager);

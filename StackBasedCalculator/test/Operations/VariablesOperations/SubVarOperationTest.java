@@ -35,7 +35,7 @@ public class SubVarOperationTest {
         variableStorage.save("x", c);
         stack.push(c);
         
-        SubVarOperation instance = new SubVarOperation(stack, variableStorage, "x");
+        SubVarOperation instance = new SubVarOperation("x",variableStorage,stack);
         
         instance.execute();
         

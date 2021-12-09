@@ -1,7 +1,7 @@
 package UserInterface.CellFactory;
 
-import Operations.SupportedOperation;
-import Operations.VariablesOperations.*;
+import Operations.Operation;
+import Operations.VariablesOperation;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
@@ -16,18 +16,18 @@ import javafx.util.Callback;
  * @author gparrella
  * @see Operations.SupportedOperation
  */
-public class OperationCellFactory implements Callback<ListView<SupportedOperation>, ListCell<SupportedOperation>> {
+public class OperationCellFactory implements Callback<ListView<Operation>, ListCell<Operation>> {
 
     @Override
-    public ListCell<SupportedOperation> call(ListView<SupportedOperation> param) {
-        return new ListCell<SupportedOperation>() {
+    public ListCell<Operation> call(ListView<Operation> param) {
+        return new ListCell<Operation>() {
             @Override
-            public void updateItem(SupportedOperation operation, boolean empty) {
+            public void updateItem(Operation operation, boolean empty) {
                 super.updateItem(operation, empty);
                 if (!empty) {
-                    setText(operation.getName());
-                    if (operation instanceof LoadOperation || operation instanceof SaveOperation || operation instanceof SumVarOperation || operation instanceof SubVarOperation) {
-                        setText(getText() + "Name");
+                    setText(operation.toString());
+                    if (operation instanceof VariablesOperation) {
+                        setText(getText().replace("null", "var") + "Name");
                     }
                 }
             }

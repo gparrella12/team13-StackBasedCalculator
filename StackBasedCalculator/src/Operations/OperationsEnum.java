@@ -124,6 +124,10 @@ public enum OperationsEnum {
         throw new UnsupportedOperationException("Operation "+operationName + " not supported");
     }
     
+    /**
+     * Gets all operation that user can insert by text area.
+     * @return an array containing all operations that the user can call by typing their name in the text area
+     */
     public static OperationsEnum[] userInvokable(){
         OperationsEnum [] arr ={SUM,SUBTRACTION,PRODUCT,DIVISION,INVSIGN,SQRT,DROP,CLEAR,DUP,SWAP,OVER};
         return arr;

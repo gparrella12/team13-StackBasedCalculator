@@ -3,6 +3,7 @@ package Operations.VariablesOperations;
 import Stack.ObservableStack;
 import Operations.OperationsEnum;
 import Operations.SupportedOperation;
+import Operations.VariablesOperation;
 import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 
@@ -10,15 +11,10 @@ import org.apache.commons.math3.complex.Complex;
  *
  * @author Speranza
  */
-public class SumVarOperation extends SupportedOperation {
+public class SumVarOperation extends VariablesOperation {
 
-    private final VariablesStorage variableManager;
-    private final String variableName;
-
-    public SumVarOperation(ObservableStack<Complex> stack,VariablesStorage variableManager, String variableName) {
-        super(OperationsEnum.SUM_VAR, stack);
-        this.variableManager = variableManager;
-        this.variableName = variableName;
+    public SumVarOperation(String variableName, VariablesStorage variableManager, ObservableStack<Complex> stack) {
+        super(variableName, variableManager, OperationsEnum.SUM_VAR, stack);
     }
 
     /**
@@ -27,11 +23,11 @@ public class SumVarOperation extends SupportedOperation {
      */
     @Override
     public void execute() {
-        this.variableManager.addToVariable(this.variableName, super.top());
+        super.addToVariable(super.top());
     }
 
     @Override
     public String toString() {
-        return super.getName().substring(0, 1) + variableName;
+        return super.getName().substring(0, 1) + super.getVariableName();
     }
 }

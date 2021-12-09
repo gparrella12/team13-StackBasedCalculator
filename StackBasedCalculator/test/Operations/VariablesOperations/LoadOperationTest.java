@@ -34,7 +34,7 @@ public class LoadOperationTest {
         Complex c = new Complex(3.14, 3.14);
 
         vs.save("a", c);
-        instance = new LoadOperation(stack, vs, "a");
+        instance = new LoadOperation("a",vs,stack);
 
         instance.execute();
 

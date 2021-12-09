@@ -35,7 +35,7 @@ public class SumVarOperationTest {
         variableStorage.save("x", c);
         stack.push(c);
 
-        SumVarOperation instance = new SumVarOperation(stack, variableStorage, "x");
+        SumVarOperation instance = new SumVarOperation("x",variableStorage,stack);
         
         instance.execute();
 

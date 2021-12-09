@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class UserDefinedOperationTest {
 
     private final HashMap<String, UserDefinedOperation> myOperations2;
-    private final HashMap<String, SupportedOperation> supported;
+    private final HashMap<String, Operation> supported;
     private VariablesStorage variableManager;
     private List<Complex> myOperands;
     private ObservableStack<Complex> stack;

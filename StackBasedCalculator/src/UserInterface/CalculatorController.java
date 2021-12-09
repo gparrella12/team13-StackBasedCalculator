@@ -2,12 +2,11 @@ package UserInterface;
 
 import Operations.Operation;
 import Operations.UserDefinedOperation;
-import Operations.SupportedOperation;
 import ArchiveModule.Archive;
 import Operations.OperationsEnum;
 import Stack.ObservableStack;
 import Operations.StackOperations.*;
-import Operations.VariablesOperations.*;
+import Operations.VariablesOperation;
 import UserInterface.CellFactory.*;
 import UserInterface.Parser.ParserEnum;
 import VariablesManager.VariablesStorage;
@@ -59,7 +58,7 @@ public class CalculatorController {
     @FXML
     private TableColumn<String, Complex> columnValue;
     @FXML
-    private ListView<SupportedOperation> operationsList;
+    private ListView<Operation> operationsList;
     @FXML
     private ListView<UserDefinedOperation> userDefinedList, definedOperationsList;
     @FXML
@@ -73,7 +72,7 @@ public class CalculatorController {
     private Archive variablesArchive;
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
-    private ObservableList<SupportedOperation> operationsObservable;
+    private ObservableList<Operation> operationsObservable;
     //Attributes for create a new operation
     private SimpleFactoryCommand commandCreator;
     //Stack with operand 
@@ -323,7 +322,7 @@ public class CalculatorController {
         String input = textAreaCalculator.getText();
         textAreaCalculator.clear();
         OperationsEnum operation;
-      
+
         String supportedVariable = parser.getParser(ParserEnum.VARIABLE).check(input);
         Operation toExecute = null;
         Complex number;
@@ -462,10 +461,10 @@ public class CalculatorController {
     private void onInsertSupportedPress(ActionEvent event) {
 
         if (operationsList.getSelectionModel().isSelected(operationsList.getSelectionModel().getSelectedIndex())) {
-            SupportedOperation op = operationsList.getSelectionModel().getSelectedItem();
+            Operation op = operationsList.getSelectionModel().getSelectedItem();
 
             //selected th push operation
-            if (op.getName().equalsIgnoreCase("push")) {
+            if (op.toString().equalsIgnoreCase("push")) {
                 Optional<String> result = createTextInputDialog("Push Operation",
                         "Please, insert a complex number", "insert here:");
                 if (result.isPresent()) {
@@ -483,26 +482,19 @@ public class CalculatorController {
                     finalObservable.add(new PushOperation(stack, num));
                 }
 
-            } //selected a stack or an arithmetic operation
-            //selected an user defined operation
-            /**
-             * ***************************************************************
-             * ************************** NOTA: QUESTI IF POTREBBERO ESSERE
-             * LIMITATI ************************** CON LA CLASSE
-             * VARIABLEOPERATION
-             */
-            else if (op instanceof LoadOperation || op instanceof SaveOperation || op instanceof SumVarOperation || op instanceof SubVarOperation) {
+            } else if (op instanceof VariablesOperation) {
+                VariablesOperation selected = (VariablesOperation) op;
                 Optional<String> result = createTextInputDialog("Variable Operation",
                         "Please, insert a variable name (a-z)", "insert here:");
                 if (result.isPresent()) {
-                    String variableName = parser.getParser(ParserEnum.VARIABLE).check(op.getName().substring(0, 1) + result.get());
+                    String variableName = parser.getParser(ParserEnum.VARIABLE).check(op.toString().substring(0, 1) + result.get());
 
                     if (variableName == null) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
                                 "Invalid variable name:\n" + result.get());
                         return;
                     }
-                    this.commandCreator.setOperation(OperationsEnum.valueOfString(op.getName()));
+                    this.commandCreator.setOperation(OperationsEnum.valueOfString(selected.getName()));
                     this.commandCreator.setVariableName(variableName.substring(1, 2));
                     finalObservable.add(this.commandCreator.pickCommand());
 
@@ -607,7 +599,7 @@ public class CalculatorController {
     private void populate() {
         for (OperationsEnum op : OperationsEnum.values()) {
             this.commandCreator.setOperation(op);
-            SupportedOperation operation = this.commandCreator.pickCommand();
+            Operation operation = this.commandCreator.pickCommand();
             operationsObservable.add(operation);
         }
     }

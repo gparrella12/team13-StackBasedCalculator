@@ -1,5 +1,7 @@
 package UserInterface;
 
+import Operations.StateOperation.SaveStateOperation;
+import Operations.StateOperation.RestoreStateOperation;
 import ArchiveModule.Archive;
 import Operations.*;
 import Stack.ObservableStack;
@@ -24,7 +26,7 @@ public class SimpleFactoryCommand {
     private Archive archive;
 
     /**
-     * Create a new SimpleFactoryCommand
+     * Creates a new SimpleFactoryCommand
      *
      * @param stack the stack on which the commands operate
      * @param variablesManager the variable manager on which the commands
@@ -38,7 +40,7 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Create a new SimpleFactoryCommand
+     * Creates a new SimpleFactoryCommand
      *
      * @param stack the stack on which the commands operate
      * @param variablesManager the variable manager on which the commands
@@ -50,7 +52,7 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Get the variable's name stored actually in the factory.
+     * Gets the variable's name stored actually in the factory.
      *
      * @return a string that represents the variableName stored in the factory
      */
@@ -59,7 +61,7 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Set the variable's name stored actually in the factory.
+     * Sets the variable's name stored actually in the factory.
      *
      * @param variableName the new variableName
      */
@@ -68,7 +70,7 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Set the operation stored actually in the factory.
+     * Sets the operation stored actually in the factory.
      *
      * @param operation the new desired operation
      */
@@ -77,7 +79,7 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Set the complex number stored actually in the factory.
+     * Sets the complex number stored actually in the factory.
      *
      * @param number the complex number to be saved in the factory
      */
@@ -86,7 +88,8 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Set the archive in the factory for command to save variables's state.
+     * Sets the archive in the factory for command to save variables's state.
+     *
      * @param archive the archive used
      */
     public void setArchive(Archive archive) {
@@ -94,13 +97,13 @@ public class SimpleFactoryCommand {
     }
 
     /**
-     * Pick the desired command. the command that will be returned will depend
+     * Picks the desired command. the command that will be returned will depend
      * on the value of the operation present in the factory, the complex number,
      * and the name of the variable previously set.
      *
-     * @return the desired command
+     * @return the desired command, as <code>Operation</code> instance.
      */
-    public SupportedOperation pickCommand() {
+    public Operation pickCommand() {
         switch (operation) {
             case SUM -> {
                 return new SumOperation(this.stack);
@@ -136,25 +139,25 @@ public class SimpleFactoryCommand {
                 return new SwapOperation(this.stack);
             }
             case LOAD -> {
-                return new LoadOperation(this.stack, this.variablesManager, this.variableName);
+                return new LoadOperation(this.variableName, this.variablesManager, this.stack);
             }
             case SAVE -> {
-                return new SaveOperation(this.stack, this.variablesManager, this.variableName);
+                return new SaveOperation(this.variableName, this.variablesManager, this.stack);
             }
             case SUM_VAR -> {
-                return new SumVarOperation(this.stack, this.variablesManager, this.variableName);
+                return new SumVarOperation(this.variableName, this.variablesManager, this.stack);
             }
             case SUB_VAR -> {
-                return new SubVarOperation(this.stack, this.variablesManager, this.variableName);
+                return new SubVarOperation(this.variableName, this.variablesManager, this.stack);
             }
             case PUSH -> {
                 return new PushOperation(this.stack, this.number);
             }
             case SAVE_STATE -> {
-                return new SaveStateOperation(archive, variablesManager);
+                return new SaveStateOperation(archive);
             }
             case RESTORE_STATE -> {
-                return new RestoreStateOperation(archive, variablesManager);
+                return new RestoreStateOperation(archive);
             }
         }
         return null;

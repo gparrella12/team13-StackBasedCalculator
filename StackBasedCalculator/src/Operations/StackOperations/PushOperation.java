@@ -7,12 +7,14 @@ import org.apache.commons.math3.complex.Complex;
 
 /**
  * This class implements push command in the calculator.
+ *
  * @author gparrella
  */
-public class PushOperation extends SupportedOperation{
+public class PushOperation extends SupportedOperation {
+
     private final Complex number;
 
-    public PushOperation(ObservableStack<Complex> stack,Complex number) {
+    public PushOperation(ObservableStack<Complex> stack, Complex number) {
         super(OperationsEnum.PUSH, stack);
         this.number = number;
     }
@@ -24,9 +26,7 @@ public class PushOperation extends SupportedOperation{
 
     @Override
     public String toString() {
-        return "push: "+ number.getReal() +  ' ' + number.getImaginary()+"j";
+        return ((number != null) ? "push: " + number.getReal() + ' ' + number.getImaginary() + "j" : "push");
     }
-    
-    
 
 }

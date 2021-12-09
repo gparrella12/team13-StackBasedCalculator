@@ -2,7 +2,7 @@ package Operations.VariablesOperations;
 
 import Stack.ObservableStack;
 import Operations.OperationsEnum;
-import Operations.SupportedOperation;
+import Operations.VariablesOperation;
 import VariablesManager.VariablesStorage;
 import org.apache.commons.math3.complex.Complex;
 
@@ -10,25 +10,20 @@ import org.apache.commons.math3.complex.Complex;
  *
  * @author fsonnessa
  */
-public class LoadOperation extends SupportedOperation {
+public class LoadOperation extends VariablesOperation {
 
-    private final VariablesStorage variableManager;
-    private final String variableName;
-
-    public LoadOperation(ObservableStack<Complex> stack, VariablesStorage variableManager, String variableName) {
-        super(OperationsEnum.LOAD, stack);
-        this.variableManager = variableManager;
-        this.variableName = variableName;
+    public LoadOperation(String variableName, VariablesStorage variableManager,ObservableStack<Complex> stack) {
+        super(variableName, variableManager, OperationsEnum.LOAD, stack);
     }
 
     @Override
     public void execute() {
-        super.push(this.variableManager.getVariableValue(this.variableName));
+        super.push(super.getVariableValue());
     }
 
     @Override
     public String toString() {
-        return super.getName().substring(0, 1) + variableName;
+        return super.getName().substring(0, 1) + super.getVariableName();
     }
     
     

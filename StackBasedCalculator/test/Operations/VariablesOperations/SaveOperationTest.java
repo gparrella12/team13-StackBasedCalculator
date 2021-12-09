@@ -31,7 +31,7 @@ public class SaveOperationTest {
      */
     @Test
     public void testExecute() {
-        instance = new SaveOperation(stack, vs, "a");
+        instance = new SaveOperation("a",vs,stack);
         Complex c = new Complex(3.14, 3.14);
         stack.push(c);
         instance.execute();

@@ -43,8 +43,7 @@ public class ComplexNumberParser implements Parser {
         Matcher matcherB = patternB.matcher(numberNoWhiteSpace);
         Matcher matcherC = patternC.matcher(numberNoWhiteSpace);
         Matcher matcherD = patternD.matcher(numberNoWhiteSpace);
-        // Matcher matcherE = patternE.matcher(numberNoWhiteSpace);
-
+       
         boolean flag = patternA.matcher(numberNoWhiteSpace).matches()
                 || patternB.matcher(numberNoWhiteSpace).matches()
                 || patternC.matcher(numberNoWhiteSpace).matches()

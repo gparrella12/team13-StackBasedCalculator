@@ -115,7 +115,7 @@ public class VariablesOperationUserDefinedTest {
         System.out.println("\n# Test Hypothenuse");
         // Populate stack
         ArrayList<Complex> operands = randomlyPopulateStack(2);
-        // Saving init variables' initial state
+        // Saving variables' initial state
         ArchivableState initState = variableManager.getCurrentState();
         // Getting the instructions list
         List<Operation> instructions = getOperationsList("save >b >a <a <a * <b <b * + sqrt restore");
@@ -203,7 +203,7 @@ public class VariablesOperationUserDefinedTest {
     /**
      * Function to check the correctness of solve2degree UserDefineOperation
      * @param operands ArrayList<Complex> of operands used in solve2degree UserDefineOperation
-     * @return Correct result for second degree equationn (solve2degree) operation
+     * @return Correct result for second degree equation (solve2degree) operation
      */
     public Complex[] solve2degree(ArrayList<Complex> operands) {
         Complex a = operands.remove(0);

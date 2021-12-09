@@ -6,7 +6,15 @@ package UserInterface.Parser;
  * @author Ernesto
  */
 public class ParserFactory {
-
+    
+    
+    /**
+     * Return a Parser object given the parser type 
+     *
+     * @param parserType is the type of the parser
+     * @return the correct Parser object
+     */
+    
     public Parser getParser(ParserEnum parserType) {
         if (parserType == null) {
             return null;

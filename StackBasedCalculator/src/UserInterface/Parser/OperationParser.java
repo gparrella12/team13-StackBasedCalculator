@@ -17,17 +17,6 @@ public class OperationParser implements Parser {
     @Override
     public String check(String operation) {
 
-        String parsedOperation;
-        /* try {
-            parsedOperation = String.valueOf(OperationsEnum.valueOfString(operation));
-        } catch (UnsupportedOperationException ex) {
-            parsedOperation = null;
-        }
-        
-        if (parsedOperation!= null && !parsedOperation.equals(String.valueOf(OperationsEnum.PUSH)))
-        return parsedOperation;
-        
-        return null;*/
         for (OperationsEnum op : OperationsEnum.userInvokable()) {
             if (op.toString().equals(operation)) {
                 return operation;

@@ -160,6 +160,20 @@ public class VariablesOperationUserDefinedTest {
 
     // ### New UserDefineOperation Tests ####
     
+    /* 
+        Second degree equation
+    
+    delta:
+        >c >b >a <b <b * 4 <a <c * * - sqrt >d
+    x0:
+        <b +- <d – 2 <a * /
+    x1:
+        <b +- <d + 2 <a * /
+    
+        x0 = (-b - sqrt(b^2 - a*c*4))/(2*a)
+        x1 = (-b + sqrt(b^2 - a*c*4))/(2*a)
+    */
+    
     @Test
     public void test2degree() {
         System.out.println("\n# Test solve2degree");

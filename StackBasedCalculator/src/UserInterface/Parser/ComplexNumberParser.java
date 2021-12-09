@@ -12,7 +12,7 @@ import org.apache.commons.math3.complex.ComplexFormat;
 public class ComplexNumberParser implements Parser {
     
   /**
-     * Return a String object corresponding to the complex number
+     * Returns a String object corresponding to the complex number
      *
      * @param s is the input string
      * @return the complex number

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class VariableParser implements Parser {
 
     /**
-     * Return a String object corresponding to the variable
+     * Returns a String object corresponding to the variable
      *
      * @param s is the input string
      * @return the variable

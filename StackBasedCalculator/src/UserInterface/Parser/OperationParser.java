@@ -9,7 +9,7 @@ import Operations.OperationsEnum;
  */
 public class OperationParser implements Parser {
     /**
-     * Return a String object corresponding to the operation
+     * Returns a String object corresponding to the operation
      *
      * @param operation is the name of the operation
      * @return the String associated with the operation

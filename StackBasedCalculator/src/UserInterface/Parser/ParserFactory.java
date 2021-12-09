@@ -1,15 +1,15 @@
 package UserInterface.Parser;
 
 /**
- *This class is a factory, in the Factory Method Pattern, to generate
- * parser of concrete class based on given information.
+ *This class represents the factory, in the Factory Method Pattern, to generate
+ * parsers of concrete class based on given information.
  * @author Ernesto
  */
 public class ParserFactory {
     
     
     /**
-     * Return a Parser object given the parser type 
+     * Returns a Parser object given the parser type 
      *
      * @param parserType is the type of the parser
      * @return the correct Parser object

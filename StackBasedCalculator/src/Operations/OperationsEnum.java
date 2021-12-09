@@ -103,8 +103,8 @@ public enum OperationsEnum {
     }
 
     /**
-     * Return a string that represent this operation.
-     * @return a string that represent this operation.
+     * Returns a string that represents this operation.
+     * @return a string that represents this operation.
      */
     @Override
     public String toString() {
@@ -112,7 +112,7 @@ public enum OperationsEnum {
     }
     
     /**
-     * Return a OperationsEnum object given the operation name as string.
+     * Returns a OperationsEnum object given the operation name as string.
      * @param operationName is the name of the operation
      * @return the correct OperationsEnum object
      */

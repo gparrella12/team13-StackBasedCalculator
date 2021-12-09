@@ -149,7 +149,7 @@ public class VariablesOperationUserDefinedTest {
     /**
      * Function to check the correctness of hypotenuse UserDefineOperation
      * @param operands ArrayList<Complex> of operands used in hypotenuse UserDefineOperation
-     * @return 
+     * @return Correct result for hypotenuse operation
      */
     public Complex hypothenuse(ArrayList<Complex> operands) {
         Complex a = operands.remove(0);
@@ -203,7 +203,7 @@ public class VariablesOperationUserDefinedTest {
     /**
      * Function to check the correctness of solve2degree UserDefineOperation
      * @param operands ArrayList<Complex> of operands used in solve2degree UserDefineOperation
-     * @return 
+     * @return Correct result for second degree equationn (solve2degree) operation
      */
     public Complex[] solve2degree(ArrayList<Complex> operands) {
         Complex a = operands.remove(0);

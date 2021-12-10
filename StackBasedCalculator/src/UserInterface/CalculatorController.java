@@ -257,7 +257,7 @@ public class CalculatorController {
             }
         });
 
-        //menu items to allow variable operation on variables' TableView
+        //MenuContext to execute variables operations on thier TableView
         tableVariables.setRowFactory(new Callback<TableView<String>, TableRow<String>>() {
             @Override
             public TableRow<String> call(TableView<String> param) {
@@ -269,7 +269,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.LOAD);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        commandCreator.pickCommand().execute();
+                        executeCommandSafely();
                     }
                 });
 
@@ -279,7 +279,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SAVE);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        commandCreator.pickCommand().execute();
+                        executeCommandSafely();
                     }
                 });
 
@@ -289,7 +289,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SUM_VAR);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        commandCreator.pickCommand().execute();
+                        executeCommandSafely();
                     }
                 });
 
@@ -299,7 +299,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SUB_VAR);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        commandCreator.pickCommand().execute();
+                        executeCommandSafely();
                     }
                 });
 
@@ -307,6 +307,14 @@ public class CalculatorController {
 
                 row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenuVar));
                 return row;
+            }
+
+            private void executeCommandSafely() {
+                try {
+                    commandCreator.pickCommand().execute();
+                } catch (NoSuchElementException | ArithmeticException e) {
+                    createAlert(AlertType.ERROR, "Error", "Look, an Error!", "\nImpossible to continue.\n" + e.getMessage());
+                }
             }
         });
 

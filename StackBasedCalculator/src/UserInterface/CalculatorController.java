@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexFormat;
 import UserInterface.Parser.ParserFactory;
+import javafx.util.Callback;
 
 /**
  * Implementation of the Calculator User Interface Controller
@@ -249,6 +250,58 @@ public class CalculatorController {
                     }
                 }
 
+            }
+        });
+        
+        tableVariables.setRowFactory(new Callback<TableView<String>, TableRow<String>>() {
+            @Override
+            public TableRow<String> call(TableView<String> param) {
+                final TableRow<String> row = new TableRow<>();
+                
+                MenuItem loadVar = new MenuItem("<");
+                loadVar.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        commandCreator.setOperation(OperationsEnum.LOAD);
+                        commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
+                        commandCreator.pickCommand().execute();
+                    }
+                });
+                
+                MenuItem saveVar = new MenuItem(">");
+                saveVar.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        commandCreator.setOperation(OperationsEnum.SAVE);
+                        commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
+                        commandCreator.pickCommand().execute();
+                    }
+                });
+                
+                MenuItem sumToVar = new MenuItem("+");
+                sumToVar.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        commandCreator.setOperation(OperationsEnum.SUM_VAR);
+                        commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
+                        commandCreator.pickCommand().execute();
+                    }
+                });
+                
+                MenuItem subToVar = new MenuItem("-");
+                subToVar.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        commandCreator.setOperation(OperationsEnum.SUB_VAR);
+                        commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
+                        commandCreator.pickCommand().execute();
+                    }
+                });
+                
+                final ContextMenu contextMenuVar = new ContextMenu(loadVar, saveVar, sumToVar, subToVar);
+                
+                row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenuVar));
+                return row;
             }
         });
 

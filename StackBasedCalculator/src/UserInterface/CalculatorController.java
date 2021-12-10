@@ -29,12 +29,10 @@ import javafx.stage.Stage;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexFormat;
 import UserInterface.Parser.ParserFactory;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.stage.FileChooser;
 import javafx.util.Callback;
+import java.io.*;
+import java.io.IOException;
+import javafx.stage.FileChooser;
 
 /**
  * Implementation of the Calculator User Interface Controller
@@ -202,7 +200,8 @@ public class CalculatorController {
         MenuItem deleteMenu = new MenuItem("Delete");
         MenuItem executeMenu = new MenuItem("Execute");
         MenuItem exportMenu = new MenuItem("Export...");
-        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu, exportMenu);
+
+        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu,exportMenu);
         definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
 
         //actions executed when the user selects the "Delete" option from the menu
@@ -259,6 +258,26 @@ public class CalculatorController {
                     }
                 }
 
+            }
+        });
+
+        exportMenu.setOnAction((ActionEvent e) -> {
+            UserDefinedOperation toExport = definedOperationsList.getSelectionModel().getSelectedItem();
+            if (toExport != null) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setInitialFileName(toExport.getName());
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Text Files", "*.txt")
+                );
+                File selectedFile = fileChooser.showSaveDialog(stage);
+                if (selectedFile != null) {
+                    try {
+                        toExport.exportOperation(selectedFile.getAbsoluteFile().getAbsolutePath());
+                    } catch (IOException ex) {
+                        createAlert(AlertType.ERROR, "Look, an error!", "Output error", ex.getMessage());
+                    }
+                }
+                definedOperationsList.getSelectionModel().clearSelection();
             }
         });
 

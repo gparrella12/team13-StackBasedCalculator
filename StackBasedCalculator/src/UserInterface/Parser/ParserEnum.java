@@ -15,11 +15,14 @@ public enum ParserEnum {
      * Operation Parser
      */
     OPERATION("OPERATION_PARSER"),
-    
     /**
      * Variable Parser
      */
-    VARIABLE("VARIABLE_PARSER");
+    VARIABLE("VARIABLE_PARSER"),
+    /**
+     * Variable Parser
+     */
+    PUSH_FILE("PUSH_FILE_PARSER");
 
     private String value;
 

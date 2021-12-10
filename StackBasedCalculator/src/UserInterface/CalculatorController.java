@@ -201,7 +201,7 @@ public class CalculatorController {
         MenuItem executeMenu = new MenuItem("Execute");
         MenuItem exportMenu = new MenuItem("Export...");
 
-        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu,exportMenu);
+        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu, exportMenu);
         definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
 
         //actions executed when the user selects the "Delete" option from the menu
@@ -216,6 +216,9 @@ public class CalculatorController {
                 if (result.get() == ButtonType.OK) {
                     //pick the user defined operation to delete
                     UserDefinedOperation userDefineToDelete = definedOperationsList.getSelectionModel().getSelectedItem();
+                    if (userDefineToDelete == null) {
+                        return;
+                    }
                     //if it is never used in others user defined operations, then delete it
                     if (deleteUserDefinedOperation(userDefineToDelete)) {
                         UserDefinedOperations.remove(userDefineToDelete);
@@ -240,6 +243,9 @@ public class CalculatorController {
             public void handle(ActionEvent e) {
                 //user defined operation selected by the user
                 UserDefinedOperation userDefineToExecute = definedOperationsList.getSelectionModel().getSelectedItem();
+                if (userDefineToExecute == null) {
+                    return;
+                }
                 // number of operands expected
                 int numOperands = userDefineToExecute.getRequiredOperands();
                 //if the stack contains less then the operands required
@@ -356,7 +362,6 @@ public class CalculatorController {
             stage.setX(mouseEvent.getScreenX() - xAxis);
             stage.setY(mouseEvent.getScreenY() - yAxis);
         });
-
     }
 
     /**
@@ -708,5 +713,76 @@ public class CalculatorController {
             }
         }
         return true;
+    }
+
+    private UserDefinedOperation readOperationFromFile(String filename) {
+        UserDefinedOperation ret = null;
+        try ( Scanner sc = new Scanner(new FileReader(filename))) {
+            sc.useDelimiter("\n");
+            String opName = sc.next();
+            int operands = sc.nextInt();
+            List<Operation> operationList = new ArrayList<>();
+            while (sc.hasNext()) {
+                String operationName = sc.next();
+                try {
+                    // Try to match operation with basic operation
+                    OperationsEnum op = OperationsEnum.valueOfString(this.parser.getParser(ParserEnum.OPERATION).check(operationName));
+                    this.commandCreator.setOperation(op);
+                } catch (UnsupportedOperationException e) {
+                    // Try to match operation with variables operation
+                    String supportedVariable = parser.getParser(ParserEnum.VARIABLE).check(operationName);
+                    if (supportedVariable != null) {
+                        String varOperation = supportedVariable.substring(0, 1);
+                        String variable = supportedVariable.substring(1);
+                        this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation + "var"));
+                        this.commandCreator.setVariableName(variable);
+                    } else if (operationName.equals("save") || operationName.equals("restore")) {
+                        //verify if it is save or restore operation
+                        OperationsEnum op = OperationsEnum.valueOfString(operationName);
+                        this.commandCreator.setOperation(op);
+                    } else {
+                        // check if it is a push operation
+                        String complexNumber = this.parser.getParser(ParserEnum.PUSH_FILE).check(operationName);
+                        if (complexNumber == null) {
+                            throw new RuntimeException(operationName + "not valid");
+                        } else {
+                            System.out.println("number : " + complexNumber);
+                            Complex number = new ComplexFormat().parse(complexNumber);
+                            this.commandCreator.setOperation(OperationsEnum.PUSH);
+                            this.commandCreator.setNumber(number);
+                        }
+                    }
+                }
+                Operation toInsert = this.commandCreator.pickCommand();
+                System.out.println(toInsert);
+                operationList.add(toInsert);
+            }
+            ret = new UserDefinedOperation(opName, operands, operationList);
+        } catch (Exception ex) {
+            return null;
+        }
+        return ret;
+    }
+
+    @FXML
+    private void onLoadFromFilePress(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+        File selectedFile = fileChooser.showOpenDialog(calculatorPane.getScene().getWindow());
+        if (selectedFile != null) {
+            UserDefinedOperation toAdd = this.readOperationFromFile(selectedFile.getAbsolutePath());
+            if (toAdd != null) {
+                if (UserDefinedOperations.contains(toAdd)) {
+                    createAlert(AlertType.INFORMATION, "Error in reading file",
+                            "Error Message", "There is already an operation with this name");
+                }
+                UserDefinedOperations.add(toAdd);
+            } else {
+                createAlert(AlertType.ERROR, "Error in reading file",
+                        "Error Message", "Malformed file");
+            }
+        }
     }
 }

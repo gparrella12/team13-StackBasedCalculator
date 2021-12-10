@@ -24,7 +24,7 @@
 @author ermancusi
 </detail-->
 
-<AnchorPane prefHeight="700.0" prefWidth="650.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
+<AnchorPane prefHeight="700.0" prefWidth="650.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterface.CalculatorController">
     <children>
         <Pane fx:id="calculatorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="652.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -254,7 +254,12 @@
                   <DropShadow height="14.83" radius="6.172499999999999" width="11.86" />
                </effect>
             </Label>
-            <Button layoutX="473.0" layoutY="652.0" mnemonicParsing="false" onAction="#onCreatePress" prefHeight="27.0" prefWidth="94.0" styleClass="highlight" text="Create" textFill="WHITE">
+            <Button layoutX="423.0" layoutY="652.0" mnemonicParsing="false" onAction="#onCreatePress" prefHeight="27.0" prefWidth="94.0" styleClass="highlight" text="Create" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="534.0" layoutY="652.0" mnemonicParsing="false" onAction="#onLoadFromFilePress" prefHeight="25.0" prefWidth="87.0" styleClass="highlight" text="Load" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>

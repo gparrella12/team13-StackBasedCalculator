@@ -28,6 +28,8 @@ public class ParserFactory {
             }
             case VARIABLE -> {
                 return new VariableParser();
+            }case PUSH_FILE ->{
+                return new PushFileParser();
             }
         }
 

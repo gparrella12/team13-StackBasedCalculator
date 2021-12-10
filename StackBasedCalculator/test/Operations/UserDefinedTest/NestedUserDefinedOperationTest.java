@@ -26,6 +26,7 @@ public class NestedUserDefinedOperationTest {
     private VariablesStorage variableManager;
     private ObservableStack<Complex> stack;
     private SimpleFactoryCommand commandCreator;
+    private Operation operation;
 
     private final int NUM_TESTS;
 
@@ -167,18 +168,20 @@ public class NestedUserDefinedOperationTest {
         newOperations.put("add2operands", add2operands);
 
         // nested user defined operation with an invalid operation inside
-        UserDefinedOperation wrongOperation = new UserDefinedOperation("add3operands", 3,
+        UserDefinedOperation add3operands = new UserDefinedOperation("add3operands", 3,
                 add2operands, supportedOp.get("NotExists"));
-        newOperations.put("wrongOperation", wrongOperation);
+        newOperations.put("add3operands", add3operands);
 
         //user defined operation with an invalid nested operation
-        UserDefinedOperation wrongOperation2 = new UserDefinedOperation("notGood", 1,
-                wrongOperation);
-        newOperations.put("notGood", wrongOperation2);
-
-        Operation op = newOperations.get("wrongOperation");
-
-        op.execute();
+        UserDefinedOperation perimeter = new UserDefinedOperation("perimeter", 1,
+                add3operands);
+        newOperations.put("perimeter", perimeter);
+        
+        operation = newOperations.get("add3operands");
+        operation.execute();
+        
+        operation = newOperations.get("perimeter");
+        operation.execute();
 
     }
 
@@ -204,19 +207,22 @@ public class NestedUserDefinedOperationTest {
 
         UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2,
                 supportedOp.get("dup"), supportedOp.get("*"), supportedOp.get("swap"),
-                supportedOp.get("dup"), supportedOp.get("*"), add2operands, supportedOp.get("sqrt"), supportedOp.get("swap"));
+                supportedOp.get("dup"), supportedOp.get("*"), add2operands,
+                supportedOp.get("sqrt"), supportedOp.get("swap"));
         newOperations.put("hypotenuse", hypotenuse);
 
         // nested user defined operation with an invalid operation inside
         UserDefinedOperation divisionByZero = new UserDefinedOperation("divisionByZero", 3,
                 hypotenuse, supportedOp.get("/"));
         newOperations.put("divisionByZero", divisionByZero);
-        Operation op = newOperations.get("divisionByZero");
-        op.execute();
+        
+        operation = newOperations.get("divisionByZero");
+        operation.execute();
 
     }
 
     /*      Private methods used to verify the operation's result      */
+    
     private Complex sum2operands(Complex c1, Complex c2) {
 
         Complex myOp1 = new Complex(c1.getReal(), c1.getImaginary());

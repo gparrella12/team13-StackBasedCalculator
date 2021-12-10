@@ -253,6 +253,7 @@ public class CalculatorController {
             }
         });
         
+        //menu items to allow variable operation on variables' TableView
         tableVariables.setRowFactory(new Callback<TableView<String>, TableRow<String>>() {
             @Override
             public TableRow<String> call(TableView<String> param) {

@@ -1,9 +1,18 @@
 package Operations;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class provides an implementation of a user-defined operation.
@@ -186,9 +195,19 @@ public class UserDefinedOperation implements Operation {
     }
 
     /**
-     *
+     * Export this operation in a file.
+     * @param filename is the filename
+     * @throws java.io.IOException if there are some problems in writing the file
      */
-    public void exportOperation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void exportOperation(String filename) throws IOException {
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        writer.write(this.name + "\n");
+        writer.write(String.valueOf(this.requiredOperands) + "\n");
+        for (Operation op : this.operationList) {
+            writer.write(op.toString() + "\n");
+        }
+        writer.close();
+
     }
 }

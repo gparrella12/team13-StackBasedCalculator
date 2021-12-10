@@ -29,6 +29,11 @@ import javafx.stage.Stage;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexFormat;
 import UserInterface.Parser.ParserFactory;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
@@ -196,8 +201,8 @@ public class CalculatorController {
         //menu items to allow the execution and the delete of a user defined operation
         MenuItem deleteMenu = new MenuItem("Delete");
         MenuItem executeMenu = new MenuItem("Execute");
-
-        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu);
+        MenuItem exportMenu = new MenuItem("Export...");
+        ContextMenu contextMenu = new ContextMenu(executeMenu, deleteMenu, exportMenu);
         definedOperationsList.setCellFactory(ContextMenuListCell.<UserDefinedOperation>forListView(contextMenu));
 
         //actions executed when the user selects the "Delete" option from the menu

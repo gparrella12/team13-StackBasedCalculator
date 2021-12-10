@@ -1,14 +1,24 @@
 package Operations;
 
-
 import Stack.ObservableStack;
+import UserInterface.Parser.Parser;
+import UserInterface.Parser.ParserEnum;
+import UserInterface.Parser.ParserFactory;
 import UserInterface.SimpleFactoryCommand;
 import VariablesManager.VariablesStorage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.complex.ComplexFormat;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -33,12 +43,12 @@ public class UserDefinedOperationTest {
         this.myOperands = new ArrayList<>();
         this.variableManager = new VariablesStorage();
         this.stack = new ObservableStack<>();
-        this.commandCreator = new SimpleFactoryCommand(stack,variableManager);
+        this.commandCreator = new SimpleFactoryCommand(stack, variableManager);
         // Set some operands
         myOperands = List.of(new Complex(2, 3), new Complex(-4, 7), new Complex(0, 0.66), new Complex(45, 6), new Complex(-66, -0.235), new Complex(2, -3), new Complex(-2, 3), new Complex(0, -3));
         //Inizialize supported operation - Arithmetic
         supported = new HashMap<>();
-        for(OperationsEnum op : OperationsEnum.values()){
+        for (OperationsEnum op : OperationsEnum.values()) {
             this.commandCreator.setOperation(op);
             supported.put(op.toString(), this.commandCreator.pickCommand());
         }
@@ -163,8 +173,8 @@ public class UserDefinedOperationTest {
         System.out.println("\t" + "Test with Nested UserDefinedOperation -> OK");
         // Double nested check
         UserDefinedOperation squareNegativeModule = new UserDefinedOperation("squareNegativeModule", 1, squareModule, supported.get("+-"));
-        assertEquals("Operation not included: ",true,squareNegativeModule.contains(squareModule));
-        assertEquals("Operation not included: ",true,squareNegativeModule.contains(hypotenuse));
+        assertEquals("Operation not included: ", true, squareNegativeModule.contains(squareModule));
+        assertEquals("Operation not included: ", true, squareNegativeModule.contains(hypotenuse));
         assertEquals("Operation not included: ", true, squareNegativeModule.contains(supported.get("sqrt")));
         assertEquals("Operation not included: ", true, squareNegativeModule.contains(supported.get("+-")));
         System.out.println("\t" + "Test with Double-Nested UserDefinedOperation -> OK");
@@ -173,11 +183,37 @@ public class UserDefinedOperationTest {
     /**
      * Test of exportOperation method, of class UserDefinedOperation.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test()
     public void testExportOperation() {
+        System.out.println("Export test");
         // the method isn't implemented
         UserDefinedOperation hypotenuse = new UserDefinedOperation("hypotenuse", 2, supported.get("dup"), supported.get("*"), supported.get("swap"), supported.get("dup"), supported.get("*"), supported.get("+"), supported.get("sqrt"));
-        hypotenuse.exportOperation();
+        try {
+            hypotenuse.exportOperation("esempio.txt");
+        } catch (IOException ex) {
+            fail(ex.getMessage());
+        }
+        String expected = "hypotenuse\n"
+                + "2\n"
+                + "dup\n"
+                + "*\n"
+                + "swap\n"
+                + "dup\n"
+                + "*\n"
+                + "+\n"
+                + "sqrt";
+        try ( BufferedReader in = new BufferedReader(new FileReader("esempio.txt"))) {
+            Scanner sc = new Scanner(expected);
+            sc.useDelimiter("\n");
+            while (sc.hasNext()) {
+                String exp = sc.next();
+                String act = in.readLine();
+                System.out.println("\tExpected : " + exp + "\tActual: " + act);
+                assertEquals(exp, act);
+            }
+        } catch (IOException ex) {
+            fail(ex.getMessage());
+        }
     }
 
     /*      Private method used to verify the operation's result      */
@@ -192,6 +228,42 @@ public class UserDefinedOperationTest {
         Complex myOp2 = new Complex(c2.getReal(), c2.getImaginary());
         return myOp1.pow(2).add(myOp2.pow(2));
     }
-    /*------------------------------------------------------------------*/
 
+    /*------------------------------------------------------------------*/
+    /**
+     * Return a list of Operations from a string that raprresents them
+     *
+     * @param instructions String of operations
+     * @return List of Operations
+     */
+    public List getOperationsList(String instructions) {
+        List<Operation> instr = new ArrayList<>();
+        Parser pv = new ParserFactory().getParser(ParserEnum.VARIABLE);
+
+        String variableOp;
+        String[] instructionsString = instructions.split(" ");
+        for (String opr : instructionsString) {
+//            System.out.print("Check: " + opr);
+            variableOp = pv.check(opr);
+
+            if (variableOp != null) {
+//                System.out.println(" = Variable Operation");
+                String varOperation = variableOp.substring(0, 1);
+                String variable = variableOp.substring(1);
+                this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation + "var"));
+                this.commandCreator.setVariableName(variable);
+            } else if (Character.isDigit(opr.charAt(0))) {
+                Complex num = new ComplexFormat().parse(new ParserFactory().getParser(ParserEnum.COMPLEXNUMBER).check(opr));
+//                System.out.println(" = Insert " + num);
+                this.commandCreator.setNumber(num);
+                this.commandCreator.setOperation(OperationsEnum.PUSH);
+            } else {
+//                System.out.println(" = Not Variable Operation");
+                this.commandCreator.setOperation(OperationsEnum.valueOfString(opr));
+            }
+            instr.add(this.commandCreator.pickCommand());
+        }
+
+        return instr;
+    }
 }

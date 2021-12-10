@@ -269,7 +269,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.LOAD);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        executeCommandSafely();
+                        executeCommandSafely(commandCreator.pickCommand());
                     }
                 });
 
@@ -279,7 +279,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SAVE);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        executeCommandSafely();
+                        executeCommandSafely(commandCreator.pickCommand());
                     }
                 });
 
@@ -289,7 +289,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SUM_VAR);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        executeCommandSafely();
+                        executeCommandSafely(commandCreator.pickCommand());
                     }
                 });
 
@@ -299,7 +299,7 @@ public class CalculatorController {
                     public void handle(ActionEvent event) {
                         commandCreator.setOperation(OperationsEnum.SUB_VAR);
                         commandCreator.setVariableName(param.getSelectionModel().getSelectedItem());
-                        executeCommandSafely();
+                        executeCommandSafely(commandCreator.pickCommand());
                     }
                 });
 
@@ -309,9 +309,9 @@ public class CalculatorController {
                 return row;
             }
 
-            private void executeCommandSafely() {
+            private void executeCommandSafely(Operation op) {
                 try {
-                    commandCreator.pickCommand().execute();
+                    op.execute();
                 } catch (NoSuchElementException | ArithmeticException e) {
                     createAlert(AlertType.ERROR, "Error", "Look, an Error!", "\nImpossible to continue.\n" + e.getMessage());
                 }

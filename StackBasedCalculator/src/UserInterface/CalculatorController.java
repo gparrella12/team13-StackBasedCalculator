@@ -69,8 +69,11 @@ public class CalculatorController {
 
     //definition of utils variables
     private double xAxis, yAxis;
+    //Variable Storage for calculator
     private VariablesStorage variableStorage;
+    // Archive for save & restore operations
     private Archive variablesArchive;
+    // List used in User-Defined operations definitions in UI
     private ObservableList<UserDefinedOperation> UserDefinedOperations;
     private ObservableList<Operation> finalObservable;
     private ObservableList<Operation> operationsObservable;
@@ -78,6 +81,7 @@ public class CalculatorController {
     private SimpleFactoryCommand commandCreator;
     //Stack with operand 
     private ObservableStack<Complex> stack;
+    //Parser for user's input
     private ParserFactory parser;
 
     /**
@@ -252,13 +256,13 @@ public class CalculatorController {
 
             }
         });
-        
+
         //menu items to allow variable operation on variables' TableView
         tableVariables.setRowFactory(new Callback<TableView<String>, TableRow<String>>() {
             @Override
             public TableRow<String> call(TableView<String> param) {
                 final TableRow<String> row = new TableRow<>();
-                
+
                 MenuItem loadVar = new MenuItem("<");
                 loadVar.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -268,7 +272,7 @@ public class CalculatorController {
                         commandCreator.pickCommand().execute();
                     }
                 });
-                
+
                 MenuItem saveVar = new MenuItem(">");
                 saveVar.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -278,7 +282,7 @@ public class CalculatorController {
                         commandCreator.pickCommand().execute();
                     }
                 });
-                
+
                 MenuItem sumToVar = new MenuItem("+");
                 sumToVar.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -288,7 +292,7 @@ public class CalculatorController {
                         commandCreator.pickCommand().execute();
                     }
                 });
-                
+
                 MenuItem subToVar = new MenuItem("-");
                 subToVar.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -298,9 +302,9 @@ public class CalculatorController {
                         commandCreator.pickCommand().execute();
                     }
                 });
-                
+
                 final ContextMenu contextMenuVar = new ContextMenu(loadVar, saveVar, sumToVar, subToVar);
-                
+
                 row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenuVar));
                 return row;
             }

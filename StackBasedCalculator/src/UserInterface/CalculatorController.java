@@ -240,11 +240,12 @@ public class CalculatorController {
                             "\nImpossible to execute.\nInsufficient number of operands.");
                 } else {
                     //the stack contains the number of operands required
+                    //but it can be performed the division by 0
                     try {
                         userDefineToExecute.execute();
-                    } catch (Exception ex) {
+                    } catch (ArithmeticException ex) {
                         createAlert(AlertType.ERROR, "Error", "Look, an Error!",
-                                "\nError during execution - Invalid operation definition\n");
+                                "\nError during execution - MATH ERROR\n");
                     }
                 }
 

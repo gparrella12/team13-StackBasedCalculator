@@ -16,7 +16,6 @@ import static org.junit.Assert.*;
 public class VariablesStorageTest {
 
     private VariablesStorage vs = new VariablesStorage();
-//    private HashMap<String, Complex> tmpHash = new HashMap<>();
 
     /**
      * Test of save method, of class VariablesStorage.
@@ -147,39 +146,4 @@ public class VariablesStorageTest {
         assertEquals(result, vs.getVariableValue("a"));
     }
 
-//    /**
-//     * Test of toSave method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testSaveState() throws Exception {
-//        System.out.println("toSave");
-//        
-//        vs.save("a", new Complex(1,3));
-//        
-//        vs.toSave();
-//        assertEquals(vs.toString(), vs.chekLastSavedState().getElement().toString());
-//        
-//        vs.save("a", new Complex(2.3, 0));
-//        vs.save("b", new Complex(0,0));
-//        assertNotEquals(vs.toString(), vs.chekLastSavedState().getElement().toString());
-//    }
-//
-//    /**
-//     * Test of toRestore method, of class VariablesStorage.
-//     */
-//    @Test
-//    public void testRestoreState() throws Exception {
-//        System.out.println("toRestore");
-//        
-//        vs.save("a", new Complex(1,3));
-//        String initialState = vs.toString();
-//        vs.toSave();
-//        
-//        vs.save("a", new Complex(2.3, 0));
-//        vs.save("b", new Complex(0,0));
-//        assertNotEquals(vs.toString(), initialState);
-//        
-//        vs.toRestore();
-//        assertEquals(vs.toString(), initialState);       
-//    }
 }

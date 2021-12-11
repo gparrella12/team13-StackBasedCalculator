@@ -1,18 +1,12 @@
 package Operations;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class provides an implementation of a user-defined operation.
@@ -134,7 +128,7 @@ public class UserDefinedOperation implements Operation {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     /**
      * Get the required operands for this operation
      *
@@ -208,6 +202,5 @@ public class UserDefinedOperation implements Operation {
             writer.write(op.toString() + "\n");
         }
         writer.close();
-
     }
 }

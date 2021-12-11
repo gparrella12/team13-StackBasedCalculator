@@ -32,6 +32,8 @@ import UserInterface.Parser.ParserFactory;
 import javafx.util.Callback;
 import java.io.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 
 /**
@@ -715,7 +717,7 @@ public class CalculatorController {
         return true;
     }
 
-    private UserDefinedOperation readOperationFromFile(String filename) {
+    private UserDefinedOperation readOperationFromFile(String filename, List<UserDefinedOperation> userDefinedOperations) {
         UserDefinedOperation ret = null;
         try ( Scanner sc = new Scanner(new FileReader(filename))) {
             sc.useDelimiter("\n");
@@ -724,37 +726,42 @@ public class CalculatorController {
             List<Operation> operationList = new ArrayList<>();
             while (sc.hasNext()) {
                 String operationName = sc.next();
-                try {
-                    // Try to match operation with basic operation
-                    OperationsEnum op = OperationsEnum.valueOfString(this.parser.getParser(ParserEnum.OPERATION).check(operationName));
-                    this.commandCreator.setOperation(op);
-                } catch (UnsupportedOperationException e) {
-                    // Try to match operation with variables operation
-                    String supportedVariable = parser.getParser(ParserEnum.VARIABLE).check(operationName);
-                    if (supportedVariable != null) {
-                        String varOperation = supportedVariable.substring(0, 1);
-                        String variable = supportedVariable.substring(1);
-                        this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation + "var"));
-                        this.commandCreator.setVariableName(variable);
-                    } else if (operationName.equals("save") || operationName.equals("restore")) {
-                        //verify if it is save or restore operation
-                        OperationsEnum op = OperationsEnum.valueOfString(operationName);
-                        this.commandCreator.setOperation(op);
-                    } else {
-                        // check if it is a push operation
-                        String complexNumber = this.parser.getParser(ParserEnum.PUSH_FILE).check(operationName);
-                        if (complexNumber == null) {
-                            throw new RuntimeException(operationName + "not valid");
-                        } else {
-                            System.out.println("number : " + complexNumber);
-                            Complex number = new ComplexFormat().parse(complexNumber);
-                            this.commandCreator.setOperation(OperationsEnum.PUSH);
-                            this.commandCreator.setNumber(number);
+                Operation toInsert = null;
+                // Try to match operation with basic operation
+                String op = this.parser.getParser(ParserEnum.OPERATION).check(operationName);
+                String supportedVariable = parser.getParser(ParserEnum.VARIABLE).check(operationName);
+                String complexNumber = this.parser.getParser(ParserEnum.PUSH_FILE).check(operationName);
+                if (op != null) {
+                    OperationsEnum selectedOperation = OperationsEnum.valueOfString(op);
+                    this.commandCreator.setOperation(selectedOperation);
+                    toInsert = this.commandCreator.pickCommand();
+                } // Try to match operation with variables operation
+                else if (supportedVariable != null) {
+                    String varOperation = supportedVariable.substring(0, 1);
+                    String variable = supportedVariable.substring(1);
+                    this.commandCreator.setOperation(OperationsEnum.valueOfString(varOperation + "var"));
+                    this.commandCreator.setVariableName(variable);
+                    toInsert = this.commandCreator.pickCommand();
+                } else if (operationName.equals("save") || operationName.equals("restore")) {
+                    //verify if it is save or restore operation
+                    this.commandCreator.setOperation(OperationsEnum.valueOfString(operationName));
+                    toInsert = this.commandCreator.pickCommand();
+                } else if (complexNumber != null) {
+                    // check if it is a push operation
+                    Complex number = new ComplexFormat().parse(complexNumber);
+                    this.commandCreator.setOperation(OperationsEnum.PUSH);
+                    this.commandCreator.setNumber(number);
+                    toInsert = this.commandCreator.pickCommand();
+                } else {
+                    for (UserDefinedOperation o : userDefinedOperations) {
+                        if (o.getName().equals(operationName)) {
+                            toInsert = o;
                         }
                     }
                 }
-                Operation toInsert = this.commandCreator.pickCommand();
-                System.out.println(toInsert);
+                if (toInsert == null) {
+                    return null;
+                }
                 operationList.add(toInsert);
             }
             ret = new UserDefinedOperation(opName, operands, operationList);
@@ -772,13 +779,14 @@ public class CalculatorController {
         );
         File selectedFile = fileChooser.showOpenDialog(calculatorPane.getScene().getWindow());
         if (selectedFile != null) {
-            UserDefinedOperation toAdd = this.readOperationFromFile(selectedFile.getAbsolutePath());
+            UserDefinedOperation toAdd = this.readOperationFromFile(selectedFile.getAbsolutePath(), UserDefinedOperations);
             if (toAdd != null) {
                 if (UserDefinedOperations.contains(toAdd)) {
-                    createAlert(AlertType.INFORMATION, "Error in reading file",
+                    createAlert(AlertType.WARNING, "Error in reading file",
                             "Error Message", "There is already an operation with this name");
+                } else {
+                    UserDefinedOperations.add(toAdd);
                 }
-                UserDefinedOperations.add(toAdd);
             } else {
                 createAlert(AlertType.ERROR, "Error in reading file",
                         "Error Message", "Malformed file");

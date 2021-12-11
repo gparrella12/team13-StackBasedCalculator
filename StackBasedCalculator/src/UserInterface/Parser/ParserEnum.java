@@ -20,7 +20,7 @@ public enum ParserEnum {
      */
     VARIABLE("VARIABLE_PARSER"),
     /**
-     * Variable Parser
+     * Push file Parser
      */
     PUSH_FILE("PUSH_FILE_PARSER");
 

@@ -42,11 +42,11 @@ In particular, at the end of this Sprint, the calculator should allow to invoke 
 
 The Third Sprint backlog is available [here](https://docs.google.com/spreadsheets/d/1AjNkdsQb6IhvwqhNPyY-9PWMRXdOj_UO/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You will find our Third Sprint presentation on Sun. December 12.
+The Sprint Review is available [here](https://docs.google.com/document/d/1eMzdFqTQsrZ7D_ZU_noH8O7fahJEVBqP/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You will find the Sprint Review on Sun. December 12.
+The Sprint Retrospective is available [here](https://docs.google.com/document/d/1WV3LZFt9bpq4UafNMF7sVGiYtCg4IEJQ/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-You will find the Sprint Retrospective on Sun. December 12.
+Final Presentation is available [here]()
 
 ## Authors
 Speranza Ranieri: [@httpsperanza](https://github.com/httpsperanza)

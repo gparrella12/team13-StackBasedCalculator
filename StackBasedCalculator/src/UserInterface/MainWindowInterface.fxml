@@ -223,12 +223,12 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSavePress" prefWidth="65.0" styleClass="highlight" text="Save" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#onSavePress" prefWidth="65.0" styleClass="highlight" text="Save" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnRestore" mnemonicParsing="false" onAction="#onRestorePress" prefWidth="65.0" styleClass="highlight" text="Restore" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#onRestorePress" prefWidth="65.0" styleClass="highlight" text="Restore" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -254,11 +254,23 @@
                   <DropShadow height="14.83" radius="6.172499999999999" width="11.86" />
                </effect>
             </Label>
-            <Button layoutX="473.0" layoutY="652.0" mnemonicParsing="false" onAction="#onCreatePress" prefHeight="27.0" prefWidth="94.0" styleClass="highlight" text="Create" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER" layoutX="410.0" layoutY="641.0" prefHeight="37.0" prefWidth="220.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onCreatePress" prefWidth="65.0" styleClass="highlight" text="Create" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onLoadFromFilePress" prefWidth="65.0" styleClass="highlight" text="Load" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
             </children>
         </Pane>
       <Pane fx:id="operationsPane" prefHeight="700.0" prefWidth="650.0" styleClass="test" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

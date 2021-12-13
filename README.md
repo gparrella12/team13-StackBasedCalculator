@@ -46,7 +46,7 @@ The Sprint Review is available [here](https://docs.google.com/document/d/1eMzdFq
 
 The Sprint Retrospective is available [here](https://docs.google.com/document/d/1WV3LZFt9bpq4UafNMF7sVGiYtCg4IEJQ/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
-Final Presentation is available [here]()
+Final Presentation is available [here](https://docs.google.com/presentation/d/18KOtpICFIxzQKvWOPTaqlK-hwIn_qVYg/edit?usp=sharing&ouid=114288661333988808015&rtpof=true&sd=true)
 
 ## Authors
 Speranza Ranieri: [@httpsperanza](https://github.com/httpsperanza)
